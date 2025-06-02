@@ -699,6 +699,15 @@ infrastructure:
   monitoring: Vercel Analytics + Sentry
   ci_cd: GitHub Actions
   auth: Clerk
+
+calendar:
+  library: FullCalendar (@fullcalendar/react)
+  features:
+    - drag & drop
+    - multi-view support
+    - google calendar sync
+    - event management
+    - resource scheduling
 ```
 
 ### 4.2 データモデル

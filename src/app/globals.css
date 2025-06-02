@@ -130,3 +130,6 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* FullCalendar styles */
+@import '../styles/fullcalendar.css';

@@ -1,4 +1,5 @@
 import { Project, TimeBlock, CalendarDay } from '@/types/calendar'
+import { EventInput } from '@fullcalendar/core'
 
 export const mockProjects: Project[] = [
   {
@@ -109,4 +110,34 @@ export function generateMockCalendarDays(): CalendarDay[] {
     isToday: date === today,
     timeBlocks: timeBlocks.filter((block) => block.date === date),
   }))
+}
+
+// FullCalendar用のイベントフォーマットに変換
+export function convertToFullCalendarEvents(timeBlocks: TimeBlock[]): EventInput[] {
+  return timeBlocks.map((block) => {
+    const project = mockProjects.find((p) => p.id === block.projectId)!
+    return {
+      id: block.id,
+      title: block.title,
+      start: `${block.date}T${block.startTime}:00`,
+      end: `${block.date}T${block.endTime}:00`,
+      backgroundColor: projectColorMap[block.projectId] || '#6b7280',
+      borderColor: projectColorMap[block.projectId] || '#6b7280',
+      textColor: project.textColor?.replace('text-', '') || 'white',
+      classNames: [block.projectId],
+      extendedProps: {
+        projectId: block.projectId,
+        projectName: block.projectName,
+        description: block.description,
+      },
+    }
+  })
+}
+
+// プロジェクトカラーマップ
+export const projectColorMap: Record<string, string> = {
+  english: '#3b82f6', // blue-500
+  development: '#22c55e', // green-500
+  exercise: '#ef4444', // red-500
+  reading: '#a855f7', // purple-500
 }

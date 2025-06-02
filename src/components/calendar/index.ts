@@ -1,5 +1,1 @@
-export { Calendar } from './Calendar'
-export { CalendarHeader } from './CalendarHeader'
-export { DailyCalendar } from './DailyCalendar'
-export { WeeklyCalendar } from './WeeklyCalendar'
-export { TimeBlock } from './TimeBlock'
+export { Calendar } from './FullCalendar'
