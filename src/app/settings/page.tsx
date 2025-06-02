@@ -1,6 +1,9 @@
+import { MainLayout } from '@/components/layout/MainLayout'
+
 export default function Settings() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <MainLayout>
+      <div className="mx-auto max-w-7xl">
       <h1 className="text-3xl font-bold mb-8">⚙️ 設定</h1>
 
       <div className="space-y-6">
@@ -69,5 +72,6 @@ export default function Settings() {
         </div>
       </div>
     </div>
+    </MainLayout>
   )
 }
