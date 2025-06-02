@@ -1,6 +1,9 @@
+import { MainLayout } from '@/components/layout/MainLayout'
+
 export default function Calendar() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <MainLayout>
+      <div className="mx-auto max-w-7xl">
       <h1 className="text-3xl font-bold mb-8">📅 週間タイムブロック</h1>
 
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
@@ -132,5 +135,6 @@ export default function Calendar() {
         </div>
       </div>
     </div>
+    </MainLayout>
   )
 }
