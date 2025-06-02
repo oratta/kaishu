@@ -20,7 +20,7 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">📝 現在のプロジェクトタスク</h2>
           <div className="space-y-3">
@@ -37,18 +37,18 @@ export default function Dashboard() {
               <span>⚪ リスニング (15分)</span>
             </div>
           </div>
-          
+
           <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded">
             <h3 className="font-medium mb-2">⏱️ 進行中: 文法練習</h3>
             <div className="text-sm text-gray-600 dark:text-gray-300">
               経過時間: 12分 / 目標30分
             </div>
             <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
-              <div className="bg-blue-600 h-2 rounded-full" style={{width: '40%'}}></div>
+              <div className="bg-blue-600 h-2 rounded-full" style={{ width: '40%' }}></div>
             </div>
             <div className="text-sm text-gray-500 mt-1">進捗: 40%</div>
           </div>
-          
+
           <div className="mt-6">
             <h3 className="font-medium mb-2">📋 プロジェクトメモ</h3>
             <div className="text-sm text-gray-600 dark:text-gray-300 space-y-1">

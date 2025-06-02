@@ -6,19 +6,14 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'KAISHU - AI Life Management System',
-  description: 'やりたいことを全て拾って絶妙なスケジュールを作ってくれるライフオーケストレーションツール',
+  description:
+    'やりたいことを全て拾って絶妙なスケジュールを作ってくれるライフオーケストレーションツール',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja" suppressHydrationWarning>
-      <body className={inter.className}>
-        {children}
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }

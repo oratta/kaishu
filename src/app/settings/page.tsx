@@ -2,15 +2,15 @@ export default function Settings() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">⚙️ 設定</h1>
-      
+
       <div className="space-y-6">
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">プロフィール設定</h2>
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2">ユーザー名</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700"
                 placeholder="あなたの名前"
               />
@@ -25,7 +25,7 @@ export default function Settings() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">システム設定</h2>
           <div className="space-y-4">
@@ -46,7 +46,7 @@ export default function Settings() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">LLM設定</h2>
           <div className="space-y-4">

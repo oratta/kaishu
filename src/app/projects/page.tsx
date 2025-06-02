@@ -2,7 +2,7 @@ export default function Projects() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">📊 プロジェクト管理</h1>
-      
+
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
         <h2 className="text-xl font-semibold mb-4">📋 プロジェクト一覧</h2>
         <div className="overflow-x-auto">
@@ -64,7 +64,7 @@ export default function Projects() {
             </tbody>
           </table>
         </div>
-        
+
         <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
           <h3 className="font-medium mb-2">🤖 LLMインサイト</h3>
           <p className="text-sm text-gray-700 dark:text-gray-300">
