@@ -704,193 +704,436 @@ infrastructure:
 
 #### 4.2.1 life_goals: ユーザ目標
 
-- どんな経験をしたいか、どんな状態になりたいかのどちらかの形で定義するユーザの人生目標
-- life_goalsを経験するためには達成しなくてはいけないN個の条件(goal_conditions)がある(N>=1)
-- goal_conditionsを達成するためにN個のプロジェクト(projects)が存在する(N>=0)
-  - プロジェクトが作成されていなgoal_conditionsもある
-- stautusは以下のように定義する
-  - 0: 未計画: 計画前で書き留められただけの目標
-  - 1: 計画中: life_goalsに紐づくプロジェクトが存在しない
-  - 2: 実行中: life_goalsに紐づく何かしらのプロジェクトが実行中
-  - 3: 停止中: life_goalsに紐づく全てのプロジェクトが停止中
-  - 10: 達成済み: ユーザが達成済みフラグを立てた時に達成になる
-  - 11: 放棄: ユーザが放棄フラグを立てた時に放棄になる
+ユーザの人生目標を表現するマスターエンティティ。「どんな経験をしたいか」「どんな状態になりたいか」を定義する。
+
+**データ構造の特徴:**
+- life_goalsを達成するためには、1つ以上の達成条件(goal_conditions)が必要
+- 各goal_conditionsは0個以上のプロジェクト(projects)によって実現される
+- プロジェクトが未作成のgoal_conditionsも存在可能（計画段階）
+
+**ステータス定義:**
+- 0: 未計画 - 書き留められただけの初期状態
+- 1: 計画中 - goal_conditionsは定義されているがプロジェクト未作成
+- 2: 実行中 - 関連プロジェクトの一部または全部が進行中
+- 3: 停止中 - 関連する全プロジェクトが停止状態
+- 10: 達成済み - ユーザによる達成認定
+- 11: 放棄 - ユーザによる放棄宣言
 
 ```sql
 -- ユーザー目標 (どんな経験をしたいか、どんな状態になりたいか)
 CREATE TABLE life_goals (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL,
-    name VARCHAR(255) NOT NULL, -- ユーザ目標の名前の例: 英語読解を向上させて日本語と変わらないスピードで英語キャッチアップができる経験をする
+    name VARCHAR(255) NOT NULL, -- 例: 英語読解を向上させて日本語と変わらないスピードで英語キャッチアップができる経験をする
     description TEXT,
-    status INTEGER NOT NULL, 
-    priority INTEGER NOT NULL, -- 優先度(1: 最優先, 2: 優先, 3: 普通, 4: 低い, 5: 最下位)
+    status INTEGER NOT NULL DEFAULT 0,
+    priority INTEGER NOT NULL DEFAULT 3, -- 優先度(1: 最優先, 2: 優先, 3: 普通, 4: 低い, 5: 最下位)
+    target_completion_date DATE, -- 目標達成希望日
     created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL
+    updated_at TIMESTAMP NOT NULL,
+    CONSTRAINT chk_status CHECK (status IN (0,1,2,3,10,11)),
+    CONSTRAINT chk_priority CHECK (priority BETWEEN 1 AND 5)
 );
 ```
 
 #### 4.2.2 goal_conditions: ユーザ目標の達成条件
 
-- goal_conditionsはlife_goalsを達成するために達成しなくてはいけない条件
-- goal_conditionsはN個のプロジェクト(projects)が達成することで達成できる(N>=0)
-  - プロジェクトが作成されていないgoal_conditionsもある
-- stautusは以下のように定義する
-  - 1: 計画中: goal_conditionsに紐づくプロジェクトが存在しない
-  - 2: 実行中: goal_conditionsに紐づく何かしらのプロジェクトが実行中
-  - 3: 停止中: goal_conditionsに紐づく全てのプロジェクトが停止中
-  - 10: 達成済み: ユーザが達成済みフラグを立てた時に達成になる
-  - 11: 放棄: ユーザが放棄フラグを立てた時に放棄になる
-  - 12: ブロック: 他の条件を達成するまで開始できない
+life_goalsを達成するために必要な具体的な条件を定義する中間エンティティ。大きな目標を実現可能な単位に分解する役割を持つ。
+
+**データ構造の特徴:**
+- 1つのlife_goalに対して複数のgoal_conditionsが存在可能
+- 各goal_conditionsは0個以上のプロジェクト(projects)によって実現される
+- プロジェクト未作成でも条件として定義可能（将来の計画段階）
+- 条件間の依存関係を表現可能（prerequisite_condition_id）
+
+**ステータス定義:**
+- 1: 計画中 - 関連プロジェクトが未作成
+- 2: 実行中 - 関連プロジェクトの一部または全部が進行中
+- 3: 停止中 - 関連する全プロジェクトが停止状態
+- 10: 達成済み - ユーザによる達成認定
+- 11: 放棄 - ユーザによる放棄宣言
+- 12: ブロック中 - 前提条件未達成により開始不可
+
 ```sql
--- 達成条件
+-- 目標達成条件
 CREATE TABLE goal_conditions (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL,
-    life_goal_id UUID REFERENCES life_goals(id),
-    name VARCHAR(255) NOT NULL,
+    life_goal_id UUID REFERENCES life_goals(id) ON DELETE CASCADE,
+    name VARCHAR(255) NOT NULL, -- 例: TOEIC800点を取得する, 日常英会話ができるようになる
     description TEXT,
-    status INTEGER NOT NULL,
+    status INTEGER NOT NULL DEFAULT 1,
+    display_order INTEGER NOT NULL DEFAULT 0, -- 表示順序
+    prerequisite_condition_id UUID REFERENCES goal_conditions(id), -- 前提となる条件
+    estimated_completion_weeks INTEGER, -- 完了予想週数
     created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL
+    updated_at TIMESTAMP NOT NULL,
+    CONSTRAINT chk_condition_status CHECK (status IN (1,2,3,10,11,12))
 );
 ```
 
 #### 4.2.3 projects: プロジェクト
 
-- goal_conditionsを達成するためのプロジェクト
-- プロジェクトは期限と目標を持つN個のマイルストーン(milestones)から構成される(N>=0)
-- プロジェクト毎に時間配分がある
-  - 時間配分は週N時間フォーマットと、空き時間のM%というフォーマットがある
-- プロジェクトはtasksを持つ
-- プロジェクトはhabitsを持つ
+goal_conditionsを達成するための具体的な実行単位。時間配分とマイルストーンを持つ実装エンティティ。
+
+**データ構造の特徴:**
+- 各プロジェクトは特定のgoal_conditionに紐づく
+- 0個以上のマイルストーン(milestones)で構成される
+- タスク(tasks)と習慣(habits)を包含する
+- 時間配分方式: 週N時間 または 空き時間のM%
+
+**プロジェクトタイプ:**
+- learning: 学習・スキルアップ
+- health: 健康・運動
+- work: 仕事・キャリア
+- hobby: 趣味・創作
+- relationship: 人間関係
+- other: その他
+
+**ステータス定義:**
+- 1: 計画中 - 作成されたが未開始
+- 2: 実行中 - アクティブに進行中
+- 3: 停止中 - 一時停止状態
+- 10: 完了 - プロジェクト目標達成
+- 11: 中止 - プロジェクト中止
 
 ```sql
--- プロジェクト (ユーザ目標を達成するために、必要なプロジェクト。複数のプロジェクトが必要な場合がある)
+-- プロジェクト (goal_conditionsを達成するための実行単位)
 CREATE TABLE projects (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL,
-    goal_condition_id UUID REFERENCES life_goals(id),
+    goal_condition_id UUID REFERENCES goal_conditions(id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
-    type VARCHAR(50) NOT NULL,
-    weekly_target_hours DECIMAL(5,2),
-    weekly_free_time_percentage DECIMAL(5,2),
+    type VARCHAR(50) NOT NULL, -- learning, health, work, hobby, relationship, other
+    description TEXT,
+    status INTEGER NOT NULL DEFAULT 1,
+    weekly_target_hours DECIMAL(5,2), -- 週N時間の時間配分
+    weekly_free_time_percentage DECIMAL(5,2), -- 空き時間のM%の時間配分
+    start_date DATE,
+    target_end_date DATE,
+    actual_end_date DATE,
     created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL
+    updated_at TIMESTAMP NOT NULL,
+    CONSTRAINT chk_project_status CHECK (status IN (1,2,3,10,11)),
+    CONSTRAINT chk_time_allocation CHECK (
+        (weekly_target_hours IS NOT NULL AND weekly_free_time_percentage IS NULL) OR
+        (weekly_target_hours IS NULL AND weekly_free_time_percentage IS NOT NULL)
+    )
 );
 ```
 
 #### 4.2.4 milestones: マイルストーン
 
-- プロジェクトのマイルストーンで期限と目標を持つ
-- マイルストーンは期間と目標を持つ
-- マイルストーンにはタスクを割り当てることができる
-- マイルストーンには習慣を割り当てることができる
+プロジェクトを時系列で区切る中間目標。期限と達成基準を持つ進捗管理の単位。
 
+**データ構造の特徴:**
+- 各プロジェクトを複数のマイルストーンに分割
+- 順序性を持つ（milestone_number）
+- 期間設定（start_date, end_date）
+- タスクと習慣の割り当て先
+- 達成基準（objectives）の定義
+
+**ステータス定義:**
+- planned: 計画済み（未開始）
+- active: 進行中
+- completed: 完了
+- blocked: ブロック中（前段階未完了）
+- cancelled: キャンセル
 
 ```sql
--- マイルストーン(プロジェクト自体では期限は定めずに、フェーズで期限を設定する)
+-- マイルストーン (プロジェクトの中間目標・フェーズ管理)
 CREATE TABLE milestones (
     id UUID PRIMARY KEY,
-    project_id UUID REFERENCES projects(id),
-    phase_number INTEGER NOT NULL,
-    name VARCHAR(255) NOT NULL,
+    project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+    milestone_number INTEGER NOT NULL, -- プロジェクト内での順序
+    name VARCHAR(255) NOT NULL, -- 例: 基礎固め, リスニング強化, スピーキング練習
+    description TEXT,
+    objectives TEXT[], -- 達成基準の配列
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-    status VARCHAR(50) NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'planned',
+    progress_percentage INTEGER DEFAULT 0, -- 進捗率 0-100
     created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL
+    updated_at TIMESTAMP NOT NULL,
+    UNIQUE(project_id, milestone_number),
+    CONSTRAINT chk_milestone_status CHECK (status IN ('planned','active','completed','blocked','cancelled')),
+    CONSTRAINT chk_progress CHECK (progress_percentage BETWEEN 0 AND 100)
 );
 ```
 
 #### 4.2.5 time_blocks: 時間ブロック
 
-- カレンダーの時間ブロック
-- 特定の時間を特定のプロジェクトに割り当てる
-- 作業開始ボタンを押すことで実際の稼働時間を記録することができる
+カレンダー上の作業時間枠。特定プロジェクトへの時間割り当てと実行追跡を行うエンティティ。
 
+**データ構造の特徴:**
+- プロジェクトごとの時間枠配置
+- 計画時間 vs 実際時間の追跡
+- セッション開始により実働時間記録
+- 計画タスク vs 実行タスクの管理
+- LLMによるタスク生成結果の保存
+
+**ステータス定義:**
+- scheduled: スケジュール済み（未開始）
+- in_progress: 実行中
+- completed: 完了
+- skipped: スキップ
+- cancelled: キャンセル
 
 ```sql
--- 時間ブロック（カレンダー）
+-- 時間ブロック (カレンダー上の作業時間枠)
 CREATE TABLE time_blocks (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL,
-    project_id UUID REFERENCES projects(id),
+    project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+    milestone_id UUID REFERENCES milestones(id), -- 関連マイルストーン（任意）
     title VARCHAR(255) NOT NULL,
+    description TEXT,
     start_time TIMESTAMP NOT NULL,
     end_time TIMESTAMP NOT NULL,
-    actual_start_time TIMESTAMP,
-    actual_end_time TIMESTAMP,
-    planned_tasks JSONB,
-    actual_tasks JSONB,
-    status VARCHAR(50) NOT NULL,
+    actual_start_time TIMESTAMP, -- 実際の開始時間
+    actual_end_time TIMESTAMP, -- 実際の終了時間
+    planned_tasks JSONB, -- 計画されたタスクリスト
+    actual_tasks JSONB, -- 実際に実行されたタスクリスト
+    session_notes TEXT, -- セッション時のメモ
+    energy_level INTEGER CHECK (energy_level BETWEEN 1 AND 5), -- エネルギーレベル
+    status VARCHAR(50) NOT NULL DEFAULT 'scheduled',
     created_at TIMESTAMP NOT NULL,
-    INDEX idx_user_time (user_id, start_time)
+    updated_at TIMESTAMP NOT NULL,
+    CONSTRAINT chk_timeblock_status CHECK (status IN ('scheduled','in_progress','completed','skipped','cancelled')),
+    INDEX idx_user_time (user_id, start_time),
+    INDEX idx_project_time (project_id, start_time)
 );
 ```
 
 #### 4.2.6 tasks: タスク
 
+プロジェクト・マイルストーン配下の具体的な作業単位。LLMによるセッション時生成と手動作成の両方に対応。
+
+**データ構造の特徴:**
+- プロジェクト・マイルストーンへの紐づけ
+- 推定時間 vs 実働時間の追跡
+- 未完了タスクの自動引き継ぎ機能（carried_from）
+- LLM生成 vs 手動作成の識別
+- タスク間の依存関係表現
+
+**ステータス定義:**
+- todo: 未着手
+- in_progress: 実行中
+- completed: 完了
+- carried_over: 次回に引き継ぎ
+- cancelled: キャンセル
+
 ```sql
--- タスク
+-- タスク (具体的な作業単位)
 CREATE TABLE tasks (
     id UUID PRIMARY KEY,
-    project_id UUID REFERENCES projects(id),
-    milestone_id UUID REFERENCES milestones(id),
+    user_id UUID NOT NULL,
+    project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+    milestone_id UUID REFERENCES milestones(id), -- 関連マイルストーン（任意）
+    time_block_id UUID REFERENCES time_blocks(id), -- 生成元時間ブロック（任意）
     title VARCHAR(255) NOT NULL,
     description TEXT,
-    estimated_duration INTEGER,
-    actual_duration INTEGER,
-    status VARCHAR(50) NOT NULL,
-    carried_from UUID,
-    created_by VARCHAR(50) NOT NULL,
+    estimated_duration INTEGER, -- 推定所要時間（分）
+    actual_duration INTEGER, -- 実際の所要時間（分）
+    status VARCHAR(50) NOT NULL DEFAULT 'todo',
+    priority INTEGER DEFAULT 3, -- 優先度 1-5
+    carried_from UUID REFERENCES tasks(id), -- 引き継ぎ元タスク
+    depends_on UUID REFERENCES tasks(id), -- 依存タスク
+    created_by VARCHAR(50) NOT NULL, -- user | llm
     started_at TIMESTAMP,
     completed_at TIMESTAMP,
-    created_at TIMESTAMP NOT NULL
+    due_date DATE, -- 期限日
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    CONSTRAINT chk_task_status CHECK (status IN ('todo','in_progress','completed','carried_over','cancelled')),
+    CONSTRAINT chk_task_priority CHECK (priority BETWEEN 1 AND 5),
+    INDEX idx_project_status (project_id, status),
+    INDEX idx_milestone_status (milestone_id, status)
 );
 ```
 
-#### 4.2.7 habits: 習慣1
+#### 4.2.7 habits: 習慣
+
+プロジェクト達成に必要な継続的行動パターンを管理するエンティティ。タスクとは異なり、反復的な実行が期待される行動単位。
+
+**データ構造の特徴:**
+- 各プロジェクトに必要な習慣を定義
+- 日次・週次・カウントベースの多様な習慣タイプに対応
+- 目標設定（frequency, target_value）
+- ストリーク（連続実行記録）の自動計算
+- リマインダー設定による継続支援
+
+**習慣タイプ:**
+- daily: 毎日実行する習慣（例：英単語10個、筋トレ30分）
+- weekly: 週N回実行する習慣（例：週3回ジム、週2回読書）
+- count_based: カウント系習慣（例：禁煙連続日数、水分摂取量）
+- streak: 連続記録重視（例：継続日数の記録）
+
+**ステータス定義:**
+- active: アクティブな習慣
+- paused: 一時停止中
+- completed: 習慣確立完了
+- cancelled: 習慣中止
 
 ```sql
--- 習慣
+-- 習慣 (プロジェクト達成に必要な継続的行動パターン)
 CREATE TABLE habits (
     id UUID PRIMARY KEY,
-    project_id UUID REFERENCES projects(id),
-    name VARCHAR(255) NOT NULL,
-    type VARCHAR(50) NOT NULL,
-    target JSONB NOT NULL,
-    created_at TIMESTAMP NOT NULL
+    user_id UUID NOT NULL,
+    project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+    name VARCHAR(255) NOT NULL, -- 例: 英単語10個暗記, 毎日30分ランニング, 禁煙継続
+    description TEXT,
+    type VARCHAR(50) NOT NULL, -- daily, weekly, count_based, streak
+    status VARCHAR(50) NOT NULL DEFAULT 'active',
+    
+    -- 目標設定（習慣タイプに応じて使い分け）
+    frequency_type VARCHAR(50), -- daily, weekly, monthly
+    target_frequency INTEGER, -- 週N回、月N回など
+    target_value DECIMAL(10,2), -- 目標値（時間、個数、量など）
+    target_unit VARCHAR(50), -- 単位（分、個、kg、など）
+    
+    -- リマインダー設定
+    reminder_enabled BOOLEAN DEFAULT true,
+    reminder_times TEXT[], -- リマインダー時刻の配列
+    
+    -- 統計用フィールド
+    current_streak INTEGER DEFAULT 0, -- 現在の連続実行日数
+    best_streak INTEGER DEFAULT 0, -- 最高連続記録
+    total_count INTEGER DEFAULT 0, -- 総実行回数
+    
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    
+    CONSTRAINT chk_habit_status CHECK (status IN ('active','paused','completed','cancelled')),
+    CONSTRAINT chk_frequency_type CHECK (frequency_type IN ('daily','weekly','monthly') OR frequency_type IS NULL),
+    INDEX idx_project_habits (project_id, status),
+    INDEX idx_user_habits (user_id, status)
 );
 ```
 
 #### 4.2.8 habit_records: 習慣記録
 
+習慣の日々の実行記録を保存するエンティティ。ストリーク計算、成功率分析、パターン分析の基礎データとなる。
+
+**データ構造の特徴:**
+- 習慣ごとの日次実行記録
+- 実行状態（完了・失敗・部分完了）の追跡
+- 実行値（時間、個数、量など）の記録
+- メモによる詳細情報の保存
+- 一意制約により重複記録を防止
+
+**ステータス定義:**
+- completed: 目標達成（習慣実行完了）
+- partial: 部分達成（目標の一部実行）
+- failed: 未実行（目標未達成）
+- skipped: 意図的スキップ（病気、休暇など）
+
+**記録方式:**
+- 自動記録: タスク完了時の自動記録
+- 手動記録: ユーザーによる手動入力
+- デバイス連携: ウェアラブルデバイスからの自動同期
+
 ```sql
--- 習慣記録
+-- 習慣記録 (習慣の日々の実行記録)
 CREATE TABLE habit_records (
     id UUID PRIMARY KEY,
-    habit_id UUID REFERENCES habits(id),
+    habit_id UUID REFERENCES habits(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL,
     date DATE NOT NULL,
-    status VARCHAR(50) NOT NULL,
-    value DECIMAL(10,2),
-    notes TEXT,
+    status VARCHAR(50) NOT NULL, -- completed, partial, failed, skipped
+    
+    -- 実行値記録
+    actual_value DECIMAL(10,2), -- 実際の実行値
+    target_value DECIMAL(10,2), -- その日の目標値
+    unit VARCHAR(50), -- 単位
+    
+    -- 追加情報
+    notes TEXT, -- メモ・特記事項
+    completion_time TIMESTAMP, -- 完了時刻
+    
+    -- メタデータ
     created_at TIMESTAMP NOT NULL,
-    UNIQUE(habit_id, date)
+    updated_at TIMESTAMP NOT NULL,
+    
+    UNIQUE(habit_id, date),
+    CONSTRAINT chk_habit_record_status CHECK (status IN ('completed','partial','failed','skipped')),
+    INDEX idx_habit_date (habit_id, date),
+    INDEX idx_user_date (user_id, date)
 );
 ```
 
 #### 4.2.9 llm_conversations: LLM対話履歴
+
+LLMとのすべての対話セッションを記録するエンティティ。コンテキスト保持、学習データ蓄積、デバッグ、ユーザー体験改善の基盤となる。
+
+**データ構造の特徴:**
+- 対話タイプ別の分類管理
+- 対話コンテキストの構造化保存
+- メッセージ履歴の完全保存
+- 対話結果（生成物）の記録
+- LLMパフォーマンス指標の追跡
+
+**対話タイプ:**
+- goal_setting: 目標設定ヒアリング
+- task_generation: タスク生成セッション
+- schedule_adjustment: スケジュール調整
+- project_planning: プロジェクト計画
+- habit_coaching: 習慣形成コーチング
+- general_chat: 一般的な相談・質問
+- analysis: 進捗分析・洞察生成
+
+**対話結果タイプ:**
+- projects: 生成されたプロジェクト
+- tasks: 生成されたタスクリスト
+- schedule: 調整されたスケジュール
+- insights: 分析結果・推奨事項
+- plans: 計画・提案
+
 ```sql
--- LLM対話履歴
+-- LLM対話履歴 (すべてのLLM対話セッションの記録)
 CREATE TABLE llm_conversations (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL,
-    type VARCHAR(50) NOT NULL,
-    context JSONB,
-    messages JSONB NOT NULL,
-    outcome JSONB,
-    created_at TIMESTAMP NOT NULL
+    session_id UUID, -- 関連セッションをグループ化
+    type VARCHAR(50) NOT NULL, -- goal_setting, task_generation, schedule_adjustment等
+    title VARCHAR(255), -- 対話セッションのタイトル
+    
+    -- 対話コンテキスト
+    context JSONB, -- プロジェクト情報、時間ブロック情報等
+    
+    -- 対話内容
+    messages JSONB NOT NULL, -- メッセージ履歴の配列
+    
+    -- 対話結果
+    outcome JSONB, -- 生成されたタスク、プロジェクト、スケジュール等
+    outcome_type VARCHAR(50), -- projects, tasks, schedule, insights, plans
+    
+    -- LLMメタデータ
+    llm_model VARCHAR(100), -- 使用したLLMモデル
+    llm_version VARCHAR(50), -- モデルバージョン
+    total_tokens INTEGER, -- 使用トークン数
+    prompt_tokens INTEGER, -- プロンプトトークン数
+    completion_tokens INTEGER, -- 生成トークン数
+    response_time_ms INTEGER, -- レスポンス時間（ミリ秒）
+    
+    -- ユーザー評価
+    user_rating INTEGER CHECK (user_rating BETWEEN 1 AND 5), -- 1-5星評価
+    user_feedback TEXT, -- ユーザーフィードバック
+    
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    
+    CONSTRAINT chk_conversation_type CHECK (type IN (
+        'goal_setting', 'task_generation', 'schedule_adjustment', 
+        'project_planning', 'habit_coaching', 'general_chat', 'analysis'
+    )),
+    CONSTRAINT chk_outcome_type CHECK (outcome_type IN (
+        'projects', 'tasks', 'schedule', 'insights', 'plans'
+    ) OR outcome_type IS NULL),
+    
+    INDEX idx_user_type (user_id, type),
+    INDEX idx_session (session_id),
+    INDEX idx_user_date (user_id, created_at)
 );
 ```
 
