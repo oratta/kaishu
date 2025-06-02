@@ -1,16 +1,23 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
 
 export default function UITestPage() {
   return (
     <div className="container mx-auto p-8 space-y-8">
       <h1 className="text-3xl font-bold">UI Components Test</h1>
-      
+
       <Separator />
-      
+
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">Buttons</h2>
         <div className="flex gap-4 flex-wrap">
@@ -22,9 +29,9 @@ export default function UITestPage() {
           <Button variant="destructive">Destructive</Button>
         </div>
       </section>
-      
+
       <Separator />
-      
+
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">Card Component</h2>
         <Card className="w-[350px]">
@@ -52,9 +59,9 @@ export default function UITestPage() {
           </CardFooter>
         </Card>
       </section>
-      
+
       <Separator />
-      
+
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">Dark Mode Test</h2>
         <p className="text-muted-foreground">

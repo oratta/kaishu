@@ -1,4 +1,5 @@
-#PROJECTS/KAISHU 
+#PROJECTS/KAISHU
+
 # LLMベース ライフマネジメントシステム - プロダクト要件定義書 (PRD)
 
 ## 1. 製品概要
@@ -14,21 +15,25 @@ LLMとの対話を通じて人生の目標を実現するための時間配分�
 ### 1.3 コア機能コンセプト
 
 **リアルタイムタスク生成**
+
 - 現在の時間ブロックで何をすべきかをLLMがリアルタイムで提案
 - 各時間ブロック開始時に「これから1時間で何を成し遂げるか」をLLMとセッション
 - 生成されたタスクリストに基づいて作業を進行
 
 **動的計画調整**
+
 - 二日酔い・体調不良・モチベーション変化に応じて当日の計画を自動調整
 - 負荷軽減と後日の回復プランを同時に提案
 - 状況変化を伝えるだけで最適化された代替案を生成
 
 **時間割ベース管理**
+
 - カレンダーに「LLM研究」「KGプロジェクト作業」等の時間ブロックを配置
 - LLMが時間の使い方グラフを作成し、週間予定を自動生成
 - 時間ブロック内の具体的な作業内容はセッション時に決定
 
 **継続的タスク管理**
+
 - 未完了タスクは自動的に次回同プロジェクトの時間に引き継ぎ
 - プロジェクトごとのタスク管理でコンテキストを維持
 - タスク管理ツールとして機能する充実した機能セット
@@ -45,20 +50,20 @@ LLMとの対話を通じて人生の目標を実現するための時間配分�
 ### 2.1 プライマリペルソナ
 
 - **属性**:
-    - 多様な目標を持つ知識労働者
-    - 自己実現への意欲が高い
-    - 計画性はあるが実行時の柔軟性に課題
+  - 多様な目標を持つ知識労働者
+  - 自己実現への意欲が高い
+  - 計画性はあるが実行時の柔軟性に課題
 - **目標例**:
-    - 英語学習の継続
-    - 運動習慣の確立
-    - ソフトウェア開発
-    - 家族時間の確保
-    - 健康習慣（禁煙、ダイエット）の実現
+  - 英語学習の継続
+  - 運動習慣の確立
+  - ソフトウェア開発
+  - 家族時間の確保
+  - 健康習慣（禁煙、ダイエット）の実現
 - **課題**:
-    - 複数目標のバランス調整が困難
-    - 日々の変動への対応が手動では追いつかない
-    - 「今何をすべきか」の判断に迷う
-    - 習慣化の継続が難しい
+  - 複数目標のバランス調整が困難
+  - 日々の変動への対応が手動では追いつかない
+  - 「今何をすべきか」の判断に迷う
+  - 習慣化の継続が難しい
 
 ### 2.2 利用シナリオ
 
@@ -76,27 +81,24 @@ LLMとの対話を通じて人生の目標を実現するための時間配分�
 
 ```typescript
 interface GoalSettingDialog {
-  startConversation(): ConversationSession;
-  
-  extractGoals(conversation: Message[]): LifeGoal[];
-  
-  suggestTimeAllocation(goals: LifeGoal[]): TimeAllocationPlan;
-  
-  refineWithFeedback(
-    plan: TimeAllocationPlan,
-    feedback: string
-  ): TimeAllocationPlan;
+  startConversation(): ConversationSession
+
+  extractGoals(conversation: Message[]): LifeGoal[]
+
+  suggestTimeAllocation(goals: LifeGoal[]): TimeAllocationPlan
+
+  refineWithFeedback(plan: TimeAllocationPlan, feedback: string): TimeAllocationPlan
 }
 
 interface LifeGoal {
-  id: string;
-  type: 'project' | 'habit' | 'skill' | 'health' | 'relationship';
-  name: string;
-  description: string;
-  targetOutcome: string;
-  suggestedTimePerWeek: number;
-  priority: 1 | 2 | 3;
-  measurementCriteria: string[];
+  id: string
+  type: 'project' | 'habit' | 'skill' | 'health' | 'relationship'
+  name: string
+  description: string
+  targetOutcome: string
+  suggestedTimePerWeek: number
+  priority: 1 | 2 | 3
+  measurementCriteria: string[]
 }
 ```
 
@@ -105,20 +107,20 @@ interface LifeGoal {
 ```typescript
 interface TaskGenerationSession {
   context: {
-    currentTimeBlock: TimeBlock;
-    projectContext: Project;
-    previousTasks: Task[];
-    energyLevel: EnergyLevel;
-    availableTime: number;
-  };
-  
+    currentTimeBlock: TimeBlock
+    projectContext: Project
+    previousTasks: Task[]
+    energyLevel: EnergyLevel
+    availableTime: number
+  }
+
   generateTasks(): Promise<{
-    suggestedTasks: Task[];
-    reasoning: string;
-    expectedOutcomes: string[];
-  }>;
-  
-  refineTask(taskId: string, feedback: string): Promise<Task>;
+    suggestedTasks: Task[]
+    reasoning: string
+    expectedOutcomes: string[]
+  }>
+
+  refineTask(taskId: string, feedback: string): Promise<Task>
 }
 ```
 
@@ -127,16 +129,16 @@ interface TaskGenerationSession {
 ```typescript
 interface AdjustmentDialog {
   reportCondition(condition: {
-    type: 'hangover' | 'sick' | 'tired' | 'motivated' | 'busy';
-    severity: 1 | 2 | 3;
-    details?: string;
-  }): void;
-  
+    type: 'hangover' | 'sick' | 'tired' | 'motivated' | 'busy'
+    severity: 1 | 2 | 3
+    details?: string
+  }): void
+
   generateAdjustedPlan(): {
-    todaysPlan: DailyPlan;
-    recoveryPlan: WeeklyAdjustment;
-    recommendations: string[];
-  };
+    todaysPlan: DailyPlan
+    recoveryPlan: WeeklyAdjustment
+    recommendations: string[]
+  }
 }
 ```
 
@@ -147,24 +149,24 @@ interface AdjustmentDialog {
 ```typescript
 interface TimeAllocationVisualizer {
   generateAllocationChart(params: {
-    goals: LifeGoal[];
-    period: 'daily' | 'weekly' | 'monthly';
-    type: 'target' | 'actual' | 'comparison';
+    goals: LifeGoal[]
+    period: 'daily' | 'weekly' | 'monthly'
+    type: 'target' | 'actual' | 'comparison'
   }): {
-    chartData: ChartData;
-    insights: string[];
-    recommendations: Adjustment[];
-  };
+    chartData: ChartData
+    insights: string[]
+    recommendations: Adjustment[]
+  }
 }
 
 interface ChartData {
-  type: 'pie' | 'bar' | 'stacked' | 'sunburst';
+  type: 'pie' | 'bar' | 'stacked' | 'sunburst'
   data: {
-    categories: string[];
-    values: number[];
-    colors: string[];
-  };
-  annotations: ChartAnnotation[];
+    categories: string[]
+    values: number[]
+    colors: string[]
+  }
+  annotations: ChartAnnotation[]
 }
 ```
 
@@ -172,18 +174,16 @@ interface ChartData {
 
 ```typescript
 interface CalendarManager {
-  createTimeBlocks(plan: WeeklyPlan): void;
-  
+  createTimeBlocks(plan: WeeklyPlan): void
+
   timeBlockFormat: {
-    title: string; // 例: "LLM研究", "KGプロジェクト作業"
-    color: string;
-    project: Project;
-    plannedTasks?: Task[];
-  };
-  
-  syncWithExternalCalendar(
-    provider: 'google' | 'outlook' | 'apple'
-  ): void;
+    title: string // 例: "LLM研究", "KGプロジェクト作業"
+    color: string
+    project: Project
+    plannedTasks?: Task[]
+  }
+
+  syncWithExternalCalendar(provider: 'google' | 'outlook' | 'apple'): void
 }
 ```
 
@@ -193,27 +193,27 @@ interface CalendarManager {
 
 ```typescript
 interface Project {
-  id: string;
-  name: string;
-  type: 'work' | 'learning' | 'health' | 'personal';
-  goal: string;
-  phases: Phase[];
-  requiredHabits: Habit[];
-  relatedProjects: string[];
-  weeklyTargetHours: number;
-  actualHoursThisWeek: number;
-  notes: Note[];
-  llmGeneratedSummary?: string;
+  id: string
+  name: string
+  type: 'work' | 'learning' | 'health' | 'personal'
+  goal: string
+  phases: Phase[]
+  requiredHabits: Habit[]
+  relatedProjects: string[]
+  weeklyTargetHours: number
+  actualHoursThisWeek: number
+  notes: Note[]
+  llmGeneratedSummary?: string
 }
 
 interface Phase {
-  id: string;
-  name: string;
-  startDate: Date;
-  endDate: Date;
-  objectives: string[];
-  tasks: Task[];
-  status: 'planned' | 'active' | 'completed';
+  id: string
+  name: string
+  startDate: Date
+  endDate: Date
+  objectives: string[]
+  tasks: Task[]
+  status: 'planned' | 'active' | 'completed'
 }
 ```
 
@@ -221,29 +221,29 @@ interface Phase {
 
 ```typescript
 interface Task {
-  id: string;
-  projectId: string;
-  phaseId?: string;
-  title: string;
-  description: string;
-  estimatedDuration: number; // LLM推定時間
-  actualDuration?: number;
-  status: 'todo' | 'doing' | 'done' | 'carried_over';
-  carriedFrom?: string; // 前回から引き継がれたタスクID
-  createdBy: 'user' | 'llm';
-  createdAt: Date;
-  startedAt?: Date;
-  completedAt?: Date;
+  id: string
+  projectId: string
+  phaseId?: string
+  title: string
+  description: string
+  estimatedDuration: number // LLM推定時間
+  actualDuration?: number
+  status: 'todo' | 'doing' | 'done' | 'carried_over'
+  carriedFrom?: string // 前回から引き継がれたタスクID
+  createdBy: 'user' | 'llm'
+  createdAt: Date
+  startedAt?: Date
+  completedAt?: Date
 }
 
 interface TaskSession {
-  timeBlockId: string;
-  tasks: Task[];
-  
-  startTask(taskId: string): void;
-  pauseTask(taskId: string): void;
-  completeTask(taskId: string): void;
-  carryOverTasks(): Task[]; // 未完了タスクを次回に引き継ぎ
+  timeBlockId: string
+  tasks: Task[]
+
+  startTask(taskId: string): void
+  pauseTask(taskId: string): void
+  completeTask(taskId: string): void
+  carryOverTasks(): Task[] // 未完了タスクを次回に引き継ぎ
 }
 ```
 
@@ -253,28 +253,28 @@ interface TaskSession {
 
 ```typescript
 interface Habit {
-  id: string;
-  projectId: string;
-  name: string;
-  type: 'daily' | 'weekly' | 'count_based';
+  id: string
+  projectId: string
+  name: string
+  type: 'daily' | 'weekly' | 'count_based'
   target: {
-    daily?: { count: number; unit: string };
-    weekly?: { count: number; unit: string };
-    countBased?: { 
-      action: string; // 例: "タバコを吸わない"
-      trackingType: 'streak' | 'total';
-    };
-  };
-  tracking: HabitTracking;
-  reminders: Reminder[];
+    daily?: { count: number; unit: string }
+    weekly?: { count: number; unit: string }
+    countBased?: {
+      action: string // 例: "タバコを吸わない"
+      trackingType: 'streak' | 'total'
+    }
+  }
+  tracking: HabitTracking
+  reminders: Reminder[]
 }
 
 interface HabitTracking {
-  todayStatus: 'pending' | 'completed' | 'failed';
-  streak: number;
-  totalCount: number;
-  history: HabitRecord[];
-  successRate: number;
+  todayStatus: 'pending' | 'completed' | 'failed'
+  streak: number
+  totalCount: number
+  history: HabitRecord[]
+  successRate: number
 }
 ```
 
@@ -283,6 +283,7 @@ interface HabitTracking {
 #### 3.5.1 ダッシュボード
 
 **画面イメージ**
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  🏠 KAISHU Dashboard               💬 [LLMチャット]        │
@@ -307,6 +308,7 @@ interface HabitTracking {
 ```
 
 **機能一覧**
+
 - **リアルタイム時間表示**: 現在時刻のハイライト表示
 - **当日カレンダー**: 今日の時間ブロック一覧
 - **現在のタスク表示**: アクティブなプロジェクトのタスク一覧
@@ -320,37 +322,38 @@ interface HabitTracking {
 interface DashboardView {
   layout: {
     left: {
-      todayCalendar: CalendarWidget;
-      currentTimeHighlight: TimeIndicator;
-    };
+      todayCalendar: CalendarWidget
+      currentTimeHighlight: TimeIndicator
+    }
     right: {
       upper: {
-        currentProjectTasks: TaskListWidget;
-        activeTask?: ActiveTaskDisplay;
-      };
+        currentProjectTasks: TaskListWidget
+        activeTask?: ActiveTaskDisplay
+      }
       lower: {
-        projectNotes: NotesWidget;
-      };
-    };
-  };
-  
-  floatingLLMChat: ChatInterface; // どこからでも呼び出し可能
+        projectNotes: NotesWidget
+      }
+    }
+  }
+
+  floatingLLMChat: ChatInterface // どこからでも呼び出し可能
 }
 
 interface ActiveTaskDisplay {
-  taskName: string;
-  animation: 'working' | 'paused';
+  taskName: string
+  animation: 'working' | 'paused'
   timer: {
-    elapsed: number;
-    target: number;
-    progress: number; // パーセンテージ
-  };
+    elapsed: number
+    target: number
+    progress: number // パーセンテージ
+  }
 }
 ```
 
 #### 3.5.2 プロジェクトリストビュー
 
 **画面イメージ**
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  📊 プロジェクト管理                    💬 [LLMチャット]   │
@@ -382,6 +385,7 @@ interface ActiveTaskDisplay {
 ```
 
 **機能一覧**
+
 - **プロジェクト進捗テーブル**: 週目標vs実績の一覧表示
 - **達成率カラーコーディング**: 視覚的な進捗状況表示
 - **目標・実績時間配分円グラフ**: 双方向の時間配分比較
@@ -392,27 +396,22 @@ interface ActiveTaskDisplay {
 ```typescript
 interface ProjectListView {
   projectTable: {
-    columns: [
-      'プロジェクト名',
-      '週目標時間',
-      '実績時間',
-      '達成率',
-      'ステータス'
-    ];
-  };
-  
+    columns: ['プロジェクト名', '週目標時間', '実績時間', '達成率', 'ステータス']
+  }
+
   allocationCharts: {
-    targetPieChart: PieChart;
-    actualPieChart: PieChart;
-  };
-  
-  insights: LLMGeneratedInsights;
+    targetPieChart: PieChart
+    actualPieChart: PieChart
+  }
+
+  insights: LLMGeneratedInsights
 }
 ```
 
 #### 3.5.3 プロジェクトビュー
 
 **画面イメージ**
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  📚 英語能力向上プロジェクト              💬 [LLMチャット]  │
@@ -454,6 +453,7 @@ interface ProjectListView {
 ```
 
 **機能一覧**
+
 - **プロジェクト概要表示**: 目標・期間・現在状況
 - **LLM生成サマリー**: 進捗状況の自動要約
 - **関連プロジェクトグラフ**: 依存関係の可視化
@@ -466,28 +466,29 @@ interface ProjectListView {
 ```typescript
 interface ProjectDetailView {
   header: {
-    overview: ProjectSummary;
-    llmSummary: string;
-    relatedProjectsGraph: NetworkGraph;
-  };
-  
+    overview: ProjectSummary
+    llmSummary: string
+    relatedProjectsGraph: NetworkGraph
+  }
+
   body: {
-    phases: PhaseAccordion;
-    habits: HabitList;
-    notes: NotesList;
-  };
-  
+    phases: PhaseAccordion
+    habits: HabitList
+    notes: NotesList
+  }
+
   activePhaseDetail: {
-    calendar: CalendarWidget;
-    taskList: TaskListWidget;
-    progress: ProgressIndicators;
-  };
+    calendar: CalendarWidget
+    taskList: TaskListWidget
+    progress: ProgressIndicators
+  }
 }
 ```
 
 #### 3.5.4 タスクリストビュー
 
 **画面イメージ**
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  📝 タスク管理                          💬 [LLMチャット]   │
@@ -523,6 +524,7 @@ interface ProjectDetailView {
 ```
 
 **機能一覧**
+
 - **多軸フィルタリング**: プロジェクト・ステータス・日付範囲
 - **複数表示形式**: リスト・カンバン・タイムライン切替
 - **プロジェクト別グルーピング**: コンテキスト別整理
@@ -536,23 +538,24 @@ interface ProjectDetailView {
 ```typescript
 interface TaskListView {
   filters: {
-    project: MultiSelect;
-    status: MultiSelect;
-    dateRange: DateRangePicker;
-  };
-  
-  grouping: 'project' | 'date' | 'status' | 'phase';
-  
+    project: MultiSelect
+    status: MultiSelect
+    dateRange: DateRangePicker
+  }
+
+  grouping: 'project' | 'date' | 'status' | 'phase'
+
   taskList: {
-    style: 'kanban' | 'list' | 'timeline';
-    features: ['drag_drop', 'bulk_edit', 'quick_add'];
-  };
+    style: 'kanban' | 'list' | 'timeline'
+    features: ['drag_drop', 'bulk_edit', 'quick_add']
+  }
 }
 ```
 
 #### 3.5.5 習慣ビュー
 
 **画面イメージ**
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  🔄 習慣管理                            💬 [LLMチャット]   │
@@ -592,6 +595,7 @@ interface TaskListView {
 ```
 
 **機能一覧**
+
 - **今日の習慣チェック**: 当日実行すべき習慣一覧
 - **ワンタップ完了**: 簡単な習慣記録
 - **ストリーク表示**: 連続実行日数の可視化
@@ -606,20 +610,20 @@ interface TaskListView {
 ```typescript
 interface HabitView {
   habitGrid: {
-    todayHabits: HabitCard[];
-    weeklyProgress: WeeklyHabitChart;
-  };
-  
+    todayHabits: HabitCard[]
+    weeklyProgress: WeeklyHabitChart
+  }
+
   streakDisplay: {
-    currentStreaks: StreakCard[];
-    achievements: AchievementBadges;
-  };
-  
+    currentStreaks: StreakCard[]
+    achievements: AchievementBadges
+  }
+
   habitAnalytics: {
-    successRates: Chart;
-    patterns: LLMAnalysis;
-    recommendations: string[];
-  };
+    successRates: Chart
+    patterns: LLMAnalysis
+    recommendations: string[]
+  }
 }
 ```
 
@@ -631,19 +635,19 @@ interface HabitView {
 interface LLMAgent {
   // コンテキスト管理
   context: {
-    userProfile: UserProfile;
-    currentProjects: Project[];
-    historicalData: UserHistory;
-    preferences: UserPreferences;
-  };
-  
+    userProfile: UserProfile
+    currentProjects: Project[]
+    historicalData: UserHistory
+    preferences: UserPreferences
+  }
+
   // 各種エージェント
   agents: {
-    planner: PlanningAgent;
-    taskGenerator: TaskGenerationAgent;
-    habitCoach: HabitCoachingAgent;
-    analyst: AnalyticsAgent;
-  };
+    planner: PlanningAgent
+    taskGenerator: TaskGenerationAgent
+    habitCoach: HabitCoachingAgent
+    analyst: AnalyticsAgent
+  }
 }
 
 class PlanningAgent {
@@ -652,18 +656,15 @@ class PlanningAgent {
     constraints: Constraint[],
     context: UserContext
   ): Promise<WeeklyPlan> {
-    const prompt = this.buildPlanningPrompt(goals, constraints, context);
-    const response = await this.llm.complete(prompt);
-    return this.parsePlanResponse(response);
+    const prompt = this.buildPlanningPrompt(goals, constraints, context)
+    const response = await this.llm.complete(prompt)
+    return this.parsePlanResponse(response)
   }
-  
-  async adjustDailyPlan(
-    condition: UserCondition,
-    originalPlan: DailyPlan
-  ): Promise<AdjustedPlan> {
-    const prompt = this.buildAdjustmentPrompt(condition, originalPlan);
-    const response = await this.llm.complete(prompt);
-    return this.parseAdjustmentResponse(response);
+
+  async adjustDailyPlan(condition: UserCondition, originalPlan: DailyPlan): Promise<AdjustedPlan> {
+    const prompt = this.buildAdjustmentPrompt(condition, originalPlan)
+    const response = await this.llm.complete(prompt)
+    return this.parseAdjustmentResponse(response)
   }
 }
 ```
@@ -707,11 +708,13 @@ infrastructure:
 ユーザの人生目標を表現するマスターエンティティ。「どんな経験をしたいか」「どんな状態になりたいか」を定義する。
 
 **データ構造の特徴:**
+
 - life_goalsを達成するためには、1つ以上の達成条件(goal_conditions)が必要
 - 各goal_conditionsは0個以上のプロジェクト(projects)によって実現される
 - プロジェクトが未作成のgoal_conditionsも存在可能（計画段階）
 
 **ステータス定義:**
+
 - 0: 未計画 - 書き留められただけの初期状態
 - 1: 計画中 - goal_conditionsは定義されているがプロジェクト未作成
 - 2: 実行中 - 関連プロジェクトの一部または全部が進行中
@@ -741,12 +744,14 @@ CREATE TABLE life_goals (
 life_goalsを達成するために必要な具体的な条件を定義する中間エンティティ。大きな目標を実現可能な単位に分解する役割を持つ。
 
 **データ構造の特徴:**
+
 - 1つのlife_goalに対して複数のgoal_conditionsが存在可能
 - 各goal_conditionsは0個以上のプロジェクト(projects)によって実現される
 - プロジェクト未作成でも条件として定義可能（将来の計画段階）
 - 条件間の依存関係を表現可能（prerequisite_condition_id）
 
 **ステータス定義:**
+
 - 1: 計画中 - 関連プロジェクトが未作成
 - 2: 実行中 - 関連プロジェクトの一部または全部が進行中
 - 3: 停止中 - 関連する全プロジェクトが停止状態
@@ -777,12 +782,14 @@ CREATE TABLE goal_conditions (
 goal_conditionsを達成するための具体的な実行単位。時間配分とマイルストーンを持つ実装エンティティ。
 
 **データ構造の特徴:**
+
 - 各プロジェクトは特定のgoal_conditionに紐づく
 - 0個以上のマイルストーン(milestones)で構成される
 - タスク(tasks)と習慣(habits)を包含する
 - 時間配分方式: 週N時間 または 空き時間のM%
 
 **プロジェクトタイプ:**
+
 - learning: 学習・スキルアップ
 - health: 健康・運動
 - work: 仕事・キャリア
@@ -791,6 +798,7 @@ goal_conditionsを達成するための具体的な実行単位。時間配分�
 - other: その他
 
 **ステータス定義:**
+
 - 1: 計画中 - 作成されたが未開始
 - 2: 実行中 - アクティブに進行中
 - 3: 停止中 - 一時停止状態
@@ -827,6 +835,7 @@ CREATE TABLE projects (
 プロジェクトを時系列で区切る中間目標。期限と達成基準を持つ進捗管理の単位。
 
 **データ構造の特徴:**
+
 - 各プロジェクトを複数のマイルストーンに分割
 - 順序性を持つ（milestone_number）
 - 期間設定（start_date, end_date）
@@ -834,6 +843,7 @@ CREATE TABLE projects (
 - 達成基準（objectives）の定義
 
 **ステータス定義:**
+
 - planned: 計画済み（未開始）
 - active: 進行中
 - completed: 完了
@@ -866,6 +876,7 @@ CREATE TABLE milestones (
 カレンダー上の作業時間枠。特定プロジェクトへの時間割り当てと実行追跡を行うエンティティ。
 
 **データ構造の特徴:**
+
 - プロジェクトごとの時間枠配置
 - 計画時間 vs 実際時間の追跡
 - セッション開始により実働時間記録
@@ -873,6 +884,7 @@ CREATE TABLE milestones (
 - LLMによるタスク生成結果の保存
 
 **ステータス定義:**
+
 - scheduled: スケジュール済み（未開始）
 - in_progress: 実行中
 - completed: 完了
@@ -910,6 +922,7 @@ CREATE TABLE time_blocks (
 プロジェクト・マイルストーン配下の具体的な作業単位。LLMによるセッション時生成と手動作成の両方に対応。
 
 **データ構造の特徴:**
+
 - プロジェクト・マイルストーンへの紐づけ
 - 推定時間 vs 実働時間の追跡
 - 未完了タスクの自動引き継ぎ機能（carried_from）
@@ -917,6 +930,7 @@ CREATE TABLE time_blocks (
 - タスク間の依存関係表現
 
 **ステータス定義:**
+
 - todo: 未着手
 - in_progress: 実行中
 - completed: 完了
@@ -957,6 +971,7 @@ CREATE TABLE tasks (
 プロジェクト達成に必要な継続的行動パターンを管理するエンティティ。タスクとは異なり、反復的な実行が期待される行動単位。
 
 **データ構造の特徴:**
+
 - 各プロジェクトに必要な習慣を定義
 - 日次・週次・カウントベースの多様な習慣タイプに対応
 - 目標設定（frequency, target_value）
@@ -964,12 +979,14 @@ CREATE TABLE tasks (
 - リマインダー設定による継続支援
 
 **習慣タイプ:**
+
 - daily: 毎日実行する習慣（例：英単語10個、筋トレ30分）
 - weekly: 週N回実行する習慣（例：週3回ジム、週2回読書）
 - count_based: カウント系習慣（例：禁煙連続日数、水分摂取量）
 - streak: 連続記録重視（例：継続日数の記録）
 
 **ステータス定義:**
+
 - active: アクティブな習慣
 - paused: 一時停止中
 - completed: 習慣確立完了
@@ -985,25 +1002,25 @@ CREATE TABLE habits (
     description TEXT,
     type VARCHAR(50) NOT NULL, -- daily, weekly, count_based, streak
     status VARCHAR(50) NOT NULL DEFAULT 'active',
-    
+
     -- 目標設定（習慣タイプに応じて使い分け）
     frequency_type VARCHAR(50), -- daily, weekly, monthly
     target_frequency INTEGER, -- 週N回、月N回など
     target_value DECIMAL(10,2), -- 目標値（時間、個数、量など）
     target_unit VARCHAR(50), -- 単位（分、個、kg、など）
-    
+
     -- リマインダー設定
     reminder_enabled BOOLEAN DEFAULT true,
     reminder_times TEXT[], -- リマインダー時刻の配列
-    
+
     -- 統計用フィールド
     current_streak INTEGER DEFAULT 0, -- 現在の連続実行日数
     best_streak INTEGER DEFAULT 0, -- 最高連続記録
     total_count INTEGER DEFAULT 0, -- 総実行回数
-    
+
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
-    
+
     CONSTRAINT chk_habit_status CHECK (status IN ('active','paused','completed','cancelled')),
     CONSTRAINT chk_frequency_type CHECK (frequency_type IN ('daily','weekly','monthly') OR frequency_type IS NULL),
     INDEX idx_project_habits (project_id, status),
@@ -1016,6 +1033,7 @@ CREATE TABLE habits (
 習慣の日々の実行記録を保存するエンティティ。ストリーク計算、成功率分析、パターン分析の基礎データとなる。
 
 **データ構造の特徴:**
+
 - 習慣ごとの日次実行記録
 - 実行状態（完了・失敗・部分完了）の追跡
 - 実行値（時間、個数、量など）の記録
@@ -1023,12 +1041,14 @@ CREATE TABLE habits (
 - 一意制約により重複記録を防止
 
 **ステータス定義:**
+
 - completed: 目標達成（習慣実行完了）
 - partial: 部分達成（目標の一部実行）
 - failed: 未実行（目標未達成）
 - skipped: 意図的スキップ（病気、休暇など）
 
 **記録方式:**
+
 - 自動記録: タスク完了時の自動記録
 - 手動記録: ユーザーによる手動入力
 - デバイス連携: ウェアラブルデバイスからの自動同期
@@ -1041,20 +1061,20 @@ CREATE TABLE habit_records (
     user_id UUID NOT NULL,
     date DATE NOT NULL,
     status VARCHAR(50) NOT NULL, -- completed, partial, failed, skipped
-    
+
     -- 実行値記録
     actual_value DECIMAL(10,2), -- 実際の実行値
     target_value DECIMAL(10,2), -- その日の目標値
     unit VARCHAR(50), -- 単位
-    
+
     -- 追加情報
     notes TEXT, -- メモ・特記事項
     completion_time TIMESTAMP, -- 完了時刻
-    
+
     -- メタデータ
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
-    
+
     UNIQUE(habit_id, date),
     CONSTRAINT chk_habit_record_status CHECK (status IN ('completed','partial','failed','skipped')),
     INDEX idx_habit_date (habit_id, date),
@@ -1067,6 +1087,7 @@ CREATE TABLE habit_records (
 LLMとのすべての対話セッションを記録するエンティティ。コンテキスト保持、学習データ蓄積、デバッグ、ユーザー体験改善の基盤となる。
 
 **データ構造の特徴:**
+
 - 対話タイプ別の分類管理
 - 対話コンテキストの構造化保存
 - メッセージ履歴の完全保存
@@ -1074,6 +1095,7 @@ LLMとのすべての対話セッションを記録するエンティティ。�
 - LLMパフォーマンス指標の追跡
 
 **対話タイプ:**
+
 - goal_setting: 目標設定ヒアリング
 - task_generation: タスク生成セッション
 - schedule_adjustment: スケジュール調整
@@ -1083,6 +1105,7 @@ LLMとのすべての対話セッションを記録するエンティティ。�
 - analysis: 進捗分析・洞察生成
 
 **対話結果タイプ:**
+
 - projects: 生成されたプロジェクト
 - tasks: 生成されたタスクリスト
 - schedule: 調整されたスケジュール
@@ -1097,17 +1120,17 @@ CREATE TABLE llm_conversations (
     session_id UUID, -- 関連セッションをグループ化
     type VARCHAR(50) NOT NULL, -- goal_setting, task_generation, schedule_adjustment等
     title VARCHAR(255), -- 対話セッションのタイトル
-    
+
     -- 対話コンテキスト
     context JSONB, -- プロジェクト情報、時間ブロック情報等
-    
+
     -- 対話内容
     messages JSONB NOT NULL, -- メッセージ履歴の配列
-    
+
     -- 対話結果
     outcome JSONB, -- 生成されたタスク、プロジェクト、スケジュール等
     outcome_type VARCHAR(50), -- projects, tasks, schedule, insights, plans
-    
+
     -- LLMメタデータ
     llm_model VARCHAR(100), -- 使用したLLMモデル
     llm_version VARCHAR(50), -- モデルバージョン
@@ -1115,22 +1138,22 @@ CREATE TABLE llm_conversations (
     prompt_tokens INTEGER, -- プロンプトトークン数
     completion_tokens INTEGER, -- 生成トークン数
     response_time_ms INTEGER, -- レスポンス時間（ミリ秒）
-    
+
     -- ユーザー評価
     user_rating INTEGER CHECK (user_rating BETWEEN 1 AND 5), -- 1-5星評価
     user_feedback TEXT, -- ユーザーフィードバック
-    
+
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
-    
+
     CONSTRAINT chk_conversation_type CHECK (type IN (
-        'goal_setting', 'task_generation', 'schedule_adjustment', 
+        'goal_setting', 'task_generation', 'schedule_adjustment',
         'project_planning', 'habit_coaching', 'general_chat', 'analysis'
     )),
     CONSTRAINT chk_outcome_type CHECK (outcome_type IN (
         'projects', 'tasks', 'schedule', 'insights', 'plans'
     ) OR outcome_type IS NULL),
-    
+
     INDEX idx_user_type (user_id, type),
     INDEX idx_session (session_id),
     INDEX idx_user_date (user_id, created_at)
@@ -1169,7 +1192,7 @@ const WEEKLY_PLANNING_PROMPT = `
   "insights": "...",
   "recommendations": [...]
 }
-`;
+`
 ```
 
 #### 4.3.2 タスク生成プロンプト
@@ -1184,7 +1207,7 @@ const TASK_GENERATION_PROMPT = `
 
 このセッションで取り組むべき具体的なタスクを3-5個提案してください。
 各タスクには推定所要時間を含めてください。
-`;
+`
 ```
 
 ## 5. API仕様
@@ -1276,7 +1299,6 @@ Request: {
 - 作業実績管理機能
 - ダッシュボード機能
 
-
 ### 6.5 version 1.0.0: MVPリリース版
 
 - LLMをPythonで実装し直す
@@ -1290,8 +1312,8 @@ Request: {
 ## 7. 成功指標
 
 - **目標1:** ユーザーの生産性と目標達成率を向上させる。
-    - **指標1.1:** タスク完了率: 当日計画したタスクが完了した割合（目標: >80%）。
-    - **指標1.2:** 目標進捗: プロジェクトごとのマイルストーン完了目標期間に対する達成率（目標: 少なくとも1つの主要目標で>60%の進捗）。
-    - **指標1.3 (定性的):** ユーザーが報告するコントロール感の上昇量（アンケートベース、目標: >70%が改善を報告）。
+  - **指標1.1:** タスク完了率: 当日計画したタスクが完了した割合（目標: >80%）。
+  - **指標1.2:** 目標進捗: プロジェクトごとのマイルストーン完了目標期間に対する達成率（目標: 少なくとも1つの主要目標で>60%の進捗）。
+  - **指標1.3 (定性的):** ユーザーが報告するコントロール感の上昇量（アンケートベース、目標: >70%が改善を報告）。
 
 その他目標はMVPリリース版にて考える
