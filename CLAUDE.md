@@ -14,7 +14,10 @@ npm run dev          # Start Next.js development server (http://localhost:3000)
 npm run build        # Build production bundle
 npm start            # Start production server
 npm run lint         # Run ESLint
+npm run lint:fix     # Run ESLint with auto-fix
 npm run type-check   # Run TypeScript type checking
+npm run format       # Format code with Prettier
+npm run format:check # Check code formatting with Prettier
 ```
 
 ## Architecture Overview
@@ -34,19 +37,24 @@ life_goals (人生目標)
 
 - **Framework**: Next.js 14 with App Router
 - **Language**: TypeScript
-- **Styling**: TailwindCSS (shadcn/ui planned)
-- **State Management**: React Query (server), useState/useContext (local)
+- **Styling**: TailwindCSS + shadcn/ui (configured)
+- **Icons**: Lucide React
+- **State Management**: Planned - Zustand + TanStack Query
 - **LLM Integration**: OpenAI GPT-4o (primary), Claude 3.5 Sonnet (fallback)
+- **Development Tools**: ESLint, Prettier, TypeScript
 
 ### Directory Structure
 
 - `/contexts/` - Project requirements and specifications (ALWAYS reference before implementation)
-- `/src/app/` - Next.js pages (dashboard, projects, calendar, settings)
-- `/src/components/` - React components
-- `/src/lib/` - Utility libraries
-- `/src/types/` - TypeScript type definitions
-- `/rules/` - Development guidelines
 - `/plans/` - Project planning documents
+- `/rules/` - Development guidelines
+- `/src/app/` - Next.js App Router pages (dashboard, projects, calendar, settings, ui-test)
+- `/src/components/ui/` - shadcn/ui components (button, card, input, label, separator)
+- `/src/components/` - Custom React components
+- `/src/lib/` - Utility libraries (utils.ts with cn helper)
+- `/src/types/` - TypeScript type definitions
+- `/src/utils/` - Additional utilities
+- `/public/` - Static assets
 
 ## Development Guidelines
 
@@ -119,3 +127,10 @@ life_goals (人生目標)
 - NEVER create files unless they're absolutely necessary for achieving your goal.
 - ALWAYS prefer editing an existing file to creating a new one.
 - NEVER proactively create documentation files (\*.md) or README files. Only create documentation files if explicitly requested by the User.
+
+# important-instruction-reminders
+
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (\*.md) or README files. Only create documentation files if explicitly requested by the User.

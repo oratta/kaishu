@@ -10,11 +10,15 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 export default function UITestPage() {
   return (
     <div className="container mx-auto p-8 space-y-8">
-      <h1 className="text-3xl font-bold">UI Components Test</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">UI Components Test</h1>
+        <ThemeToggle />
+      </div>
 
       <Separator />
 
@@ -66,8 +70,38 @@ export default function UITestPage() {
         <h2 className="text-2xl font-semibold">Dark Mode Test</h2>
         <p className="text-muted-foreground">
           このページではshadcn/uiコンポーネントが正しく動作することを確認できます。
-          ブラウザのダークモード設定を切り替えて、スタイルが適切に変更されることを確認してください。
+          右上のテーマ切り替えボタンで、ライト・ダーク・システム自動の3つのモードを切り替えて、
+          スタイルが適切に変更されることを確認してください。
         </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>ライトモード</CardTitle>
+              <CardDescription>明るい背景色のテーマ</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline">サンプルボタン</Button>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>ダークモード</CardTitle>
+              <CardDescription>暗い背景色のテーマ</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline">サンプルボタン</Button>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>システム自動</CardTitle>
+              <CardDescription>OSの設定に従って自動切り替え</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline">サンプルボタン</Button>
+            </CardContent>
+          </Card>
+        </div>
       </section>
     </div>
   )
