@@ -423,19 +423,19 @@ interface ProjectListView {
 │  期間: 2025/01/01 - 2025/06/30 (6ヶ月)                    │
 │                                                             │
 │  🤖 LLMサマリー                                            │
-│  「現在フェーズ1の基礎固めを実行中。語彙力強化が順調で、    │
-│   次のフェーズ2でリスニング強化に移行予定」               │
+│  「現在マイルストーン1の基礎固めを実行中。語彙力強化が順調で、    │
+│   次のマイルストーン2でリスニング強化に移行予定」               │
 │                                                             │
 │  🔗 関連プロジェクト                                       │
 │  [Web開発学習] ← 英語ドキュメント読解で相互作用            │
 │  [海外旅行計画] ← 実践的な英会話スキル活用                 │
 │                                                             │
-│  📋 フェーズ一覧                                           │
-│  ▼ Phase 1: 基礎固め (1-2月) 🟢進行中                     │
-│  ▷ Phase 2: リスニング強化 (3-4月)                        │
-│  ▷ Phase 3: スピーキング練習 (5-6月)                      │
+│  📋 マイルストーン一覧                                           │
+│  ▼ Milestone 1: 基礎固め (1-2月) 🟢進行中                     │
+│  ▷ Milestone 2: リスニング強化 (3-4月)                        │
+│  ▷ Milestone 3: スピーキング練習 (5-6月)                      │
 │                                                             │
-│  ──────── Phase 1 詳細 ────────                           │
+│  ──────── Milestone 1 詳細 ────────                           │
 │  ┌─────────────────┬───────────────────────────────────────┤
 │  │  📅 カレンダー   │  ✅ タスクリスト                     │
 │  │  ┌─────────────┐ │  ┌─────────────────────────────────────┐ │
@@ -457,10 +457,10 @@ interface ProjectListView {
 - **プロジェクト概要表示**: 目標・期間・現在状況
 - **LLM生成サマリー**: 進捗状況の自動要約
 - **関連プロジェクトグラフ**: 依存関係の可視化
-- **フェーズアコーディオン**: 展開可能なフェーズ一覧
-- **現在フェーズ詳細**: カレンダー＋タスクリスト連携表示
+- **マイルストーンアコーディオン**: 展開可能なマイルストーン一覧
+- **現在マイルストーン詳細**: カレンダー＋タスクリスト連携表示
 - **必要な習慣表示**: プロジェクト固有の習慣管理
-- **進捗インジケーター**: フェーズごとの達成状況
+- **進捗インジケーター**: マイルストーンごとの達成状況
 - **メモ・ノート機能**: プロジェクト固有の記録
 
 ```typescript
@@ -702,35 +702,115 @@ infrastructure:
 
 ### 4.2 データモデル
 
-#### 4.2.1 主要テーブル
+#### 4.2.1 life_goals: ユーザ目標
+
+- どんな経験をしたいか、どんな状態になりたいかのどちらかの形で定義するユーザの人生目標
+- life_goalsを経験するためには達成しなくてはいけないN個の条件(goal_conditions)がある(N>=1)
+- goal_conditionsを達成するためにN個のプロジェクト(projects)が存在する(N>=0)
+  - プロジェクトが作成されていなgoal_conditionsもある
+- stautusは以下のように定義する
+  - 0: 未計画: 計画前で書き留められただけの目標
+  - 1: 計画中: life_goalsに紐づくプロジェクトが存在しない
+  - 2: 実行中: life_goalsに紐づく何かしらのプロジェクトが実行中
+  - 3: 停止中: life_goalsに紐づく全てのプロジェクトが停止中
+  - 10: 達成済み: ユーザが達成済みフラグを立てた時に達成になる
+  - 11: 放棄: ユーザが放棄フラグを立てた時に放棄になる
 
 ```sql
--- ユーザー目標
+-- ユーザー目標 (どんな経験をしたいか、どんな状態になりたいか)
 CREATE TABLE life_goals (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL,
-    type VARCHAR(50) NOT NULL,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL, -- ユーザ目標の名前の例: 英語読解を向上させて日本語と変わらないスピードで英語キャッチアップができる経験をする
     description TEXT,
-    target_outcome TEXT,
-    suggested_hours_per_week DECIMAL(5,2),
-    priority INTEGER NOT NULL,
+    status INTEGER NOT NULL, 
+    priority INTEGER NOT NULL, -- 優先度(1: 最優先, 2: 優先, 3: 普通, 4: 低い, 5: 最下位)
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL
 );
+```
 
--- プロジェクト
+#### 4.2.2 goal_conditions: ユーザ目標の達成条件
+
+- goal_conditionsはlife_goalsを達成するために達成しなくてはいけない条件
+- goal_conditionsはN個のプロジェクト(projects)が達成することで達成できる(N>=0)
+  - プロジェクトが作成されていないgoal_conditionsもある
+- stautusは以下のように定義する
+  - 1: 計画中: goal_conditionsに紐づくプロジェクトが存在しない
+  - 2: 実行中: goal_conditionsに紐づく何かしらのプロジェクトが実行中
+  - 3: 停止中: goal_conditionsに紐づく全てのプロジェクトが停止中
+  - 10: 達成済み: ユーザが達成済みフラグを立てた時に達成になる
+  - 11: 放棄: ユーザが放棄フラグを立てた時に放棄になる
+  - 12: ブロック: 他の条件を達成するまで開始できない
+```sql
+-- 達成条件
+CREATE TABLE goal_conditions (
+    id UUID PRIMARY KEY,
+    user_id UUID NOT NULL,
+    life_goal_id UUID REFERENCES life_goals(id),
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    status INTEGER NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
+);
+```
+
+#### 4.2.3 projects: プロジェクト
+
+- goal_conditionsを達成するためのプロジェクト
+- プロジェクトは期限と目標を持つN個のマイルストーン(milestones)から構成される(N>=0)
+- プロジェクト毎に時間配分がある
+  - 時間配分は週N時間フォーマットと、空き時間のM%というフォーマットがある
+- プロジェクトはtasksを持つ
+- プロジェクトはhabitsを持つ
+
+```sql
+-- プロジェクト (ユーザ目標を達成するために、必要なプロジェクト。複数のプロジェクトが必要な場合がある)
 CREATE TABLE projects (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL,
-    goal_id UUID REFERENCES life_goals(id),
+    goal_condition_id UUID REFERENCES life_goals(id),
     name VARCHAR(255) NOT NULL,
     type VARCHAR(50) NOT NULL,
     weekly_target_hours DECIMAL(5,2),
+    weekly_free_time_percentage DECIMAL(5,2),
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL
 );
+```
 
+#### 4.2.4 milestones: マイルストーン
+
+- プロジェクトのマイルストーンで期限と目標を持つ
+- マイルストーンは期間と目標を持つ
+- マイルストーンにはタスクを割り当てることができる
+- マイルストーンには習慣を割り当てることができる
+
+
+```sql
+-- マイルストーン(プロジェクト自体では期限は定めずに、フェーズで期限を設定する)
+CREATE TABLE milestones (
+    id UUID PRIMARY KEY,
+    project_id UUID REFERENCES projects(id),
+    phase_number INTEGER NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
+);
+```
+
+#### 4.2.5 time_blocks: 時間ブロック
+
+- カレンダーの時間ブロック
+- 特定の時間を特定のプロジェクトに割り当てる
+- 作業開始ボタンを押すことで実際の稼働時間を記録することができる
+
+
+```sql
 -- 時間ブロック（カレンダー）
 CREATE TABLE time_blocks (
     id UUID PRIMARY KEY,
@@ -739,18 +819,24 @@ CREATE TABLE time_blocks (
     title VARCHAR(255) NOT NULL,
     start_time TIMESTAMP NOT NULL,
     end_time TIMESTAMP NOT NULL,
+    actual_start_time TIMESTAMP,
+    actual_end_time TIMESTAMP,
     planned_tasks JSONB,
     actual_tasks JSONB,
     status VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     INDEX idx_user_time (user_id, start_time)
 );
+```
 
+#### 4.2.6 tasks: タスク
+
+```sql
 -- タスク
 CREATE TABLE tasks (
     id UUID PRIMARY KEY,
     project_id UUID REFERENCES projects(id),
-    phase_id UUID,
+    milestone_id UUID REFERENCES milestones(id),
     title VARCHAR(255) NOT NULL,
     description TEXT,
     estimated_duration INTEGER,
@@ -762,7 +848,11 @@ CREATE TABLE tasks (
     completed_at TIMESTAMP,
     created_at TIMESTAMP NOT NULL
 );
+```
 
+#### 4.2.7 habits: 習慣1
+
+```sql
 -- 習慣
 CREATE TABLE habits (
     id UUID PRIMARY KEY,
@@ -772,7 +862,11 @@ CREATE TABLE habits (
     target JSONB NOT NULL,
     created_at TIMESTAMP NOT NULL
 );
+```
 
+#### 4.2.8 habit_records: 習慣記録
+
+```sql
 -- 習慣記録
 CREATE TABLE habit_records (
     id UUID PRIMARY KEY,
@@ -784,7 +878,10 @@ CREATE TABLE habit_records (
     created_at TIMESTAMP NOT NULL,
     UNIQUE(habit_id, date)
 );
+```
 
+#### 4.2.9 llm_conversations: LLM対話履歴
+```sql
 -- LLM対話履歴
 CREATE TABLE llm_conversations (
     id UUID PRIMARY KEY,
@@ -951,7 +1048,7 @@ Request: {
 
 - **目標1:** ユーザーの生産性と目標達成率を向上させる。
     - **指標1.1:** タスク完了率: 当日計画したタスクが完了した割合（目標: >80%）。
-    - **指標1.2:** 目標進捗: プロジェクトごとのフェーズ完了目標期間に対する達成率（目標: 少なくとも1つの主要目標で>60%の進捗）。
+    - **指標1.2:** 目標進捗: プロジェクトごとのマイルストーン完了目標期間に対する達成率（目標: 少なくとも1つの主要目標で>60%の進捗）。
     - **指標1.3 (定性的):** ユーザーが報告するコントロール感の上昇量（アンケートベース、目標: >70%が改善を報告）。
 
 その他目標はMVPリリース版にて考える
