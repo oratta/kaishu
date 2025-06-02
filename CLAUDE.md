@@ -18,7 +18,33 @@ npm run lint:fix     # Run ESLint with auto-fix
 npm run type-check   # Run TypeScript type checking
 npm run format       # Format code with Prettier
 npm run format:check # Check code formatting with Prettier
+
+# Development Workflow
+npm run format       # Auto-fix code formatting before committing
+npm run lint         # Check for lint errors (must pass before PR)
+npm run type-check   # Verify TypeScript types (must pass before PR)
+npm run build        # Test production build (must pass before PR)
 ```
+
+## Key Development Patterns
+
+**shadcn/ui Component Usage:**
+
+- Import from `@/components/ui/[component-name]`
+- Use `cn()` helper from `@/lib/utils` for conditional classes
+- Follow existing variant patterns for styling consistency
+
+**Theme Implementation:**
+
+- All new components must support dark mode via CSS variables
+- Use `next-themes` useTheme hook for theme state
+- Test components in all three modes (light/dark/system)
+
+**Component Architecture:**
+
+- Small, focused components (< 50 lines recommended)
+- Use TypeScript for all components with proper typing
+- Follow existing import patterns and file organization
 
 ## Architecture Overview
 
@@ -35,9 +61,11 @@ life_goals (人生目標)
 
 ### Technology Stack
 
-- **Framework**: Next.js 14 with App Router
+- **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript
-- **Styling**: TailwindCSS + shadcn/ui (configured)
+- **Styling**: TailwindCSS + shadcn/ui (fully configured with dark mode)
+- **Theme Management**: next-themes (light/dark/system modes)
+- **UI Components**: Radix UI primitives + shadcn/ui
 - **Icons**: Lucide React
 - **State Management**: Planned - Zustand + TanStack Query
 - **LLM Integration**: OpenAI GPT-4o (primary), Claude 3.5 Sonnet (fallback)
@@ -49,12 +77,36 @@ life_goals (人生目標)
 - `/plans/` - Project planning documents
 - `/rules/` - Development guidelines
 - `/src/app/` - Next.js App Router pages (dashboard, projects, calendar, settings, ui-test)
-- `/src/components/ui/` - shadcn/ui components (button, card, input, label, separator)
-- `/src/components/` - Custom React components
+- `/src/components/ui/` - shadcn/ui components (button, card, dropdown-menu, input, label, separator)
+- `/src/components/layout/` - Layout components (Header, MainLayout, MobileNav, Sidebar)
+- `/src/components/` - Custom React components (theme-toggle.tsx)
 - `/src/lib/` - Utility libraries (utils.ts with cn helper)
 - `/src/types/` - TypeScript type definitions
 - `/src/utils/` - Additional utilities
 - `/public/` - Static assets
+
+## Current Implementation Status
+
+**Phase 1.2.2 - Dark Mode (Completed)**
+
+- ✅ next-themes integration with light/dark/system modes
+- ✅ ThemeToggle component with dropdown interface
+- ✅ All shadcn/ui components support dark mode
+- ✅ Theme persistence across page reloads
+- ✅ Tailwind CSS dark mode configuration
+
+**Available UI Components:**
+
+- shadcn/ui: button, card, dropdown-menu, input, label, separator
+- Custom: theme-toggle (dropdown with light/dark/system options)
+- Layout: Header, MainLayout, MobileNav, Sidebar (structure exists)
+
+**Key Technical Decisions:**
+
+- Using Radix UI primitives for accessibility
+- CSS variables for consistent theming
+- Class-based dark mode strategy
+- Component composition patterns
 
 ## Development Guidelines
 

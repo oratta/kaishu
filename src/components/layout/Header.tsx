@@ -18,12 +18,7 @@ export function Header({ onMobileMenuClick, className }: HeaderProps) {
         className
       )}
     >
-      <Button
-        variant="ghost"
-        size="icon"
-        className="md:hidden"
-        onClick={onMobileMenuClick}
-      >
+      <Button variant="ghost" size="icon" className="md:hidden" onClick={onMobileMenuClick}>
         <Menu className="h-5 w-5" />
         <span className="sr-only">Toggle menu</span>
       </Button>

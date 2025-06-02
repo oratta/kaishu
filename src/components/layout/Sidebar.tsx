@@ -60,12 +60,7 @@ export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname()
 
   return (
-    <div
-      className={cn(
-        'w-64 flex-col border-r bg-background',
-        className
-      )}
-    >
+    <div className={cn('w-64 flex-col border-r bg-background', className)}>
       <nav className="flex-1 space-y-1 p-4">
         {navigationItems.map((item) => {
           const isActive = pathname === item.href
@@ -89,12 +84,8 @@ export function Sidebar({ className }: SidebarProps) {
 
       <div className="border-t p-4">
         <div className="rounded-lg bg-secondary/50 p-3">
-          <p className="text-xs text-muted-foreground">
-            Version 0.1.0
-          </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            タイムブロック確認プロトタイプ
-          </p>
+          <p className="text-xs text-muted-foreground">Version 0.1.0</p>
+          <p className="text-xs text-muted-foreground mt-1">タイムブロック確認プロトタイプ</p>
         </div>
       </div>
     </div>

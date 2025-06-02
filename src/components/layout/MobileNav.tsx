@@ -96,12 +96,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             </div>
             <h1 className="text-lg font-semibold">KAISHU</h1>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="ml-auto"
-            onClick={onClose}
-          >
+          <Button variant="ghost" size="icon" className="ml-auto" onClick={onClose}>
             <X className="h-5 w-5" />
             <span className="sr-only">Close menu</span>
           </Button>
@@ -131,12 +126,8 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
         <div className="border-t p-4">
           <div className="rounded-lg bg-secondary/50 p-3">
-            <p className="text-xs text-muted-foreground">
-              Version 0.1.0
-            </p>
-            <p className="text-xs text-muted-foreground mt-1">
-              タイムブロック確認プロトタイプ
-            </p>
+            <p className="text-xs text-muted-foreground">Version 0.1.0</p>
+            <p className="text-xs text-muted-foreground mt-1">タイムブロック確認プロトタイプ</p>
           </div>
         </div>
       </div>
