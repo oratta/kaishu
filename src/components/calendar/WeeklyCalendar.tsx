@@ -15,7 +15,7 @@ export function WeeklyCalendar({ days, className }: WeeklyCalendarProps) {
       {/* 週表示ヘッダー */}
       <div className="flex border-b">
         {/* 時間軸のスペース */}
-        <div className="w-16 border-r"></div>
+        <div className="w-20 border-r"></div>
 
         {/* 各日のヘッダー */}
         {days.map((day, index) => (
@@ -35,13 +35,13 @@ export function WeeklyCalendar({ days, className }: WeeklyCalendarProps) {
       </div>
 
       {/* 週表示カレンダーグリッド */}
-      <div className="flex-1 flex">
+      <div className="flex-1 flex overflow-y-auto">
         {/* 時間軸 */}
-        <div className="w-16 border-r">
+        <div className="w-20 border-r">
           {hours.map((hour) => (
             <div
               key={hour}
-              className="h-16 border-b border-border/30 flex items-start justify-center pt-1"
+              className="h-20 border-b border-border/30 flex items-start justify-center pt-1"
             >
               <span className="text-xs text-muted-foreground">
                 {hour.toString().padStart(2, '0')}:00
@@ -52,55 +52,45 @@ export function WeeklyCalendar({ days, className }: WeeklyCalendarProps) {
 
         {/* 各日のカラム */}
         {days.map((day) => (
-          <div key={day.date} className="flex-1 border-r border-border/30">
-            {hours.map((hour) => {
-              const timeBlocks = day.timeBlocks.filter((block) => {
-                const [blockStartHour] = block.startTime.split(':').map(Number)
-                const [blockEndHour] = block.endTime.split(':').map(Number)
-                return hour >= blockStartHour && hour < blockEndHour
-              })
-
-              const getTimeBlockPosition = (block: { startTime: string }) => {
-                const [blockStartHour, blockStartMinute] = block.startTime.split(':').map(Number)
-                const minutesFromHourStart = (blockStartHour - hour) * 60 + blockStartMinute
-                return Math.max(0, minutesFromHourStart)
-              }
+          <div key={day.date} className="flex-1 border-r border-border/30 relative">
+            {hours.map((hour) => (
+              <div key={hour} className="h-20 border-b border-border/30" />
+            ))}
+            
+            {/* タイムブロックを絶対位置で配置 */}
+            {day.timeBlocks.map((block) => {
+              const [startHour, startMinute] = block.startTime.split(':').map(Number)
+              const [endHour, endMinute] = block.endTime.split(':').map(Number)
+              
+              // 6:00を基準とした位置計算（1時間 = 80px）
+              const startOffset = (startHour - 6) * 80 + (startMinute / 60) * 80
+              const endOffset = (endHour - 6) * 80 + (endMinute / 60) * 80
+              const height = endOffset - startOffset
 
               return (
-                <div key={hour} className="relative h-16 border-b border-border/30">
-                  {timeBlocks.map((block) => {
-                    const position = getTimeBlockPosition(block)
-                    const isFirstHourOfBlock = block.startTime.startsWith(
-                      hour.toString().padStart(2, '0')
-                    )
-
-                    return isFirstHourOfBlock ? (
-                      <div
-                        key={block.id}
-                        className="absolute left-1 right-1"
-                        style={{
-                          top: `${(position / 60) * 64}px`, // 64px = h-16
-                        }}
-                      >
-                        <div
-                          className={cn(
-                            'rounded p-1 text-white text-xs font-medium shadow-sm',
-                            'cursor-pointer transition-all hover:shadow-md',
-                            'truncate',
-                            block.color
-                          )}
-                          style={{
-                            height: `${calculateBlockHeight(block)}px`,
-                          }}
-                        >
-                          <div className="truncate">{block.title}</div>
-                          <div className="text-xs opacity-90 truncate">
-                            {block.startTime}-{block.endTime}
-                          </div>
-                        </div>
+                <div
+                  key={block.id}
+                  className="absolute left-2 right-2"
+                  style={{
+                    top: `${startOffset}px`,
+                    height: `${height}px`,
+                  }}
+                >
+                  <div
+                    className={cn(
+                      'h-full rounded p-2 text-white text-xs font-medium shadow-sm',
+                      'cursor-pointer transition-all hover:shadow-md',
+                      'flex flex-col items-center justify-center text-center',
+                      block.color
+                    )}
+                  >
+                    <div className="font-semibold">{block.title}</div>
+                    {height >= 40 && (
+                      <div className="text-xs opacity-90 mt-1">
+                        {block.startTime}-{block.endTime}
                       </div>
-                    ) : null
-                  })}
+                    )}
+                  </div>
                 </div>
               )
             })}
@@ -111,13 +101,3 @@ export function WeeklyCalendar({ days, className }: WeeklyCalendarProps) {
   )
 }
 
-function calculateBlockHeight(block: { startTime: string; endTime: string }): number {
-  const [startHour, startMinute] = block.startTime.split(':').map(Number)
-  const [endHour, endMinute] = block.endTime.split(':').map(Number)
-
-  const startMinutes = startHour * 60 + startMinute
-  const endMinutes = endHour * 60 + endMinute
-  const durationMinutes = endMinutes - startMinutes
-
-  return Math.max(32, (durationMinutes / 60) * 64) // 最小32px、1時間=64px
-}
