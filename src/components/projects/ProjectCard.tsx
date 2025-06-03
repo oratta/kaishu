@@ -51,7 +51,9 @@ export function ProjectCard({ className, project, variant = 'grid' }: ProjectCar
 
   if (variant === 'list') {
     return (
-      <Card className={cn('transition-all hover:shadow-md', statusColors[project.status], className)}>
+      <Card
+        className={cn('transition-all hover:shadow-md', statusColors[project.status], className)}
+      >
         <CardContent className="flex items-center justify-between p-4">
           <div className="flex items-center gap-4">
             <span className="text-2xl">{typeIcons[project.type]}</span>
@@ -80,7 +82,13 @@ export function ProjectCard({ className, project, variant = 'grid' }: ProjectCar
   }
 
   return (
-    <Card className={cn('transition-all hover:shadow-md border-2', statusColors[project.status], className)}>
+    <Card
+      className={cn(
+        'transition-all hover:shadow-md border-2',
+        statusColors[project.status],
+        className
+      )}
+    >
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span className="flex items-center gap-2">
@@ -101,13 +109,21 @@ export function ProjectCard({ className, project, variant = 'grid' }: ProjectCar
             <span>実績: {project.weeklyActualHours}h</span>
           </div>
         </div>
-        
+
         <ProjectProgress progress={project.progressRate} showLabel />
-        
+
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center gap-2">
-            <TrendingUp className={cn('h-4 w-4', isOnTrack ? 'text-green-500' : 'text-yellow-500')} />
-            <span className={isOnTrack ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'}>
+            <TrendingUp
+              className={cn('h-4 w-4', isOnTrack ? 'text-green-500' : 'text-yellow-500')}
+            />
+            <span
+              className={
+                isOnTrack
+                  ? 'text-green-600 dark:text-green-400'
+                  : 'text-yellow-600 dark:text-yellow-400'
+              }
+            >
               {isOnTrack ? '順調' : '要調整'}
             </span>
           </div>

@@ -23,9 +23,9 @@ export function ProjectList({ className, projects }: ProjectListProps) {
   const [viewMode, setViewMode] = React.useState<'grid' | 'list'>('grid')
   const [searchQuery, setSearchQuery] = React.useState('')
   const [filter, setFilter] = React.useState<ProjectFilter>({})
-  const [sort, setSort] = React.useState<ProjectSort>({ 
-    field: 'lastUpdated', 
-    direction: 'desc' 
+  const [sort, setSort] = React.useState<ProjectSort>({
+    field: 'lastUpdated',
+    direction: 'desc',
   })
 
   const filteredAndSortedProjects = React.useMemo(() => {
@@ -33,23 +33,19 @@ export function ProjectList({ className, projects }: ProjectListProps) {
 
     // Apply search filter
     if (searchQuery) {
-      filtered = filtered.filter(project =>
+      filtered = filtered.filter((project) =>
         project.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     }
 
     // Apply status filter
     if (filter.status && filter.status.length > 0) {
-      filtered = filtered.filter(project =>
-        filter.status!.includes(project.status)
-      )
+      filtered = filtered.filter((project) => filter.status!.includes(project.status))
     }
 
     // Apply type filter
     if (filter.type && filter.type.length > 0) {
-      filtered = filtered.filter(project =>
-        filter.type!.includes(project.type)
-      )
+      filtered = filtered.filter((project) => filter.type!.includes(project.type))
     }
 
     // Apply sorting
@@ -76,14 +72,12 @@ export function ProjectList({ className, projects }: ProjectListProps) {
       }
 
       if (typeof aValue === 'string') {
-        return sort.direction === 'asc' 
-          ? aValue.localeCompare(bValue) 
+        return sort.direction === 'asc'
+          ? aValue.localeCompare(bValue)
           : bValue.localeCompare(aValue)
       }
 
-      return sort.direction === 'asc' 
-        ? aValue - bValue 
-        : bValue - aValue
+      return sort.direction === 'asc' ? aValue - bValue : bValue - aValue
     })
 
     return filtered

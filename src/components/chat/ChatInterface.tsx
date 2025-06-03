@@ -17,9 +17,10 @@ export function ChatInterface({ isOpen }: ChatInterfaceProps) {
     {
       id: '1',
       role: 'assistant',
-      content: 'こんにちは！KAISHU AIアシスタントです。目標設定、プロジェクト管理、時間管理などについてお手伝いします。何かお聞きになりたいことはありますか？',
-      timestamp: new Date()
-    }
+      content:
+        'こんにちは！KAISHU AIアシスタントです。目標設定、プロジェクト管理、時間管理などについてお手伝いします。何かお聞きになりたいことはありますか？',
+      timestamp: new Date(),
+    },
   ])
   const [isLoading, setIsLoading] = useState(false)
 
@@ -29,10 +30,10 @@ export function ChatInterface({ isOpen }: ChatInterfaceProps) {
       id: Date.now().toString(),
       role: 'user',
       content,
-      timestamp: new Date()
+      timestamp: new Date(),
     }
-    
-    setMessages(prev => [...prev, userMessage])
+
+    setMessages((prev) => [...prev, userMessage])
     setIsLoading(true)
 
     // Simulate typing delay
@@ -43,10 +44,10 @@ export function ChatInterface({ isOpen }: ChatInterfaceProps) {
       id: (Date.now() + 1).toString(),
       role: 'assistant',
       content: getMockResponse(content),
-      timestamp: new Date()
+      timestamp: new Date(),
     }
 
-    setMessages(prev => [...prev, aiResponse])
+    setMessages((prev) => [...prev, aiResponse])
     setIsLoading(false)
   }, [])
 
@@ -68,7 +69,7 @@ export function ChatInterface({ isOpen }: ChatInterfaceProps) {
       </div>
 
       <MessageList messages={messages} isLoading={isLoading} />
-      
+
       <MessageInput onSendMessage={handleSendMessage} isLoading={isLoading} />
     </Card>
   )

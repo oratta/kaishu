@@ -72,7 +72,7 @@ export function ProjectFilters({
 
   const handleStatusToggle = (status: string) => {
     const newStatuses = selectedStatuses.includes(status)
-      ? selectedStatuses.filter(s => s !== status)
+      ? selectedStatuses.filter((s) => s !== status)
       : [...selectedStatuses, status]
     setSelectedStatuses(newStatuses)
     onFilterChange({ status: newStatuses as any[], type: selectedTypes as any[] })
@@ -80,7 +80,7 @@ export function ProjectFilters({
 
   const handleTypeToggle = (type: string) => {
     const newTypes = selectedTypes.includes(type)
-      ? selectedTypes.filter(t => t !== type)
+      ? selectedTypes.filter((t) => t !== type)
       : [...selectedTypes, type]
     setSelectedTypes(newTypes)
     onFilterChange({ status: selectedStatuses as any[], type: newTypes as any[] })
@@ -130,9 +130,7 @@ export function ProjectFilters({
             >
               <span className="mr-2">{option.emoji}</span>
               {option.label}
-              {selectedStatuses.includes(option.value) && (
-                <span className="ml-auto">✓</span>
-              )}
+              {selectedStatuses.includes(option.value) && <span className="ml-auto">✓</span>}
             </DropdownMenuItem>
           ))}
           <DropdownMenuSeparator />
@@ -147,9 +145,7 @@ export function ProjectFilters({
             >
               <span className="mr-2">{option.emoji}</span>
               {option.label}
-              {selectedTypes.includes(option.value) && (
-                <span className="ml-auto">✓</span>
-              )}
+              {selectedTypes.includes(option.value) && <span className="ml-auto">✓</span>}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
@@ -170,9 +166,7 @@ export function ProjectFilters({
             >
               {option.label}
               {sortField === option.value && (
-                <span className="ml-auto">
-                  {sortDirection === 'asc' ? '↑' : '↓'}
-                </span>
+                <span className="ml-auto">{sortDirection === 'asc' ? '↑' : '↓'}</span>
               )}
             </DropdownMenuItem>
           ))}

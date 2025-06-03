@@ -21,14 +21,8 @@ export function FloatingChatButton({ isOpen, onClick }: FloatingChatButtonProps)
       size="icon"
       data-slot="floating-chat-button"
     >
-      {isOpen ? (
-        <X className="h-6 w-6" />
-      ) : (
-        <MessageCircle className="h-6 w-6" />
-      )}
-      <span className="sr-only">
-        {isOpen ? 'チャットを閉じる' : 'チャットを開く'}
-      </span>
+      {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+      <span className="sr-only">{isOpen ? 'チャットを閉じる' : 'チャットを開く'}</span>
     </Button>
   )
 }

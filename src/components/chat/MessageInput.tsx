@@ -29,11 +29,7 @@ export function MessageInput({ onSendMessage, isLoading }: MessageInputProps) {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="border-t p-4"
-      data-slot="message-input"
-    >
+    <form onSubmit={handleSubmit} className="border-t p-4" data-slot="message-input">
       <div className="flex gap-2">
         <Input
           value={message}
@@ -43,11 +39,7 @@ export function MessageInput({ onSendMessage, isLoading }: MessageInputProps) {
           disabled={isLoading}
           className="flex-1"
         />
-        <Button
-          type="submit"
-          size="icon"
-          disabled={!message.trim() || isLoading}
-        >
+        <Button type="submit" size="icon" disabled={!message.trim() || isLoading}>
           <Send className="h-4 w-4" />
           <span className="sr-only">送信</span>
         </Button>

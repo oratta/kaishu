@@ -73,9 +73,7 @@ export default function Projects() {
       <div className="mx-auto max-w-7xl space-y-8">
         <div>
           <h1 className="text-3xl font-bold mb-2">📊 プロジェクト管理</h1>
-          <p className="text-muted-foreground">
-            人生目標達成のためのプロジェクトを管理します
-          </p>
+          <p className="text-muted-foreground">人生目標達成のためのプロジェクトを管理します</p>
         </div>
 
         <ProjectList projects={mockProjects} />

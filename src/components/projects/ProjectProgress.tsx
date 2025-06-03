@@ -17,15 +17,15 @@ const sizeClasses = {
   lg: 'h-4',
 }
 
-export function ProjectProgress({ 
-  className, 
-  progress, 
-  size = 'md', 
+export function ProjectProgress({
+  className,
+  progress,
+  size = 'md',
   showLabel = false,
-  barColor
+  barColor,
 }: ProjectProgressProps) {
   const clampedProgress = Math.min(Math.max(progress, 0), 100)
-  
+
   const getProgressColor = () => {
     if (barColor) return barColor
     if (clampedProgress >= 100) return 'bg-blue-500 dark:bg-blue-400'
@@ -42,7 +42,7 @@ export function ProjectProgress({
           <span className="font-medium">{clampedProgress}%</span>
         </div>
       )}
-      <div 
+      <div
         className={cn(
           'w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden',
           sizeClasses[size]
