@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import { Menu, MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -25,10 +26,14 @@ export function Header({ onMobileMenuClick, className }: HeaderProps) {
 
       <div className="flex items-center gap-4 md:gap-6">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded bg-primary text-primary-foreground">
-            K
-          </div>
-          <h1 className="text-lg font-semibold">KAISHU</h1>
+          <Image
+            src="/kaishu_logo.png"
+            alt="KAISHU Logo"
+            width={120}
+            height={32}
+            className="h-8 w-auto"
+            priority
+          />
         </div>
       </div>
 

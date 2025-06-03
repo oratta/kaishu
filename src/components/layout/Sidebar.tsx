@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -61,6 +62,16 @@ export function Sidebar({ className }: SidebarProps) {
 
   return (
     <div className={cn('w-64 flex-col border-r bg-background', className)}>
+      <div className="flex h-14 items-center border-b px-4">
+        <Image
+          src="/kaishu_logo.png"
+          alt="KAISHU Logo"
+          width={100}
+          height={28}
+          className="h-7 w-auto"
+          priority
+        />
+      </div>
       <nav className="flex-1 space-y-1 p-4">
         {navigationItems.map((item) => {
           const isActive = pathname === item.href
