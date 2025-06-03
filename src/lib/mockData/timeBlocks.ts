@@ -342,3 +342,37 @@ export function getWeeklyTimeAllocation(): Record<string, number> {
   
   return allocation
 }
+
+// Compatibility functions for calendar page
+export function generateMockTimeBlocks(): TimeBlock[] {
+  return mockTimeBlocks
+}
+
+// FullCalendar用のイベントフォーマットに変換
+export function convertToFullCalendarEvents(timeBlocks: TimeBlock[]): any[] {
+  const projectColorMap: Record<string, string> = {
+    'english-learning': '#3b82f6', // blue-500
+    'web-development': '#22c55e', // green-500
+    'exercise-habit': '#ef4444', // red-500
+    'reading-habit': '#a855f7', // purple-500
+    'ai-tool-dev': '#6366f1' // indigo-600
+  }
+
+  return timeBlocks.map((block) => {
+    return {
+      id: block.id,
+      title: block.title,
+      start: `${block.date}T${block.startTime}:00`,
+      end: `${block.date}T${block.endTime}:00`,
+      backgroundColor: projectColorMap[block.projectId] || '#6b7280',
+      borderColor: projectColorMap[block.projectId] || '#6b7280',
+      textColor: 'white',
+      classNames: [block.projectId],
+      extendedProps: {
+        projectId: block.projectId,
+        projectName: block.projectName,
+        description: block.description,
+      },
+    }
+  })
+}

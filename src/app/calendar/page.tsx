@@ -1,7 +1,7 @@
 'use client'
 
 import { Calendar } from '@/components/calendar/FullCalendar'
-import { generateMockTimeBlocks, convertToFullCalendarEvents } from '@/lib/mock-data'
+import { generateMockTimeBlocks, convertToFullCalendarEvents } from '@/lib/mockData'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { useState, useCallback } from 'react'
 
