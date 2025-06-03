@@ -708,6 +708,42 @@ calendar:
     - google calendar sync
     - event management
     - resource scheduling
+
+external_libraries:
+  # 状態管理
+  state_management:
+    zustand: 全アプリケーション状態管理（Version 0.1.0で導入）
+    tanstack_query: APIキャッシュ管理（Version 0.2.0以降）
+  
+  # LLM統合
+  llm_integration:
+    langchain: プロンプト管理・構造化出力（Version 0.1.0で導入）
+    zod: LLMレスポンス型検証（Version 0.1.0で導入）
+  
+  # UI/UX
+  ui_components:
+    react_markdown: LLMレスポンス表示（Version 0.1.0で導入）
+    react_hot_toast: 通知システム（Version 0.2.0以降）
+    dnd_kit_sortable: タスクドラッグ&ドロップ（Version 0.2.0以降）
+  
+  # データ可視化
+  data_visualization:
+    recharts: グラフ・チャート表示（Version 0.2.0以降）
+    d3js: 複雑なビジュアライゼーション（Version 1.0.0以降）
+  
+  # Google Calendar連携
+  google_integration:
+    googleapis: Calendar API クライアント（Version 0.1.0で導入）
+    google_auth_library: OAuth認証（Version 0.1.0で導入）
+  
+  # 認証・セキュリティ
+  authentication:
+    clerk: ユーザー認証（Version 1.0.0で導入）
+  
+  # データベース
+  database:
+    prisma: ORM（Version 0.2.0以降）
+    pinecone: ベクトルDB（Version 1.0.0以降）
 ```
 
 ### 4.2 データモデル
