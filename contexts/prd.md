@@ -714,32 +714,32 @@ external_libraries:
   state_management:
     zustand: 全アプリケーション状態管理（Version 0.1.0で導入）
     tanstack_query: APIキャッシュ管理（Version 0.2.0以降）
-  
+
   # LLM統合
   llm_integration:
     langchain: プロンプト管理・構造化出力（Version 0.1.0で導入）
     zod: LLMレスポンス型検証（Version 0.1.0で導入）
-  
+
   # UI/UX
   ui_components:
     react_markdown: LLMレスポンス表示（Version 0.1.0で導入）
     react_hot_toast: 通知システム（Version 0.2.0以降）
     dnd_kit_sortable: タスクドラッグ&ドロップ（Version 0.2.0以降）
-  
+
   # データ可視化
   data_visualization:
     recharts: グラフ・チャート表示（Version 0.2.0以降）
     d3js: 複雑なビジュアライゼーション（Version 1.0.0以降）
-  
+
   # Google Calendar連携
   google_integration:
     googleapis: Calendar API クライアント（Version 0.1.0で導入）
     google_auth_library: OAuth認証（Version 0.1.0で導入）
-  
+
   # 認証・セキュリティ
   authentication:
     clerk: ユーザー認証（Version 1.0.0で導入）
-  
+
   # データベース
   database:
     prisma: ORM（Version 0.2.0以降）
@@ -832,6 +832,51 @@ goal_conditionsを達成するための具体的な実行単位。時間配分�
 - 0個以上のマイルストーン(milestones)で構成される
 - タスク(tasks)と習慣(habits)を包含する
 - 時間配分方式: 週N時間 または 空き時間のM%
+
+**時間配分方式の詳細:**
+
+1. **固定時間配分（週N時間）**: 
+   - プロジェクトに週単位で固定の時間を割り当て
+   - 例: 英語学習に週10時間、運動習慣に週5時間
+
+2. **比率配分（空き時間のM%）**:
+   - ユーザーの空き時間に対する割合でプロジェクト時間を動的に配分
+   - 例: Web開発学習に空き時間の40%、読書に空き時間の20%
+
+**空き時間の算出プロセス:**
+
+```
+Step 1: 基準活動時間の設定
+├── デフォルト活動時間: 8:00-19:00（11時間/日 × 7日 = 77時間/週）
+└── ユーザー設定で活動時間帯をカスタマイズ可能
+
+Step 2: Google Calendar既存予定の除外
+├── Google Calendarから既存の予定・会議を取得
+└── 基準活動時間から既存予定の時間を差し引き
+
+Step 3: 固定時間配分プロジェクトの除外
+├── weekly_target_hours設定のプロジェクトの合計時間を算出
+└── Step 2の結果から固定時間配分を差し引き
+→ 「基本空き時間」を算出
+
+Step 4: 負荷調整係数の適用
+├── ユーザー設定の負荷レベルを適用:
+│   ├── ストイック: 基本空き時間 × 95%
+│   ├── 普通: 基本空き時間 × 80%
+│   └── ゆっくり: 基本空き時間 × 60%
+└── 「調整済み空き時間」を算出
+
+Step 5: 比率配分プロジェクトへの時間割り当て
+├── weekly_free_time_percentage設定のプロジェクトの合計比率を算出
+├── 各プロジェクト時間 = 調整済み空き時間 × (そのプロジェクトの比率 ÷ 合計比率)
+└── 動的な週間目標時間として設定
+```
+
+**動的変化の要因:**
+- Google Calendarへの新規会議・予定の追加
+- ユーザーのコンディション変化（体調不良、モチベーション変動等）
+- 固定時間配分プロジェクトの時間変更
+- 負荷レベル設定の変更
 
 **プロジェクトタイプ:**
 
