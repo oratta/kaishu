@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -11,8 +14,97 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { TaskList } from '@/components/tasks'
+import { Task, TaskStatus, TaskTimer } from '@/types/task'
 
 export default function UITestPage() {
+  const [tasks, setTasks] = useState<Task[]>([
+    {
+      id: '1',
+      title: '文法書Ch.3を読む',
+      description: '基礎文法の復習と練習問題',
+      status: 'TODO',
+      projectId: 'english-project',
+      projectName: '英語学習',
+      estimatedMinutes: 30,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: '2',
+      title: 'リスニング練習',
+      description: 'TEDトークを聞いてシャドーイング',
+      status: 'DOING',
+      projectId: 'english-project',
+      projectName: '英語学習',
+      estimatedMinutes: 45,
+      actualMinutes: 12,
+      startedAt: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: '3',
+      title: '単語帳100語',
+      description: 'TOEIC頻出単語の暗記',
+      status: 'DONE',
+      projectId: 'english-project',
+      projectName: '英語学習',
+      estimatedMinutes: 15,
+      actualMinutes: 18,
+      completedAt: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: '4',
+      title: 'React Hooksの復習',
+      description: 'useEffect, useStateの使い方を確認',
+      status: 'TODO',
+      projectId: 'web-dev',
+      projectName: 'Web開発学習',
+      estimatedMinutes: 60,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ])
+  const [activeTaskId, setActiveTaskId] = useState<string>('')
+  const [activeTimer, setActiveTimer] = useState<TaskTimer | undefined>()
+
+  const handleTaskStart = (taskId: string) => {
+    setTasks(prev => prev.map(task => 
+      task.id === taskId 
+        ? { ...task, status: 'DOING' as TaskStatus, startedAt: new Date() }
+        : task
+    ))
+    setActiveTaskId(taskId)
+    setActiveTimer({
+      taskId,
+      startTime: new Date(),
+      elapsedSeconds: 0,
+      isRunning: true,
+    })
+  }
+
+  const handleTaskComplete = (taskId: string) => {
+    setTasks(prev => prev.map(task => 
+      task.id === taskId 
+        ? { ...task, status: 'DONE' as TaskStatus, completedAt: new Date() }
+        : task
+    ))
+    if (activeTaskId === taskId) {
+      setActiveTaskId('')
+      setActiveTimer(undefined)
+    }
+  }
+
+  const handleTaskStatusChange = (taskId: string, newStatus: TaskStatus) => {
+    setTasks(prev => prev.map(task => 
+      task.id === taskId 
+        ? { ...task, status: newStatus }
+        : task
+    ))
+  }
   return (
     <div className="container mx-auto p-8 space-y-8">
       <div className="flex justify-between items-center">
@@ -62,6 +154,27 @@ export default function UITestPage() {
             <Button>作成</Button>
           </CardFooter>
         </Card>
+      </section>
+
+      <Separator />
+
+      <section className="space-y-4">
+        <h2 className="text-2xl font-semibold">Task List Component</h2>
+        <p className="text-muted-foreground">
+          タスクリストコンポーネントのテスト。TODO/DOING/DONEのステータス管理、
+          タイマー機能、ドラッグ&ドロップなどの機能を確認できます。
+        </p>
+        <div className="max-w-4xl">
+          <TaskList
+            tasks={tasks}
+            onTaskStart={handleTaskStart}
+            onTaskComplete={handleTaskComplete}
+            onTaskStatusChange={handleTaskStatusChange}
+            onTaskEdit={(taskId) => console.log('Edit task:', taskId)}
+            activeTaskId={activeTaskId}
+            activeTimer={activeTimer}
+          />
+        </div>
       </section>
 
       <Separator />
