@@ -25,7 +25,7 @@ export const mockTasks: ExtendedTask[] = [
     startedAt: new Date('2025-05-25T09:00:00'),
     completedAt: new Date('2025-05-25T11:05:00'),
     createdAt: new Date('2025-05-20'),
-    updatedAt: new Date('2025-05-25')
+    updatedAt: new Date('2025-05-25'),
   },
   {
     id: 'task-2',
@@ -41,7 +41,7 @@ export const mockTasks: ExtendedTask[] = [
     tags: ['リスニング', '復習'],
     startedAt: new Date('2025-06-03T07:00:00'),
     createdAt: new Date('2025-05-26'),
-    updatedAt: new Date('2025-06-03')
+    updatedAt: new Date('2025-06-03'),
   },
   {
     id: 'task-3',
@@ -55,7 +55,7 @@ export const mockTasks: ExtendedTask[] = [
     priority: 'medium',
     tags: ['単語', '暗記'],
     createdAt: new Date('2025-05-27'),
-    updatedAt: new Date('2025-05-27')
+    updatedAt: new Date('2025-05-27'),
   },
   {
     id: 'task-4',
@@ -68,7 +68,7 @@ export const mockTasks: ExtendedTask[] = [
     priority: 'medium',
     tags: ['ライティング', 'ビジネス'],
     createdAt: new Date('2025-06-01'),
-    updatedAt: new Date('2025-06-01')
+    updatedAt: new Date('2025-06-01'),
   },
   {
     id: 'task-5',
@@ -83,7 +83,7 @@ export const mockTasks: ExtendedTask[] = [
     tags: ['管理', '予約'],
     completedAt: new Date('2025-06-01T20:00:00'),
     createdAt: new Date('2025-06-01'),
-    updatedAt: new Date('2025-06-01')
+    updatedAt: new Date('2025-06-01'),
   },
 
   // Web開発タスク
@@ -101,7 +101,7 @@ export const mockTasks: ExtendedTask[] = [
     tags: ['学習', 'Next.js'],
     completedAt: new Date('2025-05-28T15:00:00'),
     createdAt: new Date('2025-05-20'),
-    updatedAt: new Date('2025-05-28')
+    updatedAt: new Date('2025-05-28'),
   },
   {
     id: 'task-11',
@@ -117,7 +117,7 @@ export const mockTasks: ExtendedTask[] = [
     tags: ['実装', 'UI'],
     startedAt: new Date('2025-06-02T10:00:00'),
     createdAt: new Date('2025-05-29'),
-    updatedAt: new Date('2025-06-02')
+    updatedAt: new Date('2025-06-02'),
   },
   {
     id: 'task-12',
@@ -132,7 +132,7 @@ export const mockTasks: ExtendedTask[] = [
     tags: ['実装', 'MDX'],
     dependencies: ['task-11'],
     createdAt: new Date('2025-05-30'),
-    updatedAt: new Date('2025-05-30')
+    updatedAt: new Date('2025-05-30'),
   },
   {
     id: 'task-13',
@@ -145,7 +145,7 @@ export const mockTasks: ExtendedTask[] = [
     priority: 'medium',
     tags: ['リファクタリング', 'TypeScript'],
     createdAt: new Date('2025-06-01'),
-    updatedAt: new Date('2025-06-01')
+    updatedAt: new Date('2025-06-01'),
   },
   {
     id: 'task-14',
@@ -158,7 +158,7 @@ export const mockTasks: ExtendedTask[] = [
     priority: 'low',
     tags: ['調査', 'パフォーマンス'],
     createdAt: new Date('2025-06-02'),
-    updatedAt: new Date('2025-06-02')
+    updatedAt: new Date('2025-06-02'),
   },
 
   // 運動タスク
@@ -175,7 +175,7 @@ export const mockTasks: ExtendedTask[] = [
     tags: ['計画', '筋トレ'],
     completedAt: new Date('2025-05-25T08:00:00'),
     createdAt: new Date('2025-05-24'),
-    updatedAt: new Date('2025-05-25')
+    updatedAt: new Date('2025-05-25'),
   },
   {
     id: 'task-21',
@@ -188,7 +188,7 @@ export const mockTasks: ExtendedTask[] = [
     priority: 'high',
     tags: ['手続き', 'ジム'],
     createdAt: new Date('2025-06-01'),
-    updatedAt: new Date('2025-06-01')
+    updatedAt: new Date('2025-06-01'),
   },
   {
     id: 'task-22',
@@ -201,7 +201,7 @@ export const mockTasks: ExtendedTask[] = [
     priority: 'medium',
     tags: ['買い物', '装備'],
     createdAt: new Date('2025-06-02'),
-    updatedAt: new Date('2025-06-02')
+    updatedAt: new Date('2025-06-02'),
   },
 
   // 読書タスク
@@ -218,7 +218,7 @@ export const mockTasks: ExtendedTask[] = [
     tags: ['技術書', '読書'],
     completedAt: new Date('2025-06-01T07:00:00'),
     createdAt: new Date('2025-05-30'),
-    updatedAt: new Date('2025-06-01')
+    updatedAt: new Date('2025-06-01'),
   },
   {
     id: 'task-31',
@@ -231,7 +231,7 @@ export const mockTasks: ExtendedTask[] = [
     priority: 'low',
     tags: ['整理', 'メモ'],
     createdAt: new Date('2025-06-02'),
-    updatedAt: new Date('2025-06-02')
+    updatedAt: new Date('2025-06-02'),
   },
   {
     id: 'task-32',
@@ -244,30 +244,30 @@ export const mockTasks: ExtendedTask[] = [
     priority: 'medium',
     tags: ['計画', '選書'],
     createdAt: new Date('2025-06-02'),
-    updatedAt: new Date('2025-06-02')
-  }
+    updatedAt: new Date('2025-06-02'),
+  },
 ]
 
 export function getTasksByProject(projectId: string): ExtendedTask[] {
-  return mockTasks.filter(task => task.projectId === projectId)
+  return mockTasks.filter((task) => task.projectId === projectId)
 }
 
 export function getTasksByMilestone(milestoneId: string): ExtendedTask[] {
-  return mockTasks.filter(task => task.milestoneId === milestoneId)
+  return mockTasks.filter((task) => task.milestoneId === milestoneId)
 }
 
 export function getTasksByStatus(status: Task['status']): ExtendedTask[] {
-  return mockTasks.filter(task => task.status === status)
+  return mockTasks.filter((task) => task.status === status)
 }
 
 export function getActiveTasks(): ExtendedTask[] {
-  return mockTasks.filter(task => task.status === 'DOING')
+  return mockTasks.filter((task) => task.status === 'DOING')
 }
 
 export function getUpcomingTasks(projectId?: string): ExtendedTask[] {
-  const todos = mockTasks.filter(task => task.status === 'TODO')
+  const todos = mockTasks.filter((task) => task.status === 'TODO')
   if (projectId) {
-    return todos.filter(task => task.projectId === projectId)
+    return todos.filter((task) => task.projectId === projectId)
   }
   return todos
 }

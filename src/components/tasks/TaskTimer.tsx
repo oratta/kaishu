@@ -27,9 +27,7 @@ export function TaskTimer({ timer, estimatedMinutes, onPause }: TaskTimerProps) 
     const secs = seconds % 60
 
     if (hours > 0) {
-      return `${hours}:${minutes.toString().padStart(2, '0')}:${secs
-        .toString()
-        .padStart(2, '0')}`
+      return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
     }
     return `${minutes}:${secs.toString().padStart(2, '0')}`
   }
@@ -45,30 +43,25 @@ export function TaskTimer({ timer, estimatedMinutes, onPause }: TaskTimerProps) 
           <p className="text-sm font-medium">⏱️ 進行中</p>
           <p className="text-2xl font-mono font-semibold">{formatTime(elapsedSeconds)}</p>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onPause}
-          className="gap-2"
-        >
+        <Button variant="outline" size="sm" onClick={onPause} className="gap-2">
           <Pause className="h-4 w-4" />
           一時停止
         </Button>
       </div>
-      
+
       {estimatedMinutes && (
         <div className="space-y-2">
           <div className="flex justify-between text-xs text-muted-foreground">
-            <span>経過時間: {Math.floor(elapsedSeconds / 60)}分 / 目標{estimatedMinutes}分</span>
+            <span>
+              経過時間: {Math.floor(elapsedSeconds / 60)}分 / 目標{estimatedMinutes}分
+            </span>
             <span>進捗: {Math.round(progressPercentage)}%</span>
           </div>
           <div className="h-2 bg-secondary rounded-full overflow-hidden">
             <div
               className={cn(
                 'h-full transition-all duration-300',
-                progressPercentage < 100
-                  ? 'bg-blue-500'
-                  : 'bg-orange-500'
+                progressPercentage < 100 ? 'bg-blue-500' : 'bg-orange-500'
               )}
               style={{ width: `${Math.min(progressPercentage, 100)}%` }}
             />

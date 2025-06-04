@@ -28,7 +28,7 @@ export const timeBlockTemplates: TimeBlockTemplate[] = [
     defaultDuration: 120,
     preferredTimeOfDay: 'morning',
     recurringDays: [1, 2, 3, 4, 5],
-    description: 'リスニング・スピーキング練習を中心に'
+    description: 'リスニング・スピーキング練習を中心に',
   },
   {
     id: 'template-2',
@@ -37,7 +37,7 @@ export const timeBlockTemplates: TimeBlockTemplate[] = [
     defaultDuration: 120,
     preferredTimeOfDay: 'morning',
     recurringDays: [1, 2, 3, 4, 5],
-    description: '難しい実装や設計作業'
+    description: '難しい実装や設計作業',
   },
   {
     id: 'template-3',
@@ -46,7 +46,7 @@ export const timeBlockTemplates: TimeBlockTemplate[] = [
     defaultDuration: 120,
     preferredTimeOfDay: 'afternoon',
     recurringDays: [1, 2, 3, 4, 5],
-    description: '通常の実装作業やレビュー'
+    description: '通常の実装作業やレビュー',
   },
   {
     id: 'template-4',
@@ -55,7 +55,7 @@ export const timeBlockTemplates: TimeBlockTemplate[] = [
     defaultDuration: 60,
     preferredTimeOfDay: 'evening',
     recurringDays: [1, 2, 3, 4, 5],
-    description: '筋トレまたは有酸素運動'
+    description: '筋トレまたは有酸素運動',
   },
   {
     id: 'template-5',
@@ -64,8 +64,8 @@ export const timeBlockTemplates: TimeBlockTemplate[] = [
     defaultDuration: 60,
     preferredTimeOfDay: 'morning',
     recurringDays: [1, 2, 3, 4, 5, 6, 7],
-    description: '技術書やビジネス書の読書'
-  }
+    description: '技術書やビジネス書の読書',
+  },
 ]
 
 function getWeekDates(): string[] {
@@ -97,11 +97,11 @@ function createExtendedTimeBlock(
     'web-development': { name: 'Web開発スキル向上', color: 'bg-green-500' },
     'exercise-habit': { name: '運動習慣確立', color: 'bg-red-500' },
     'reading-habit': { name: '読書習慣', color: 'bg-purple-500' },
-    'ai-tool-dev': { name: 'AIツール開発', color: 'bg-indigo-500' }
+    'ai-tool-dev': { name: 'AIツール開発', color: 'bg-indigo-500' },
   }
 
   const project = projectMap[projectId]
-  
+
   return {
     id,
     title: project.name,
@@ -112,7 +112,7 @@ function createExtendedTimeBlock(
     date,
     color: project.color,
     status,
-    ...additionalProps
+    ...additionalProps,
   }
 }
 
@@ -137,7 +137,7 @@ export const mockTimeBlocks: ExtendedTimeBlock[] = (() => {
           completedTasks: ['task-30'],
           energyLevel: 4,
           focusQuality: 5,
-          notes: '集中して読めた。朝の読書は効率が良い'
+          notes: '集中して読めた。朝の読書は効率が良い',
         }
       ),
       createExtendedTimeBlock(
@@ -153,7 +153,7 @@ export const mockTimeBlocks: ExtendedTimeBlock[] = (() => {
           completedTasks: ['task-1'],
           energyLevel: 4,
           focusQuality: 4,
-          notes: 'TOEIC模試完了。リスニングが予想より難しかった'
+          notes: 'TOEIC模試完了。リスニングが予想より難しかった',
         }
       ),
       createExtendedTimeBlock(
@@ -169,7 +169,7 @@ export const mockTimeBlocks: ExtendedTimeBlock[] = (() => {
           completedTasks: ['task-10'],
           energyLevel: 5,
           focusQuality: 5,
-          notes: 'App Routerの理解が深まった'
+          notes: 'App Routerの理解が深まった',
         }
       ),
       createExtendedTimeBlock(
@@ -180,7 +180,7 @@ export const mockTimeBlocks: ExtendedTimeBlock[] = (() => {
         weekDates[0],
         'skipped',
         {
-          notes: '急な会議が入ったためスキップ'
+          notes: '急な会議が入ったためスキップ',
         }
       ),
       createExtendedTimeBlock(
@@ -195,7 +195,7 @@ export const mockTimeBlocks: ExtendedTimeBlock[] = (() => {
           actualEndTime: '20:10',
           energyLevel: 3,
           focusQuality: 4,
-          notes: '上半身トレーニング完了。次回は重量を増やす'
+          notes: '上半身トレーニング完了。次回は重量を増やす',
         }
       )
     )
@@ -205,7 +205,7 @@ export const mockTimeBlocks: ExtendedTimeBlock[] = (() => {
   const todayIndex = weekDates.indexOf(today)
   if (todayIndex >= 0) {
     const currentHour = new Date().getHours()
-    
+
     blocks.push(
       createExtendedTimeBlock(
         'tb-today-reading',
@@ -214,12 +214,14 @@ export const mockTimeBlocks: ExtendedTimeBlock[] = (() => {
         '07:00',
         today,
         currentHour >= 7 ? 'completed' : 'scheduled',
-        currentHour >= 7 ? {
-          actualStartTime: '06:00',
-          actualEndTime: '06:55',
-          energyLevel: 4,
-          focusQuality: 4
-        } : undefined
+        currentHour >= 7
+          ? {
+              actualStartTime: '06:00',
+              actualEndTime: '06:55',
+              energyLevel: 4,
+              focusQuality: 4,
+            }
+          : undefined
       ),
       createExtendedTimeBlock(
         'tb-today-english',
@@ -228,12 +230,14 @@ export const mockTimeBlocks: ExtendedTimeBlock[] = (() => {
         '09:00',
         today,
         currentHour < 7 ? 'scheduled' : currentHour < 9 ? 'in_progress' : 'completed',
-        currentHour >= 7 ? {
-          actualStartTime: '07:00',
-          completedTasks: currentHour >= 9 ? ['task-2'] : undefined,
-          energyLevel: 4,
-          focusQuality: 4
-        } : undefined
+        currentHour >= 7
+          ? {
+              actualStartTime: '07:00',
+              completedTasks: currentHour >= 9 ? ['task-2'] : undefined,
+              energyLevel: 4,
+              focusQuality: 4,
+            }
+          : undefined
       ),
       createExtendedTimeBlock(
         'tb-today-dev-morning',
@@ -264,12 +268,25 @@ export const mockTimeBlocks: ExtendedTimeBlock[] = (() => {
 
   // 未来のスケジュール済みタイムブロック
   weekDates.forEach((date, index) => {
-    if (date > today && index < 5) { // 平日のみ
+    if (date > today && index < 5) {
+      // 平日のみ
       blocks.push(
         createExtendedTimeBlock(`tb-${date}-reading`, 'reading-habit', '06:00', '07:00', date),
         createExtendedTimeBlock(`tb-${date}-english`, 'english-learning', '07:00', '09:00', date),
-        createExtendedTimeBlock(`tb-${date}-dev-morning`, 'web-development', '10:00', '12:00', date),
-        createExtendedTimeBlock(`tb-${date}-dev-afternoon`, 'web-development', '13:00', '15:00', date),
+        createExtendedTimeBlock(
+          `tb-${date}-dev-morning`,
+          'web-development',
+          '10:00',
+          '12:00',
+          date
+        ),
+        createExtendedTimeBlock(
+          `tb-${date}-dev-afternoon`,
+          'web-development',
+          '13:00',
+          '15:00',
+          date
+        ),
         createExtendedTimeBlock(`tb-${date}-exercise`, 'exercise-habit', '19:00', '20:00', date)
       )
     }
@@ -286,7 +303,7 @@ export const mockTimeBlocks: ExtendedTimeBlock[] = (() => {
         weekDates[5],
         'scheduled',
         {
-          description: '週末の集中開発時間'
+          description: '週末の集中開発時間',
         }
       ),
       createExtendedTimeBlock(
@@ -297,7 +314,7 @@ export const mockTimeBlocks: ExtendedTimeBlock[] = (() => {
         weekDates[5],
         'scheduled',
         {
-          description: 'AIツール開発プロジェクトの検討'
+          description: 'AIツール開発プロジェクトの検討',
         }
       )
     )
@@ -307,11 +324,11 @@ export const mockTimeBlocks: ExtendedTimeBlock[] = (() => {
 })()
 
 export function getTimeBlocksByDate(date: string): ExtendedTimeBlock[] {
-  return mockTimeBlocks.filter(block => block.date === date)
+  return mockTimeBlocks.filter((block) => block.date === date)
 }
 
 export function getTimeBlocksByProject(projectId: string): ExtendedTimeBlock[] {
-  return mockTimeBlocks.filter(block => block.projectId === projectId)
+  return mockTimeBlocks.filter((block) => block.projectId === projectId)
 }
 
 export function getCurrentTimeBlock(): ExtendedTimeBlock | null {
@@ -319,27 +336,28 @@ export function getCurrentTimeBlock(): ExtendedTimeBlock | null {
   const today = now.toISOString().split('T')[0]
   const currentTime = now.toTimeString().slice(0, 5)
 
-  return mockTimeBlocks.find(block => 
-    block.date === today &&
-    block.startTime <= currentTime &&
-    block.endTime > currentTime
-  ) || null
+  return (
+    mockTimeBlocks.find(
+      (block) =>
+        block.date === today && block.startTime <= currentTime && block.endTime > currentTime
+    ) || null
+  )
 }
 
 export function getWeeklyTimeAllocation(): Record<string, number> {
   const allocation: Record<string, number> = {}
-  
-  mockTimeBlocks.forEach(block => {
+
+  mockTimeBlocks.forEach((block) => {
     const startHour = parseInt(block.startTime.split(':')[0])
     const endHour = parseInt(block.endTime.split(':')[0])
     const duration = endHour - startHour
-    
+
     if (!allocation[block.projectId]) {
       allocation[block.projectId] = 0
     }
     allocation[block.projectId] += duration
   })
-  
+
   return allocation
 }
 
@@ -355,7 +373,7 @@ export function convertToFullCalendarEvents(timeBlocks: TimeBlock[]): any[] {
     'web-development': '#22c55e', // green-500
     'exercise-habit': '#ef4444', // red-500
     'reading-habit': '#a855f7', // purple-500
-    'ai-tool-dev': '#6366f1' // indigo-600
+    'ai-tool-dev': '#6366f1', // indigo-600
   }
 
   return timeBlocks.map((block) => {

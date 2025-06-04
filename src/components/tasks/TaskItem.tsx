@@ -49,10 +49,7 @@ export function TaskItem({
           <div className="flex items-start gap-3">
             <button
               onClick={handleStatusClick}
-              className={cn(
-                'mt-0.5 transition-colors hover:scale-110',
-                statusColors[task.status]
-              )}
+              className={cn('mt-0.5 transition-colors hover:scale-110', statusColors[task.status])}
             >
               <StatusIcon className="h-5 w-5" />
             </button>
@@ -83,9 +80,7 @@ export function TaskItem({
             </div>
           )}
           {task.projectName && (
-            <span className="text-xs bg-secondary px-2 py-1 rounded-md">
-              {task.projectName}
-            </span>
+            <span className="text-xs bg-secondary px-2 py-1 rounded-md">{task.projectName}</span>
           )}
         </div>
         {isActive && timer && (

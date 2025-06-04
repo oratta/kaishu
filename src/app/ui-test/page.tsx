@@ -72,11 +72,13 @@ export default function UITestPage() {
   const [activeTimer, setActiveTimer] = useState<TaskTimer | undefined>()
 
   const handleTaskStart = (taskId: string) => {
-    setTasks(prev => prev.map(task => 
-      task.id === taskId 
-        ? { ...task, status: 'DOING' as TaskStatus, startedAt: new Date() }
-        : task
-    ))
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === taskId
+          ? { ...task, status: 'DOING' as TaskStatus, startedAt: new Date() }
+          : task
+      )
+    )
     setActiveTaskId(taskId)
     setActiveTimer({
       taskId,
@@ -87,11 +89,13 @@ export default function UITestPage() {
   }
 
   const handleTaskComplete = (taskId: string) => {
-    setTasks(prev => prev.map(task => 
-      task.id === taskId 
-        ? { ...task, status: 'DONE' as TaskStatus, completedAt: new Date() }
-        : task
-    ))
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === taskId
+          ? { ...task, status: 'DONE' as TaskStatus, completedAt: new Date() }
+          : task
+      )
+    )
     if (activeTaskId === taskId) {
       setActiveTaskId('')
       setActiveTimer(undefined)
@@ -99,11 +103,9 @@ export default function UITestPage() {
   }
 
   const handleTaskStatusChange = (taskId: string, newStatus: TaskStatus) => {
-    setTasks(prev => prev.map(task => 
-      task.id === taskId 
-        ? { ...task, status: newStatus }
-        : task
-    ))
+    setTasks((prev) =>
+      prev.map((task) => (task.id === taskId ? { ...task, status: newStatus } : task))
+    )
   }
   return (
     <div className="container mx-auto p-8 space-y-8">

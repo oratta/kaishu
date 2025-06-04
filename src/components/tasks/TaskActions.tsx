@@ -27,12 +27,7 @@ export function TaskActions({
 
     if (isActive) {
       return (
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={onPause}
-          className="h-8 w-8"
-        >
+        <Button variant="outline" size="icon" onClick={onPause} className="h-8 w-8">
           <Pause className="h-4 w-4" />
         </Button>
       )
@@ -40,24 +35,14 @@ export function TaskActions({
 
     if (status === 'TODO') {
       return (
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={onStart}
-          className="h-8 w-8"
-        >
+        <Button variant="outline" size="icon" onClick={onStart} className="h-8 w-8">
           <Play className="h-4 w-4" />
         </Button>
       )
     }
 
     return (
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={onComplete}
-        className="h-8 w-8"
-      >
+      <Button variant="outline" size="icon" onClick={onComplete} className="h-8 w-8">
         <CheckCircle className="h-4 w-4" />
       </Button>
     )

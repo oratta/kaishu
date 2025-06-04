@@ -21,7 +21,7 @@ export function TaskList({
       DONE: [],
     }
 
-    tasks.forEach(task => {
+    tasks.forEach((task) => {
       groups[task.status].push(task)
     })
 
@@ -42,23 +42,17 @@ export function TaskList({
 
   return (
     <div className="space-y-6">
-      {(Object.keys(groupedTasks) as TaskStatus[]).map(status => (
+      {(Object.keys(groupedTasks) as TaskStatus[]).map((status) => (
         <div key={status} className="space-y-3">
           <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold text-muted-foreground">
-              {statusLabels[status]}
-            </h3>
-            <span className="text-xs text-muted-foreground">
-              ({groupedTasks[status].length})
-            </span>
+            <h3 className="text-sm font-semibold text-muted-foreground">{statusLabels[status]}</h3>
+            <span className="text-xs text-muted-foreground">({groupedTasks[status].length})</span>
           </div>
           <div className={cn('rounded-lg p-4 space-y-3', statusStyles[status])}>
             {groupedTasks[status].length === 0 ? (
-              <p className="text-sm text-muted-foreground text-center py-4">
-                タスクがありません
-              </p>
+              <p className="text-sm text-muted-foreground text-center py-4">タスクがありません</p>
             ) : (
-              groupedTasks[status].map(task => (
+              groupedTasks[status].map((task) => (
                 <TaskItem
                   key={task.id}
                   task={task}

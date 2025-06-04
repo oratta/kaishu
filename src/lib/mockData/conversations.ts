@@ -26,7 +26,7 @@ export const mockConversations: ConversationSession[] = [
         id: 'msg-1-1',
         role: 'user',
         content: '英語力を向上させたいです。ビジネスで使えるレベルまで到達したいと考えています。',
-        timestamp: new Date('2025-01-05T10:00:00')
+        timestamp: new Date('2025-01-05T10:00:00'),
       },
       {
         id: 'msg-1-2',
@@ -38,13 +38,14 @@ export const mockConversations: ConversationSession[] = [
 - どのようなビジネスシーンで使いたいか（会議、プレゼン、メール等）
 - いつまでに達成したいか
 - 週にどれくらいの時間を確保できそうか`,
-        timestamp: new Date('2025-01-05T10:01:00')
+        timestamp: new Date('2025-01-05T10:01:00'),
       },
       {
         id: 'msg-1-3',
         role: 'user',
-        content: 'TOEIC600点程度です。国際会議でディスカッションできるレベルになりたいです。1年以内にTOEIC900点を目指したい。週10時間は確保できます。',
-        timestamp: new Date('2025-01-05T10:05:00')
+        content:
+          'TOEIC600点程度です。国際会議でディスカッションできるレベルになりたいです。1年以内にTOEIC900点を目指したい。週10時間は確保できます。',
+        timestamp: new Date('2025-01-05T10:05:00'),
       },
       {
         id: 'msg-1-4',
@@ -71,20 +72,21 @@ export const mockConversations: ConversationSession[] = [
 - TOEIC最終対策（週3時間）
 
 このプランでいかがでしょうか？`,
-        timestamp: new Date('2025-01-05T10:10:00')
-      }
+        timestamp: new Date('2025-01-05T10:10:00'),
+      },
     ],
     context: {
       relatedGoals: ['goal-1'],
-      relatedProjects: ['english-learning']
+      relatedProjects: ['english-learning'],
     },
     createdAt: new Date('2025-01-05T10:00:00'),
-    summary: 'TOEIC600点から900点を目指す1年間の英語学習計画を策定。週10時間の学習時間で、基礎固め→ビジネス英語→実践応用の3フェーズで進行。',
+    summary:
+      'TOEIC600点から900点を目指す1年間の英語学習計画を策定。週10時間の学習時間で、基礎固め→ビジネス英語→実践応用の3フェーズで進行。',
     actionItems: [
       'オンライン英会話サービスの選定と登録',
       'TOEIC公式問題集の購入',
-      'ビジネス英語教材の選定'
-    ]
+      'ビジネス英語教材の選定',
+    ],
   },
   {
     id: 'conv-2',
@@ -106,13 +108,13 @@ export const mockConversations: ConversationSession[] = [
 3. ビジネスメール作成練習（優先度：中）
 
 体調や気分はいかがですか？`,
-        timestamp: new Date('2025-06-03T07:00:00')
+        timestamp: new Date('2025-06-03T07:00:00'),
       },
       {
         id: 'msg-2-2',
         role: 'user',
         content: '体調は良好です。リスニングの復習を中心にやりたいです。',
-        timestamp: new Date('2025-06-03T07:02:00')
+        timestamp: new Date('2025-06-03T07:02:00'),
       },
       {
         id: 'msg-2-3',
@@ -136,20 +138,20 @@ export const mockConversations: ConversationSession[] = [
 - 学んだ表現を使って要約練習
 
 このプランで進めていきましょう！何か調整したい点はありますか？`,
-        timestamp: new Date('2025-06-03T07:05:00')
-      }
+        timestamp: new Date('2025-06-03T07:05:00'),
+      },
     ],
     context: {
       relatedProjects: ['english-learning'],
-      relatedTasks: ['task-2', 'task-3', 'task-4']
+      relatedTasks: ['task-2', 'task-3', 'task-4'],
     },
     createdAt: new Date('2025-06-03T07:00:00'),
     summary: '英語学習タイムブロック開始。リスニング復習を中心とした2時間の学習計画を作成。',
     actionItems: [
       'リスニングパート復習（シャドーイング・ディクテーション）',
       '関連単語の整理と学習',
-      '新しいリスニング問題への挑戦'
-    ]
+      '新しいリスニング問題への挑戦',
+    ],
   },
   {
     id: 'conv-3',
@@ -168,13 +170,14 @@ export const mockConversations: ConversationSession[] = [
 
 全体的に良好な進捗ですが、英語学習の時間が目標に届いていません。
 何か課題がありましたか？`,
-        timestamp: new Date('2025-06-02T20:00:00')
+        timestamp: new Date('2025-06-02T20:00:00'),
       },
       {
         id: 'msg-3-2',
         role: 'user',
-        content: '月曜の午後に急な会議が入って、その分の遅れを取り戻せませんでした。来週は時間を確保したいです。',
-        timestamp: new Date('2025-06-02T20:05:00')
+        content:
+          '月曜の午後に急な会議が入って、その分の遅れを取り戻せませんでした。来週は時間を確保したいです。',
+        timestamp: new Date('2025-06-02T20:05:00'),
       },
       {
         id: 'msg-3-3',
@@ -197,19 +200,20 @@ export const mockConversations: ConversationSession[] = [
 
 これらの調整で、より柔軟に目標時間を達成できるようになります。
 他に改善したい点はありますか？`,
-        timestamp: new Date('2025-06-02T20:10:00')
-      }
+        timestamp: new Date('2025-06-02T20:10:00'),
+      },
     ],
     context: {
-      relatedProjects: ['english-learning', 'web-development', 'exercise-habit', 'reading-habit']
+      relatedProjects: ['english-learning', 'web-development', 'exercise-habit', 'reading-habit'],
     },
     createdAt: new Date('2025-06-02T20:00:00'),
-    summary: '週次レビュー実施。英語学習時間の不足（65%達成）を改善するため、バッファ時間確保と通勤時間の活用を提案。',
+    summary:
+      '週次レビュー実施。英語学習時間の不足（65%達成）を改善するため、バッファ時間確保と通勤時間の活用を提案。',
     actionItems: [
       '金曜午後にバッファ時間を設定',
       '朝の英語学習を6:30開始に変更',
-      '通勤時間用のリスニング教材準備'
-    ]
+      '通勤時間用のリスニング教材準備',
+    ],
   },
   {
     id: 'conv-4',
@@ -219,7 +223,7 @@ export const mockConversations: ConversationSession[] = [
         id: 'msg-4-1',
         role: 'user',
         content: '今日は体調が悪くて、集中力が出ません。予定を軽めに調整してもらえますか？',
-        timestamp: new Date('2025-05-28T06:30:00')
+        timestamp: new Date('2025-05-28T06:30:00'),
       },
       {
         id: 'msg-4-2',
@@ -243,25 +247,26 @@ export const mockConversations: ConversationSession[] = [
 
 明日以降で今日の分をカバーする計画も用意しています。
 まずは体調回復を優先してください。`,
-        timestamp: new Date('2025-05-28T06:35:00')
+        timestamp: new Date('2025-05-28T06:35:00'),
       },
       {
         id: 'msg-4-3',
         role: 'user',
         content: 'ありがとうございます。この調整で進めます。',
-        timestamp: new Date('2025-05-28T06:40:00')
-      }
+        timestamp: new Date('2025-05-28T06:40:00'),
+      },
     ],
     context: {
-      relatedProjects: ['english-learning', 'web-development', 'exercise-habit']
+      relatedProjects: ['english-learning', 'web-development', 'exercise-habit'],
     },
     createdAt: new Date('2025-05-28T06:30:00'),
-    summary: '体調不良による当日計画の調整。集中作業を削除し、軽めのタスクに変更。回復を優先した計画に修正。',
+    summary:
+      '体調不良による当日計画の調整。集中作業を削除し、軽めのタスクに変更。回復を優先した計画に修正。',
     actionItems: [
       '英語学習を1時間のリスニングのみに短縮',
       'Web開発の集中作業をキャンセル',
-      '運動を軽いストレッチに変更'
-    ]
+      '運動を軽いストレッチに変更',
+    ],
   },
   {
     id: 'conv-5',
@@ -272,7 +277,7 @@ export const mockConversations: ConversationSession[] = [
         id: 'msg-5-1',
         role: 'user',
         content: 'Next.jsでブログサイトを作っていますが、どんな機能から実装すべきでしょうか？',
-        timestamp: new Date('2025-05-25T14:00:00')
+        timestamp: new Date('2025-05-25T14:00:00'),
       },
       {
         id: 'msg-5-2',
@@ -310,35 +315,34 @@ export const mockConversations: ConversationSession[] = [
 4. OGP対応
 
 この順序でいかがでしょうか？`,
-        timestamp: new Date('2025-05-25T14:05:00')
-      }
+        timestamp: new Date('2025-05-25T14:05:00'),
+      },
     ],
     context: {
       relatedProjects: ['web-development'],
-      relatedTasks: ['task-11', 'task-12']
+      relatedTasks: ['task-11', 'task-12'],
     },
     createdAt: new Date('2025-05-25T14:00:00'),
-    summary: 'Next.jsブログサイトの実装計画を策定。MVP approachで基本構造→コンテンツ管理→機能拡張の3フェーズで進行。',
+    summary:
+      'Next.jsブログサイトの実装計画を策定。MVP approachで基本構造→コンテンツ管理→機能拡張の3フェーズで進行。',
     actionItems: [
       'プロジェクトの初期セットアップ',
       'レイアウトコンポーネントの作成',
-      'MDXパーサーの設定'
-    ]
-  }
+      'MDXパーサーの設定',
+    ],
+  },
 ]
 
 export function getConversationsByType(type: ConversationSession['type']): ConversationSession[] {
-  return mockConversations.filter(conv => conv.type === type)
+  return mockConversations.filter((conv) => conv.type === type)
 }
 
 export function getConversationsByProject(projectId: string): ConversationSession[] {
-  return mockConversations.filter(conv => conv.projectId === projectId)
+  return mockConversations.filter((conv) => conv.projectId === projectId)
 }
 
 export function getLatestConversation(): ConversationSession {
-  return mockConversations.sort((a, b) => 
-    b.createdAt.getTime() - a.createdAt.getTime()
-  )[0]
+  return mockConversations.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0]
 }
 
 export function getConversationSummaries(): Array<{
@@ -348,14 +352,16 @@ export function getConversationSummaries(): Array<{
   date: Date
   projectName?: string
 }> {
-  return mockConversations.map(conv => ({
+  return mockConversations.map((conv) => ({
     id: conv.id,
     type: conv.type,
     summary: conv.summary || 'No summary available',
     date: conv.createdAt,
-    projectName: conv.projectId ? 
-      conv.projectId.split('-').map(word => 
-        word.charAt(0).toUpperCase() + word.slice(1)
-      ).join(' ') : undefined
+    projectName: conv.projectId
+      ? conv.projectId
+          .split('-')
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ')
+      : undefined,
   }))
 }

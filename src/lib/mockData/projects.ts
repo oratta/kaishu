@@ -80,7 +80,7 @@ export const mockLifeGoals: LifeGoal[] = [
         measurableTarget: 'TOEIC 900点以上',
         deadline: new Date('2025-12-31'),
         status: 'in_progress',
-        projects: ['english-learning']
+        projects: ['english-learning'],
       },
       {
         id: 'gc-1-2',
@@ -88,9 +88,9 @@ export const mockLifeGoals: LifeGoal[] = [
         description: '実践的な会話能力',
         measurableTarget: '週3回以上のオンライン英会話レッスン完了',
         status: 'in_progress',
-        projects: ['english-learning']
-      }
-    ]
+        projects: ['english-learning'],
+      },
+    ],
   },
   {
     id: 'goal-2',
@@ -108,7 +108,7 @@ export const mockLifeGoals: LifeGoal[] = [
         measurableTarget: '3つの実践的なプロジェクトを完成',
         deadline: new Date('2025-09-30'),
         status: 'in_progress',
-        projects: ['web-development']
+        projects: ['web-development'],
       },
       {
         id: 'gc-2-2',
@@ -116,9 +116,9 @@ export const mockLifeGoals: LifeGoal[] = [
         description: 'TypeScript習熟',
         measurableTarget: '全プロジェクトでTypeScriptを使用',
         status: 'in_progress',
-        projects: ['web-development']
-      }
-    ]
+        projects: ['web-development'],
+      },
+    ],
   },
   {
     id: 'goal-3',
@@ -135,7 +135,7 @@ export const mockLifeGoals: LifeGoal[] = [
         description: '運動習慣の定着',
         measurableTarget: '週5回・各1時間の運動実施',
         status: 'in_progress',
-        projects: ['exercise-habit']
+        projects: ['exercise-habit'],
       },
       {
         id: 'gc-3-2',
@@ -144,9 +144,9 @@ export const mockLifeGoals: LifeGoal[] = [
         measurableTarget: '体脂肪率15%以下、筋肉量3kg増加',
         deadline: new Date('2025-12-31'),
         status: 'pending',
-        projects: ['exercise-habit']
-      }
-    ]
+        projects: ['exercise-habit'],
+      },
+    ],
   },
   {
     id: 'goal-4',
@@ -163,9 +163,9 @@ export const mockLifeGoals: LifeGoal[] = [
         description: '読書習慣の定着',
         measurableTarget: '月2冊以上の完読',
         status: 'in_progress',
-        projects: ['reading-habit']
-      }
-    ]
+        projects: ['reading-habit'],
+      },
+    ],
   },
   {
     id: 'goal-5',
@@ -183,10 +183,10 @@ export const mockLifeGoals: LifeGoal[] = [
         measurableTarget: '基本機能を持つMVPのリリース',
         deadline: new Date('2025-07-31'),
         status: 'pending',
-        projects: ['ai-tool-dev']
-      }
-    ]
-  }
+        projects: ['ai-tool-dev'],
+      },
+    ],
+  },
 ]
 
 export const mockProjects: ExtendedProject[] = [
@@ -206,12 +206,8 @@ export const mockProjects: ExtendedProject[] = [
         projectId: 'english-learning',
         startDate: new Date('2025-01-01'),
         endDate: new Date('2025-03-31'),
-        objectives: [
-          '基本文法の復習完了',
-          '頻出単語3000語マスター',
-          'リスニング基礎力向上'
-        ],
-        status: 'active'
+        objectives: ['基本文法の復習完了', '頻出単語3000語マスター', 'リスニング基礎力向上'],
+        status: 'active',
       },
       {
         id: 'phase-eng-2',
@@ -219,12 +215,8 @@ export const mockProjects: ExtendedProject[] = [
         projectId: 'english-learning',
         startDate: new Date('2025-04-01'),
         endDate: new Date('2025-06-30'),
-        objectives: [
-          'ビジネス頻出表現の習得',
-          'プレゼンテーション練習',
-          'メール・レポート作成'
-        ],
-        status: 'planned'
+        objectives: ['ビジネス頻出表現の習得', 'プレゼンテーション練習', 'メール・レポート作成'],
+        status: 'planned',
       },
       {
         id: 'phase-eng-3',
@@ -232,13 +224,9 @@ export const mockProjects: ExtendedProject[] = [
         projectId: 'english-learning',
         startDate: new Date('2025-07-01'),
         endDate: new Date('2025-09-30'),
-        objectives: [
-          'ディスカッション能力向上',
-          '交渉・説得技術の習得',
-          'TOEIC対策と受験'
-        ],
-        status: 'planned'
-      }
+        objectives: ['ディスカッション能力向上', '交渉・説得技術の習得', 'TOEIC対策と受験'],
+        status: 'planned',
+      },
     ],
     milestones: [
       {
@@ -250,7 +238,7 @@ export const mockProjects: ExtendedProject[] = [
         targetDate: new Date('2025-03-31'),
         status: 'in_progress',
         tasks: ['task-1', 'task-2', 'task-3'],
-        habits: ['habit-1', 'habit-2']
+        habits: ['habit-1', 'habit-2'],
       },
       {
         id: 'milestone-eng-2',
@@ -261,28 +249,31 @@ export const mockProjects: ExtendedProject[] = [
         targetDate: new Date('2025-06-30'),
         status: 'pending',
         tasks: [],
-        habits: ['habit-3']
-      }
+        habits: ['habit-3'],
+      },
     ],
     notes: [
       {
         id: 'note-eng-1',
         projectId: 'english-learning',
-        content: '今週はリスニング練習に重点を置く。通勤時間を活用してポッドキャストを聴く習慣をつける。',
+        content:
+          '今週はリスニング練習に重点を置く。通勤時間を活用してポッドキャストを聴く習慣をつける。',
         createdAt: new Date('2025-06-01'),
         updatedAt: new Date('2025-06-01'),
-        type: 'user'
+        type: 'user',
       },
       {
         id: 'note-eng-2',
         projectId: 'english-learning',
-        content: 'オンライン英会話の頻度を週2回から3回に増やすことを推奨。実践的な会話機会の増加が上達の鍵となります。',
+        content:
+          'オンライン英会話の頻度を週2回から3回に増やすことを推奨。実践的な会話機会の増加が上達の鍵となります。',
         createdAt: new Date('2025-06-02'),
         updatedAt: new Date('2025-06-02'),
-        type: 'llm_generated'
-      }
+        type: 'llm_generated',
+      },
     ],
-    llmGeneratedSummary: '順調に基礎学習を進めています。今月はリスニング力向上に注力し、来月からビジネス英語フェーズに移行予定です。'
+    llmGeneratedSummary:
+      '順調に基礎学習を進めています。今月はリスニング力向上に注力し、来月からビジネス英語フェーズに移行予定です。',
   },
   {
     id: 'web-development',
@@ -300,12 +291,8 @@ export const mockProjects: ExtendedProject[] = [
         projectId: 'web-development',
         startDate: new Date('2025-01-01'),
         endDate: new Date('2025-02-28'),
-        objectives: [
-          'React Hooks完全理解',
-          '状態管理パターン習得',
-          'コンポーネント設計'
-        ],
-        status: 'completed'
+        objectives: ['React Hooks完全理解', '状態管理パターン習得', 'コンポーネント設計'],
+        status: 'completed',
       },
       {
         id: 'phase-dev-2',
@@ -313,12 +300,8 @@ export const mockProjects: ExtendedProject[] = [
         projectId: 'web-development',
         startDate: new Date('2025-03-01'),
         endDate: new Date('2025-05-31'),
-        objectives: [
-          'App Router完全理解',
-          'SSR/SSG/ISRの使い分け',
-          'パフォーマンス最適化'
-        ],
-        status: 'active'
+        objectives: ['App Router完全理解', 'SSR/SSG/ISRの使い分け', 'パフォーマンス最適化'],
+        status: 'active',
       },
       {
         id: 'phase-dev-3',
@@ -326,13 +309,9 @@ export const mockProjects: ExtendedProject[] = [
         projectId: 'web-development',
         startDate: new Date('2025-06-01'),
         endDate: new Date('2025-08-31'),
-        objectives: [
-          'DB設計と実装',
-          'API開発',
-          'デプロイと運用'
-        ],
-        status: 'planned'
-      }
+        objectives: ['DB設計と実装', 'API開発', 'デプロイと運用'],
+        status: 'planned',
+      },
     ],
     milestones: [
       {
@@ -345,7 +324,7 @@ export const mockProjects: ExtendedProject[] = [
         completedDate: new Date('2025-02-25'),
         status: 'completed',
         tasks: [],
-        habits: []
+        habits: [],
       },
       {
         id: 'milestone-dev-2',
@@ -356,8 +335,8 @@ export const mockProjects: ExtendedProject[] = [
         targetDate: new Date('2025-04-30'),
         status: 'in_progress',
         tasks: ['task-10', 'task-11', 'task-12'],
-        habits: ['habit-5']
-      }
+        habits: ['habit-5'],
+      },
     ],
     notes: [
       {
@@ -366,10 +345,11 @@ export const mockProjects: ExtendedProject[] = [
         content: 'TypeScriptの型定義でまだ迷うことが多い。実践を通じて慣れていく必要がある。',
         createdAt: new Date('2025-05-28'),
         updatedAt: new Date('2025-05-28'),
-        type: 'user'
-      }
+        type: 'user',
+      },
     ],
-    llmGeneratedSummary: 'React基礎は習得完了。現在Next.jsの実践フェーズで、App Routerの理解が深まっています。'
+    llmGeneratedSummary:
+      'React基礎は習得完了。現在Next.jsの実践フェーズで、App Routerの理解が深まっています。',
   },
   {
     id: 'exercise-habit',
@@ -387,12 +367,8 @@ export const mockProjects: ExtendedProject[] = [
         projectId: 'exercise-habit',
         startDate: new Date('2025-01-01'),
         endDate: new Date('2025-03-31'),
-        objectives: [
-          '週3回の運動習慣確立',
-          '基礎的な筋力トレーニング',
-          '有酸素運動の導入'
-        ],
-        status: 'active'
+        objectives: ['週3回の運動習慣確立', '基礎的な筋力トレーニング', '有酸素運動の導入'],
+        status: 'active',
       },
       {
         id: 'phase-ex-2',
@@ -400,13 +376,9 @@ export const mockProjects: ExtendedProject[] = [
         projectId: 'exercise-habit',
         startDate: new Date('2025-04-01'),
         endDate: new Date('2025-06-30'),
-        objectives: [
-          '週4-5回のトレーニング',
-          '各部位の筋力向上',
-          '栄養管理の最適化'
-        ],
-        status: 'planned'
-      }
+        objectives: ['週4-5回のトレーニング', '各部位の筋力向上', '栄養管理の最適化'],
+        status: 'planned',
+      },
     ],
     milestones: [
       {
@@ -418,8 +390,8 @@ export const mockProjects: ExtendedProject[] = [
         targetDate: new Date('2025-03-31'),
         status: 'in_progress',
         tasks: [],
-        habits: ['habit-6', 'habit-7']
-      }
+        habits: ['habit-6', 'habit-7'],
+      },
     ],
     notes: [
       {
@@ -428,10 +400,11 @@ export const mockProjects: ExtendedProject[] = [
         content: '筋肉痛が残る日は軽めの有酸素運動に切り替えて継続性を重視',
         createdAt: new Date('2025-05-30'),
         updatedAt: new Date('2025-05-30'),
-        type: 'user'
-      }
+        type: 'user',
+      },
     ],
-    llmGeneratedSummary: '運動習慣は着実に定着しつつあります。週3回のペースを維持し、来月から強度を上げていく予定です。'
+    llmGeneratedSummary:
+      '運動習慣は着実に定着しつつあります。週3回のペースを維持し、来月から強度を上げていく予定です。',
   },
   {
     id: 'reading-habit',
@@ -449,13 +422,9 @@ export const mockProjects: ExtendedProject[] = [
         projectId: 'reading-habit',
         startDate: new Date('2025-01-01'),
         endDate: new Date('2025-06-30'),
-        objectives: [
-          '毎日30分以上の読書',
-          '月2冊完読',
-          '読書メモの作成'
-        ],
-        status: 'active'
-      }
+        objectives: ['毎日30分以上の読書', '月2冊完読', '読書メモの作成'],
+        status: 'active',
+      },
     ],
     milestones: [
       {
@@ -467,8 +436,8 @@ export const mockProjects: ExtendedProject[] = [
         targetDate: new Date('2025-05-31'),
         status: 'in_progress',
         tasks: [],
-        habits: ['habit-8']
-      }
+        habits: ['habit-8'],
+      },
     ],
     notes: [
       {
@@ -477,10 +446,10 @@ export const mockProjects: ExtendedProject[] = [
         content: '朝の読書時間が最も集中できる。6:00-7:00を読書タイムとして固定',
         createdAt: new Date('2025-05-25'),
         updatedAt: new Date('2025-05-25'),
-        type: 'user'
-      }
+        type: 'user',
+      },
     ],
-    llmGeneratedSummary: '朝の読書習慣が定着。現在月2冊ペースを維持できています。'
+    llmGeneratedSummary: '朝の読書習慣が定着。現在月2冊ペースを維持できています。',
   },
   {
     id: 'ai-tool-dev',
@@ -498,13 +467,9 @@ export const mockProjects: ExtendedProject[] = [
         projectId: 'ai-tool-dev',
         startDate: new Date('2025-06-01'),
         endDate: new Date('2025-06-30'),
-        objectives: [
-          'ツールのコンセプト確定',
-          '技術スタック選定',
-          'MVP機能の定義'
-        ],
-        status: 'planned'
-      }
+        objectives: ['ツールのコンセプト確定', '技術スタック選定', 'MVP機能の定義'],
+        status: 'planned',
+      },
     ],
     milestones: [
       {
@@ -516,10 +481,11 @@ export const mockProjects: ExtendedProject[] = [
         targetDate: new Date('2025-06-30'),
         status: 'pending',
         tasks: [],
-        habits: []
-      }
+        habits: [],
+      },
     ],
     notes: [],
-    llmGeneratedSummary: '6月から開始予定の新プロジェクト。LLMを活用した生産性向上ツールの開発を計画中。'
-  }
+    llmGeneratedSummary:
+      '6月から開始予定の新プロジェクト。LLMを活用した生産性向上ツールの開発を計画中。',
+  },
 ]

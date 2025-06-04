@@ -18,7 +18,7 @@ export const mockData = {
   tasks: mockTasks,
   timeBlocks: mockTimeBlocks,
   conversations: mockConversations,
-  habits: mockHabits
+  habits: mockHabits,
 }
 
 // Statistics helpers
@@ -30,8 +30,8 @@ export function getMockDataStats() {
     timeBlocks: mockTimeBlocks.length,
     conversations: mockConversations.length,
     habits: mockHabits.length,
-    activeTasks: mockTasks.filter(t => t.status === 'DOING').length,
-    completedTasks: mockTasks.filter(t => t.status === 'DONE').length,
-    activeHabits: mockHabits.filter(h => h.isActive).length
+    activeTasks: mockTasks.filter((t) => t.status === 'DOING').length,
+    completedTasks: mockTasks.filter((t) => t.status === 'DONE').length,
+    activeHabits: mockHabits.filter((h) => h.isActive).length,
   }
 }
