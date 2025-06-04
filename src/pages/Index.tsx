@@ -2,6 +2,10 @@
 import React from 'react';
 import { Sidebar } from '@/components/layout/sidebar';
 import { DashboardView } from '@/components/dashboard/dashboard-view';
+import { ProjectsView } from '@/components/projects/projects-view';
+import { TasksView } from '@/components/tasks/tasks-view';
+import { HabitsView } from '@/components/habits/habits-view';
+import { CalendarView } from '@/components/calendar/calendar-view';
 import { FloatingLLMChat } from '@/components/ui/floating-llm-chat';
 import { useAppStore } from '@/lib/store';
 
@@ -13,33 +17,13 @@ const Index = () => {
       case 'dashboard':
         return <DashboardView />;
       case 'projects':
-        return (
-          <div className="p-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">プロジェクト管理</h1>
-            <p className="text-gray-600">プロジェクト管理機能は次のバージョンで実装予定です。</p>
-          </div>
-        );
+        return <ProjectsView />;
       case 'tasks':
-        return (
-          <div className="p-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">タスク管理</h1>
-            <p className="text-gray-600">タスク管理機能は次のバージョンで実装予定です。</p>
-          </div>
-        );
+        return <TasksView />;
       case 'habits':
-        return (
-          <div className="p-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">習慣管理</h1>
-            <p className="text-gray-600">習慣管理機能は次のバージョンで実装予定です。</p>
-          </div>
-        );
+        return <HabitsView />;
       case 'calendar':
-        return (
-          <div className="p-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">カレンダー</h1>
-            <p className="text-gray-600">カレンダー機能は次のバージョンで実装予定です。</p>
-          </div>
-        );
+        return <CalendarView />;
       default:
         return <DashboardView />;
     }
