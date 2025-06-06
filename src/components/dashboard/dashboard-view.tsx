@@ -3,6 +3,7 @@ import React from 'react';
 import { TimeBlockCalendar } from './time-block-calendar';
 import { CurrentTasks } from './current-tasks';
 import { ProjectNotes } from './project-notes';
+import { TodayHabits } from './today-habits';
 
 export function DashboardView() {
   return (
@@ -16,18 +17,21 @@ export function DashboardView() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-12rem)]">
-        {/* Left Column */}
-        <div className="space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-12rem)]">
+        {/* Left Column - Calendar */}
+        <div className="lg:col-span-2">
           <TimeBlockCalendar />
         </div>
 
-        {/* Right Column */}
+        {/* Right Column - Tasks and Habits */}
         <div className="space-y-6">
-          <div className="h-1/2">
+          <div className="h-1/3">
             <CurrentTasks />
           </div>
-          <div className="h-1/2">
+          <div className="h-1/3">
+            <TodayHabits />
+          </div>
+          <div className="h-1/3">
             <ProjectNotes />
           </div>
         </div>
