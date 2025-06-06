@@ -17,21 +17,23 @@ export function DashboardView() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-12rem)]">
-        {/* Left Column - Calendar */}
-        <div className="lg:col-span-2">
-          <TimeBlockCalendar />
-        </div>
-
-        {/* Right Column - Tasks and Habits */}
+      <div className="grid grid-cols-4 gap-6 h-[calc(100vh-12rem)]">
+        {/* Left Column - Calendar and Habits (1/4) */}
         <div className="space-y-6">
-          <div className="h-1/3">
-            <CurrentTasks />
+          <div className="h-3/5">
+            <TimeBlockCalendar />
           </div>
-          <div className="h-1/3">
+          <div className="h-2/5">
             <TodayHabits />
           </div>
-          <div className="h-1/3">
+        </div>
+
+        {/* Right Column - Tasks and Notes (3/4) */}
+        <div className="col-span-3 grid grid-rows-2 gap-6">
+          <div>
+            <CurrentTasks />
+          </div>
+          <div>
             <ProjectNotes />
           </div>
         </div>

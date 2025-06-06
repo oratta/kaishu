@@ -1,22 +1,21 @@
 
 import React from 'react';
-import { RotateCcw, Check, X, Flame } from 'lucide-react';
+import { RotateCcw, Check } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 
 export function TodayHabits() {
   const todayHabits = [
     {
       id: 1,
-      name: '英語単語10個',
+      name: '英語学習',
       completed: false,
       streak: 15,
       icon: '📚'
     },
     {
       id: 2,
-      name: 'ランニング30分',
+      name: 'ランニング',
       completed: false,
       streak: 8,
       icon: '🏃'
@@ -30,10 +29,38 @@ export function TodayHabits() {
     },
     {
       id: 4,
-      name: '水2L摂取',
+      name: '水分摂取',
       completed: false,
       streak: 3,
       icon: '💧'
+    },
+    {
+      id: 5,
+      name: '読書',
+      completed: true,
+      streak: 12,
+      icon: '📖'
+    },
+    {
+      id: 6,
+      name: '瞑想',
+      completed: false,
+      streak: 7,
+      icon: '🧘'
+    },
+    {
+      id: 7,
+      name: '筋トレ',
+      completed: false,
+      streak: 5,
+      icon: '💪'
+    },
+    {
+      id: 8,
+      name: '早寝',
+      completed: false,
+      streak: 2,
+      icon: '🌙'
     }
   ];
 
@@ -42,75 +69,62 @@ export function TodayHabits() {
     // TODO: 習慣の状態を更新する処理
   };
 
+  const completedCount = todayHabits.filter(h => h.completed).length;
+  const totalCount = todayHabits.length;
+
   return (
     <Card className="h-full">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <RotateCcw className="h-5 w-5 text-kaishu-600" />
-          今日の習慣
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center justify-between text-base">
+          <div className="flex items-center gap-2">
+            <RotateCcw className="h-4 w-4 text-kaishu-600" />
+            今日の習慣
+          </div>
+          <span className="text-sm font-normal text-kaishu-600">
+            {completedCount}/{totalCount}
+          </span>
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
-          {todayHabits.map((habit) => (
-            <div 
-              key={habit.id}
-              className={`p-3 rounded-lg border transition-all ${
-                habit.completed 
-                  ? 'border-green-200 bg-green-50' 
-                  : 'border-gray-200 bg-white hover:border-kaishu-200'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="text-xl">{habit.icon}</span>
-                  <div className="flex-1">
-                    <h4 className={`font-medium text-sm ${
-                      habit.completed ? 'line-through text-gray-500' : ''
-                    }`}>
-                      {habit.name}
-                    </h4>
-                    <div className="flex items-center gap-2 text-xs text-gray-600">
-                      <Flame className="h-3 w-3 text-orange-500" />
-                      <span>連続{habit.streak}日</span>
-                      {habit.streak >= 30 && <span className="text-orange-500">🔥</span>}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  {habit.completed ? (
-                    <Badge className="bg-green-100 text-green-800 text-xs">
-                      ✅完了
-                    </Badge>
-                  ) : (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleHabitToggle(habit.id)}
-                      className="h-8 px-3"
-                    >
-                      <Check className="h-3 w-3 mr-1" />
-                      完了
-                    </Button>
-                  )}
-                </div>
-              </div>
+      <CardContent className="space-y-2">
+        {todayHabits.map((habit) => (
+          <div 
+            key={habit.id}
+            className={`flex items-center justify-between p-2 rounded-md transition-all ${
+              habit.completed 
+                ? 'bg-green-50 border border-green-200' 
+                : 'hover:bg-gray-50'
+            }`}
+          >
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <span className="text-sm">{habit.icon}</span>
+              <span className={`text-sm font-medium truncate ${
+                habit.completed ? 'line-through text-gray-500' : ''
+              }`}>
+                {habit.name}
+              </span>
+              <span className="text-xs text-gray-400 shrink-0">
+                {habit.streak}日
+              </span>
             </div>
-          ))}
-        </div>
-        
-        <div className="mt-4 pt-3 border-t">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-600">今日の進捗</span>
-            <span className="font-semibold text-kaishu-600">
-              {todayHabits.filter(h => h.completed).length}/{todayHabits.length}完了
-            </span>
+            <Button
+              size="sm"
+              variant={habit.completed ? "secondary" : "outline"}
+              onClick={() => handleHabitToggle(habit.id)}
+              className="h-6 w-6 p-0 ml-2 shrink-0"
+            >
+              <Check className={`h-3 w-3 ${
+                habit.completed ? 'text-green-600' : 'text-gray-400'
+              }`} />
+            </Button>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+        ))}
+
+        <div className="pt-2 border-t border-gray-100">
+          <div className="w-full bg-gray-200 rounded-full h-1.5">
             <div 
-              className="bg-kaishu-600 h-2 rounded-full transition-all"
+              className="bg-kaishu-600 h-1.5 rounded-full transition-all"
               style={{ 
-                width: `${(todayHabits.filter(h => h.completed).length / todayHabits.length) * 100}%` 
+                width: `${(completedCount / totalCount) * 100}%` 
               }}
             />
           </div>
