@@ -1,5 +1,6 @@
 'use client'
 
+import { AppLayout } from '@/components/layout/AppLayout'
 import { Calendar } from '@/components/calendar/FullCalendar'
 import { generateMockTimeBlocks, convertToFullCalendarEvents } from '@/lib/mockData'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -21,19 +22,25 @@ export default function CalendarPage() {
   }, [])
 
   return (
-    <div className="h-screen flex flex-col bg-background">
-      {/* ヘッダー */}
-      <div className="flex justify-between items-center p-4 border-b">
-        <h1 className="text-2xl font-bold">📅 カレンダー</h1>
-        <ThemeToggle />
-      </div>
+    <AppLayout>
+      <div className="h-full flex flex-col">
+        {/* ヘッダー */}
+        <div className="flex justify-between items-center p-4 border-b">
+          <h1 className="text-2xl font-bold">📅 カレンダー</h1>
+          <ThemeToggle />
+        </div>
 
-      {/* カレンダーメインエリア */}
-      <div className="flex-1 p-4 overflow-hidden">
-        <div className="h-full bg-card rounded-lg border">
-          <Calendar events={events} onEventClick={handleEventClick} onDateClick={handleDateClick} />
+        {/* カレンダーメインエリア */}
+        <div className="flex-1 p-4 overflow-hidden">
+          <div className="h-full bg-card rounded-lg border">
+            <Calendar
+              events={events}
+              onEventClick={handleEventClick}
+              onDateClick={handleDateClick}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </AppLayout>
   )
 }

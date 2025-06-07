@@ -1,6 +1,6 @@
 'use client'
 
-import { MainLayout } from '@/components/layout/MainLayout'
+import { AppLayout } from '@/components/layout/AppLayout'
 import { ProjectList } from '@/components/projects'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
@@ -69,30 +69,32 @@ const mockProjects = [
 
 export default function Projects() {
   return (
-    <MainLayout>
-      <div className="mx-auto max-w-7xl space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">📊 プロジェクト管理</h1>
-          <p className="text-muted-foreground">人生目標達成のためのプロジェクトを管理します</p>
+    <AppLayout>
+      <div className="p-8">
+        <div className="mx-auto max-w-7xl space-y-8">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">📊 プロジェクト管理</h1>
+            <p className="text-muted-foreground">人生目標達成のためのプロジェクトを管理します</p>
+          </div>
+
+          <ProjectList projects={mockProjects} />
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <span>🤖</span>
+                LLMインサイト
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                「Web開発の時間確保のため、明日の英語学習時間を30分短縮することを提案します。
+                運動習慣は良好に維持されているので、このペースを継続してください。」
+              </p>
+            </CardContent>
+          </Card>
         </div>
-
-        <ProjectList projects={mockProjects} />
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <span>🤖</span>
-              LLMインサイト
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              「Web開発の時間確保のため、明日の英語学習時間を30分短縮することを提案します。
-              運動習慣は良好に維持されているので、このペースを継続してください。」
-            </p>
-          </CardContent>
-        </Card>
       </div>
-    </MainLayout>
+    </AppLayout>
   )
 }
