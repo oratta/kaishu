@@ -69,7 +69,7 @@ export function TasksView() {
       {/* フィルターと表示切替 */}
       <div className="flex flex-wrap items-center gap-4 mb-6">
         <Select defaultValue="all-projects">
-          <SelectTrigger className="w-48">
+          <SelectTrigger className="w-full sm:w-48">
             <SelectValue placeholder="プロジェクト選択" />
           </SelectTrigger>
           <SelectContent>
@@ -80,7 +80,7 @@ export function TasksView() {
         </Select>
 
         <Select defaultValue="all-status">
-          <SelectTrigger className="w-48">
+          <SelectTrigger className="w-full sm:w-48">
             <SelectValue placeholder="ステータス選択" />
           </SelectTrigger>
           <SelectContent>
@@ -92,7 +92,7 @@ export function TasksView() {
         </Select>
 
         <Select defaultValue="this-week">
-          <SelectTrigger className="w-32">
+          <SelectTrigger className="w-full sm:w-32">
             <SelectValue placeholder="期間" />
           </SelectTrigger>
           <SelectContent>
@@ -210,18 +210,18 @@ export function TasksView() {
       )}
 
       {/* アクションボタン */}
-      <div className="fixed bottom-6 right-6 flex gap-3">
-        <Button size="sm" variant="outline">
+      <div className="fixed bottom-6 right-6 flex flex-col sm:flex-row gap-3">
+        <Button size="sm" variant="outline" className="hidden md:inline-flex">
           <Edit className="h-4 w-4 mr-2" />
           一括編集
         </Button>
         <Button size="sm" variant="outline">
-          <Lightbulb className="h-4 w-4 mr-2" />
-          LLMタスク生成
+          <Lightbulb className="h-4 w-4 mr-0 sm:mr-2" />
+          <span className="hidden sm:inline">LLMタスク生成</span>
         </Button>
         <Button size="sm">
-          <Plus className="h-4 w-4 mr-2" />
-          クイック追加
+          <Plus className="h-4 w-4 mr-0 sm:mr-2" />
+          <span className="hidden sm:inline">クイック追加</span>
         </Button>
       </div>
     </div>

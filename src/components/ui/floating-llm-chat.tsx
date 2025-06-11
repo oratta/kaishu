@@ -70,7 +70,7 @@ export function FloatingLLMChat() {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-96">
+    <div className="fixed bottom-6 right-6 left-6 md:left-auto z-50 md:w-96 max-w-full">
       <Card className="glass-card border-kaishu-200">
         <div className="flex items-center justify-between p-4 border-b border-kaishu-100">
           <div className="flex items-center gap-2">

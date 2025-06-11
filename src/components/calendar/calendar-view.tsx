@@ -109,13 +109,13 @@ export function CalendarView() {
       {/* カレンダーヘッダー */}
       <Card className="mb-6">
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <CardTitle className="flex items-center gap-2">
               <Calendar className="h-5 w-5 text-kaishu-600" />
               {currentDate.getFullYear()}年 {currentDate.getMonth() + 1}月
             </CardTitle>
             
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4">
               {/* 表示切替 */}
               <div className="flex gap-1">
                 <Button 
@@ -156,13 +156,13 @@ export function CalendarView() {
               
               {/* アクション */}
               <div className="flex gap-2">
-                <Button size="sm" variant="outline">
+                <Button size="sm" variant="outline" className="hidden sm:inline-flex">
                   <Settings className="h-4 w-4 mr-2" />
                   設定
                 </Button>
                 <Button size="sm">
-                  <Plus className="h-4 w-4 mr-2" />
-                  イベント追加
+                  <Plus className="h-4 w-4 mr-0 sm:mr-2" />
+                  <span className="hidden sm:inline">イベント追加</span>
                 </Button>
               </div>
             </div>
@@ -174,8 +174,8 @@ export function CalendarView() {
       {view === 'week' && (
         <Card>
           <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <div className="min-w-[800px]">
+            <div className="overflow-x-auto md:overflow-x-visible">
+              <div className="min-w-[600px] md:min-w-0">
                 {/* 曜日ヘッダー */}
                 <div className="grid grid-cols-8 border-b">
                   <div className="p-4 border-r bg-gray-50"></div>
