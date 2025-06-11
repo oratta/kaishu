@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Home, 
   FolderOpen, 
@@ -8,7 +8,8 @@ import {
   Calendar,
   Settings,
   User,
-  BarChart3
+  BarChart3,
+  Loader2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -30,13 +31,25 @@ const bottomItems = [
 
 export function Sidebar() {
   const { currentView, setCurrentView } = useAppStore();
+  const [loadingView, setLoadingView] = useState<string | null>(null);
+
+  const handleNavigation = (viewId: string) => {
+    if (viewId === currentView) return;
+    
+    setLoadingView(viewId);
+    // Simulate navigation delay
+    setTimeout(() => {
+      setCurrentView(viewId);
+      setLoadingView(null);
+    }, 200);
+  };
 
   return (
-    <div className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col">
+    <div className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col hidden md:flex">
       {/* Header */}
       <div className="p-6 border-b border-gray-100">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-kaishu-500 to-kaishu-700 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-gradient-to-br from-kaishu-500 to-kaishu-700 rounded-lg flex items-center justify-center shadow-sm">
             <span className="text-white font-bold text-sm">改</span>
           </div>
           <div>
@@ -47,22 +60,49 @@ export function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4">
+      <nav className="flex-1 p-4" role="navigation" aria-label="メインナビゲーション">
         <div className="space-y-1">
-          {navigationItems.map((item) => (
-            <Button
-              key={item.id}
-              variant={currentView === item.id ? "secondary" : "ghost"}
-              className={cn(
-                "w-full justify-start gap-3 h-10",
-                currentView === item.id && "bg-kaishu-50 text-kaishu-700 border border-kaishu-200"
-              )}
-              onClick={() => setCurrentView(item.id)}
-            >
-              <item.icon className="h-4 w-4" />
-              {item.label}
-            </Button>
-          ))}
+          {navigationItems.map((item) => {
+            const isActive = currentView === item.id;
+            const isLoading = loadingView === item.id;
+            
+            return (
+              <Button
+                key={item.id}
+                variant="ghost"
+                className={cn(
+                  "w-full justify-start gap-3 h-10 relative transition-all duration-200",
+                  "hover:bg-gray-100 hover:text-gray-900",
+                  "focus:outline-none focus:ring-2 focus:ring-kaishu-500 focus:ring-offset-2",
+                  "active:scale-[0.98]",
+                  isActive && [
+                    "bg-kaishu-100 text-kaishu-700 hover:bg-kaishu-100",
+                    "border-l-4 border-kaishu-500 pl-3",
+                    "font-medium shadow-sm"
+                  ]
+                )}
+                onClick={() => handleNavigation(item.id)}
+                aria-current={isActive ? "page" : undefined}
+                aria-label={item.label}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <item.icon className={cn(
+                    "h-4 w-4 transition-colors",
+                    isActive && "text-kaishu-600"
+                  )} />
+                )}
+                <span className="relative">
+                  {item.label}
+                  {isActive && (
+                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-kaishu-500 rounded-full" />
+                  )}
+                </span>
+              </Button>
+            );
+          })}
         </div>
       </nav>
 
@@ -73,7 +113,13 @@ export function Sidebar() {
             <Button
               key={item.id}
               variant="ghost"
-              className="w-full justify-start gap-3 h-10 text-gray-600 hover:text-gray-900"
+              className={cn(
+                "w-full justify-start gap-3 h-10 text-gray-600",
+                "hover:bg-gray-100 hover:text-gray-900 transition-all duration-200",
+                "focus:outline-none focus:ring-2 focus:ring-kaishu-500 focus:ring-offset-2",
+                "active:scale-[0.98]"
+              )}
+              aria-label={item.label}
             >
               <item.icon className="h-4 w-4" />
               {item.label}
