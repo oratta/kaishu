@@ -8,12 +8,30 @@
 理想の人生から逆算して必要なアクション（学習・実践・アウトプット）を特定し、カレンダーの空き時間に自動配置するAIコーチ・秘書サービス。
 
 ### 技術スタック
-- **フロントエンド**: Next.js 14, TypeScript, Tailwind CSS, Shadcn/ui
+- **フロントエンド**: Next.js 14 (App Router), TypeScript, Tailwind CSS, Shadcn/ui
 - **バックエンド**: Node.js + Express, Prisma ORM
 - **データベース**: PostgreSQL (Supabase)
 - **AI**: OpenAI API (GPT-4)
 - **認証・決済**: Supabase Auth, Stripe
 - **ホスティング**: Vercel
+- **テスト**: Jest, React Testing Library, Playwright
+
+### プロジェクト構造
+```
+src/
+├── app/                  # Next.js App Router
+│   ├── layout.tsx       # ルートレイアウト
+│   ├── page.tsx         # ホームページ
+│   └── globals.css      # グローバルスタイル
+├── components/          # UIコンポーネント
+│   └── layout/         # レイアウトコンポーネント
+│       └── AppLayout.tsx
+├── lib/                 # ユーティリティ関数
+│   └── utils.ts
+└── __tests__/          # テストファイル
+    ├── pages/
+    └── components/
+```
 
 ## 開発ルール
 
@@ -142,18 +160,19 @@ npm run dev
 
 # テスト実行
 npm test
+npm run test:watch  # ウォッチモード
 
 # リント実行
 npm run lint
 
 # 型チェック
-npm run typecheck
-
-# E2Eテスト
-npm run test:e2e
+npx tsc --noEmit
 
 # ビルド
 npm run build
+
+# 本番サーバー起動
+npm start
 ```
 
 ## GitHub Issue連携
