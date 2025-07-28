@@ -8,13 +8,13 @@
 理想の人生から逆算して必要なアクション（学習・実践・アウトプット）を特定し、カレンダーの空き時間に自動配置するAIコーチ・秘書サービス。
 
 ### 技術スタック
-- **フロントエンド**: Next.js 14 (App Router), TypeScript, Tailwind CSS, Shadcn/ui
+- **フロントエンド**: Next.js 15.4.4 (App Router), TypeScript 5, Tailwind CSS 3.4.16, Shadcn/ui
 - **バックエンド**: Node.js + Express, Prisma ORM
 - **データベース**: PostgreSQL (Supabase)
 - **AI**: OpenAI API (GPT-4)
 - **認証・決済**: Supabase Auth, Stripe
 - **ホスティング**: Vercel
-- **テスト**: Jest, React Testing Library, Playwright
+- **テスト**: Jest 29.7.0, React Testing Library 16.1.0, Playwright 1.54.1
 
 ### プロジェクト構造
 ```
@@ -31,6 +31,19 @@ src/
 └── __tests__/          # テストファイル
     ├── pages/
     └── components/
+
+__tests__/               # プロジェクトレベルのテスト
+├── pages/              # ページテスト
+├── components/         # コンポーネントテスト
+└── utils/              # テストユーティリティ
+    └── test-utils.tsx  # カスタムレンダー関数
+
+e2e/                    # E2Eテスト
+└── home.spec.ts       # ホームページE2Eテスト
+
+.github/
+└── workflows/
+    └── test.yml       # CI/CDテスト設定
 ```
 
 ## 開発ルール
@@ -113,7 +126,7 @@ src/
 ## UIデザイン原則
 
 ### カラーシステム
-- プライマリ：深い青緑（#0F4C5C）- 信頼と成長
+- プライマリ：深い青緑（#0F766E）- 信頼と成長
 - セカンダリ：温かみのあるベージュ（#F5E6D3）- 穏やかさ
 - アクセント：ソフトコーラル（#FF6B6B）- 達成感
 - 背景：オフホワイト（#FAFAFA）とライトグレー（#F5F5F5）
@@ -159,14 +172,17 @@ src/
 npm run dev
 
 # テスト実行
-npm test
-npm run test:watch  # ウォッチモード
+npm test                # ユニットテスト
+npm run test:watch      # ウォッチモード
+npm run test:e2e        # E2Eテスト
+npm run test:e2e:headed # E2Eテスト（ブラウザ表示）
+npm run test:e2e:ui     # E2EテストUI
 
 # リント実行
 npm run lint
 
 # 型チェック
-npx tsc --noEmit
+npm run typecheck
 
 # ビルド
 npm run build
@@ -188,6 +204,21 @@ npm start
   - [ ] エッジケース
 - [ ] UI検証が必要な場合はスクリーンショット添付
 ```
+
+## 完了したフェーズ
+
+### Phase 0 - 開発環境構築
+- ✅ [#43] Next.jsプロジェクト初期化（TypeScript/Tailwind CSS）
+  - Next.js 15.4.4 App Routerセットアップ
+  - TypeScript 5設定（strict mode）
+  - Tailwind CSS 3.4.16設定（カスタムカラーパレット）
+  - 基本レイアウトコンポーネント作成
+  
+- ✅ [#44] テストフレームワーク基本設定（Jest/Testing Library/Playwright）
+  - Jest 29.7.0 + React Testing Library 16.1.0設定
+  - Playwright 1.54.1設定（6つのビューポート）
+  - GitHub Actions CI/CD設定
+  - サンプルテスト作成（ユニット/E2E）
 
 ## 問題発生時の対応
 
