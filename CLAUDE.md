@@ -199,11 +199,17 @@ npm run test:e2e        # E2Eテスト
 npm run test:e2e:headed # E2Eテスト（ブラウザ表示）
 npm run test:e2e:ui     # E2EテストUI
 
-# リント実行
-npm run lint
+# コード品質チェック
+npm run lint            # ESLintチェック
+npm run lint:fix        # ESLint自動修正
+npm run format          # Prettierフォーマット
+npm run format:check    # フォーマットチェック
 
 # 型チェック
 npm run typecheck
+
+# CI/CDローカルチェック
+npm run ci:local        # すべてのチェックを実行（フォーマット、リント、型、テスト）
 
 # ビルド
 npm run build
@@ -241,6 +247,11 @@ npm start
   - Playwright 1.54.1設定（6つのビューポート）
   - GitHub Actions CI/CD設定
   - サンプルテスト作成（ユニット/E2E）
+- ✅ [#45] ESLint/Prettier設定（コード品質管理）
+  - ESLint設定（TypeScript、React Hooks、import順序、アクセシビリティ）
+  - Prettier設定（セミコロンあり、シングルクォート、100文字/行）
+  - CI/CDローカルチェックスクリプト（npm run ci:local）
+  - 実行結果サマリー表示機能
 
 ## 問題発生時の対応
 
