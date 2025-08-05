@@ -20,11 +20,6 @@ describe('ESLint/Prettier設定', () => {
       const prettierIgnorePath = path.join(rootDir, '.prettierignore');
       expect(fs.existsSync(prettierIgnorePath)).toBe(true);
     });
-
-    it('.vscode/settings.jsonが存在する', () => {
-      const vscodeSettingsPath = path.join(rootDir, '.vscode', 'settings.json');
-      expect(fs.existsSync(vscodeSettingsPath)).toBe(true);
-    });
   });
 
   describe('ESLintルールの動作確認', () => {

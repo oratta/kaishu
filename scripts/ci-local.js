@@ -3,6 +3,13 @@
 const { execSync } = require('child_process');
 const chalk = require('chalk');
 
+// CI環境モードのチェック
+const isCIMode = process.argv.includes('--ci') || process.env.CI === 'true';
+
+if (isCIMode) {
+  console.log('🔧 CI環境モードで実行します (CI=true)\n');
+}
+
 // チョークが利用できない場合のフォールバック
 const colors = {
   green: (text) => chalk?.green?.(text) || `✓ ${text}`,
@@ -16,14 +23,19 @@ const tasks = [
   { name: 'フォーマットチェック', command: 'npm run format:check', emoji: '🎨' },
   { name: 'ESLintチェック', command: 'npm run lint', emoji: '🔍' },
   { name: 'TypeScript型チェック', command: 'npm run typecheck', emoji: '📘' },
-  { name: 'ユニットテスト', command: 'npm run test', emoji: '🧪' },
+  { name: 'ユニットテスト', command: 'npm run test', emoji: '🧪', env: { CI: 'true' } },
   { name: 'E2Eテスト', command: 'npm run test:e2e', emoji: '🌐' },
 ];
 
 const results = [];
 let allPassed = true;
 
-console.log(colors.bold('\n🚀 CI/CDローカルチェックを開始します...\n'));
+console.log(colors.bold('\n🚀 CI/CDローカルチェックを開始します...'));
+console.log(
+  colors.cyan(
+    '💡 ヒント: GitHub Actions環境と同じ条件で実行するには --ci オプションを使用してください\n',
+  ),
+);
 
 // 各タスクを実行
 for (const task of tasks) {
@@ -32,7 +44,11 @@ for (const task of tasks) {
   const startTime = Date.now();
 
   try {
-    execSync(task.command, { stdio: 'pipe' });
+    // CI環境モードの場合、環境変数を設定
+    const env = isCIMode
+      ? { ...process.env, CI: 'true', ...task.env }
+      : { ...process.env, ...task.env };
+    execSync(task.command, { stdio: 'pipe', env });
     const duration = ((Date.now() - startTime) / 1000).toFixed(1);
     console.log(colors.green(`✓ 成功 (${duration}s)`));
     results.push({ ...task, success: true, duration });

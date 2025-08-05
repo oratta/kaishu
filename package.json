@@ -16,7 +16,8 @@
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:ui": "playwright test --ui",
     "typecheck": "tsc --noEmit",
-    "ci:local": "node scripts/ci-local.js"
+    "ci:local": "node scripts/ci-local.js",
+    "ci:local:strict": "node scripts/ci-local.js --ci"
   },
   "dependencies": {
     "clsx": "^2.1.1",
