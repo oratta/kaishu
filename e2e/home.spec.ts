@@ -25,9 +25,16 @@ test.describe('ホームページ', () => {
     await expect(logo).toBeVisible()
   })
 
-  test('ナビゲーションリンクが表示される', async ({ page }) => {
+  test('ナビゲーションリンクが表示される', async ({ page, viewport }) => {
     const nav = page.locator('nav')
-    await expect(nav).toBeVisible()
+    
+    // モバイルビューではナビゲーションは非表示
+    if (viewport && viewport.width < 768) {
+      await expect(nav).toBeHidden()
+    } else {
+      // デスクトップとタブレットビューでは表示
+      await expect(nav).toBeVisible()
+    }
   })
 
   test('フッターが表示される', async ({ page }) => {
