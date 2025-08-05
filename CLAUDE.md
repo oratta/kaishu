@@ -210,6 +210,7 @@ npm run typecheck
 
 # CI/CDローカルチェック
 npm run ci:local        # すべてのチェックを実行（フォーマット、リント、型、テスト）
+npm run ci:local:strict # GitHub Actions環境と同じ条件で実行（CI=true）
 
 # ビルド
 npm run build
@@ -252,6 +253,7 @@ npm start
   - Prettier設定（セミコロンあり、シングルクォート、100文字/行）
   - CI/CDローカルチェックスクリプト（npm run ci:local）
   - 実行結果サマリー表示機能
+  - CI環境互換モード（npm run ci:local:strict）
 
 ## 問題発生時の対応
 
