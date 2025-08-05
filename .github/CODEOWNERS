@@ -1,0 +1,27 @@
+# CODEOWNERS for KAISHU project
+# This file defines who is responsible for code in the repository
+
+# Default owner for everything in the repo
+* @oratta
+
+# Frontend components
+/src/components/ @oratta
+/src/app/ @oratta
+
+# Tests
+/__tests__/ @oratta
+/e2e/ @oratta
+
+# CI/CD and DevOps
+/.github/ @oratta
+/scripts/ @oratta
+
+# Documentation
+/docs/ @oratta
+*.md @oratta
+
+# Configuration files
+/package.json @oratta
+/tsconfig.json @oratta
+/.eslintrc.json @oratta
+/.prettierrc.json @oratta

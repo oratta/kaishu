@@ -254,6 +254,12 @@ npm start
   - CI/CDローカルチェックスクリプト（npm run ci:local）
   - 実行結果サマリー表示機能
   - CI環境互換モード（npm run ci:local:strict）
+- ✅ [#46] 基本的なCI/CD設定（GitHub Actions + Vercel）
+  - GitHub Actions CIワークフロー（並列ジョブ実行）
+  - Vercelプレビュー/本番デプロイワークフロー
+  - Dependabot設定（週1回更新、PR数制限）
+  - CODEOWNERSファイル設定
+  - READMEへのCIステータスバッジ追加
 
 ## 問題発生時の対応
 
