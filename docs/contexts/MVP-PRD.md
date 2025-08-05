@@ -17,18 +17,18 @@
 ### マイルストーン
 
 1. **UIモック作成フェーズ**
-    - 全画面のワイヤーフレーム作成
-    - インタラクティブプロトタイプ構築
-    - ユーザーフィードバック収集
+   - 全画面のワイヤーフレーム作成
+   - インタラクティブプロトタイプ構築
+   - ユーザーフィードバック収集
 2. **UX単位での機能開発フェーズ**
-    - AIヒアリングセッション機能（フロントエンド先行）
-    - 目標分解・計画生成機能
-    - 進捗可視化ダッシュボード
-    - カレンダー統合機能
+   - AIヒアリングセッション機能（フロントエンド先行）
+   - 目標分解・計画生成機能
+   - 進捗可視化ダッシュボード
+   - カレンダー統合機能
 3. **基盤機能開発フェーズ**
-    - ユーザー認証・管理
-    - 課金システム統合
-    - 本番環境構築・デプロイ
+   - ユーザー認証・管理
+   - 課金システム統合
+   - 本番環境構築・デプロイ
 
 ## 2. 技術アーキテクチャ
 
@@ -158,7 +158,6 @@ interface HearingSessionOutput {
     preferences: UserPreferences;
   };
 }
-
 ```
 
 **エラーケース**:
@@ -198,7 +197,6 @@ interface GoalDecompositionOutput {
   dependencies: TaskDependency[];
   successProbability: number;
 }
-
 ```
 
 ### F3: 自動計画生成・更新システム
@@ -481,7 +479,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-
 ```
 
 ### 認証・認可フロー
@@ -511,7 +508,6 @@ components:
   "timestamp": "2024-01-15T10:30:00Z",
   "path": "/api/v1/auth/login"
 }
-
 ```
 
 ## 6. UI/UX詳細仕様
@@ -595,7 +591,6 @@ interface AppState {
 // Server State (React Query)
 const useGoals = () => useQuery(['goals'], fetchGoals);
 const useCreateGoal = () => useMutation(createGoal);
-
 ```
 
 ### レスポンシブデザイン要件
@@ -609,42 +604,42 @@ const useCreateGoal = () => useMutation(createGoal);
 ### タスク一覧
 
 1. **プロジェクト初期設定**
-    - Next.jsプロジェクト作成
-    - 基本的な依存関係インストール
-    - ESLint/Prettier設定
-    - 見積もり: 2時間
+   - Next.jsプロジェクト作成
+   - 基本的な依存関係インストール
+   - ESLint/Prettier設定
+   - 見積もり: 2時間
 2. **UIモック作成**
-    - 全画面のワイヤーフレーム
-    - インタラクティブプロトタイプ
-    - 見積もり: 8時間
+   - 全画面のワイヤーフレーム
+   - インタラクティブプロトタイプ
+   - 見積もり: 8時間
 3. **認証システム実装**
-    - JWT認証基盤
-    - ログイン/サインアップ画面
-    - 見積もり: 6時間
+   - JWT認証基盤
+   - ログイン/サインアップ画面
+   - 見積もり: 6時間
 4. **AIヒアリングセッション機能**
-    - フロントエンド実装
-    - OpenAI API統合
-    - 見積もり: 12時間
+   - フロントエンド実装
+   - OpenAI API統合
+   - 見積もり: 12時間
 5. **目標分解エンジン**
-    - LLMプロンプト設計
-    - 分解ロジック実装
-    - 見積もり: 10時間
+   - LLMプロンプト設計
+   - 分解ロジック実装
+   - 見積もり: 10時間
 6. **データベース構築**
-    - PostgreSQL設定
-    - Prismaスキーマ定義
-    - 見積もり: 4時間
+   - PostgreSQL設定
+   - Prismaスキーマ定義
+   - 見積もり: 4時間
 7. **進捗ダッシュボード**
-    - コンポーネント実装
-    - データ可視化
-    - 見積もり: 8時間
+   - コンポーネント実装
+   - データ可視化
+   - 見積もり: 8時間
 8. **カレンダー統合**
-    - Google Calendar OAuth
-    - 同期ロジック
-    - 見積もり: 8時間
+   - Google Calendar OAuth
+   - 同期ロジック
+   - 見積もり: 8時間
 9. **課金システム**
-    - Stripe統合
-    - サブスクリプション管理
-    - 見積もり: 6時間
+   - Stripe統合
+   - サブスクリプション管理
+   - 見積もり: 6時間
 10. **デプロイメント**
     - Vercel設定
     - 環境変数管理
@@ -686,7 +681,6 @@ describe('Hearing Session Integration', () => {
     expect(goals).toHaveLength(greaterThan(0));
   });
 });
-
 ```
 
 ### E2Eテストケース
@@ -727,17 +721,16 @@ jobs:
     steps:
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v20
-
 ```
 
 ### 環境構成
 
-| 環境 | 用途 | URL |
-| --- | --- | --- |
-| 開発 | ローカル開発 | http://localhost:300x
-サーバ起動時に空いているポートを使う |
-| ステージング | 受け入れテスト | https://staging.life-orchestration.app |
-| 本番 | 実運用 | https://life-orchestration.app |
+| 環境                                 | 用途           | URL                                    |
+| ------------------------------------ | -------------- | -------------------------------------- |
+| 開発                                 | ローカル開発   | http://localhost:300x                  |
+| サーバ起動時に空いているポートを使う |
+| ステージング                         | 受け入れテスト | https://staging.life-orchestration.app |
+| 本番                                 | 実運用         | https://life-orchestration.app         |
 
 ### ロールバック手順
 
@@ -762,7 +755,7 @@ enum LogLevel {
   DEBUG = 'debug',
   INFO = 'info',
   WARN = 'warn',
-  ERROR = 'error'
+  ERROR = 'error',
 }
 
 interface LogEntry {
@@ -772,21 +765,20 @@ interface LogEntry {
   action: string;
   metadata: Record<string, any>;
 }
-
 ```
 
 ### メトリクス収集
 
 - **ビジネスメトリクス**
-    - DAU/MAU
-    - 有料転換率
-    - タスク完了率
-    - セッション継続率
+  - DAU/MAU
+  - 有料転換率
+  - タスク完了率
+  - セッション継続率
 - **技術メトリクス**
-    - API応答時間
-    - エラー率
-    - データベース接続数
-    - LLM API使用量
+  - API応答時間
+  - エラー率
+  - データベース接続数
+  - LLM API使用量
 
 ### バックアップ戦略
 
@@ -799,8 +791,8 @@ interface LogEntry {
 1. **検知**: 監視アラート受信
 2. **評価**: 影響範囲の特定
 3. **対応**:
-    - 軽微: ホットフィックス
-    - 重大: ロールバック
+   - 軽微: ホットフィックス
+   - 重大: ロールバック
 4. **報告**: ステータスページ更新
 5. **事後対応**: ポストモーテム作成
 
@@ -835,7 +827,6 @@ const goalDecompositionPrompt = `
   ]
 }
 `;
-
 ```
 
 ### React Queryパターン
@@ -860,7 +851,6 @@ export const useCreateGoal = () => {
     },
   });
 };
-
 ```
 
 本PRDは、MVP v1.0の実装に必要なすべての技術仕様を網羅しています。LLMはこの文書を参照することで、開発タスクの生成から実装、デプロイまでを完遂することができます。
