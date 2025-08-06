@@ -15,6 +15,7 @@
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:ui": "playwright test --ui",
+    "test:e2e:alt": "node scripts/test-e2e-alt-port.js",
     "typecheck": "tsc --noEmit",
     "ci:local": "node scripts/ci-local.js",
     "ci:local:strict": "node scripts/ci-local.js --ci"
@@ -33,6 +34,7 @@
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^30.0.0",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -48,6 +50,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "js-yaml": "^4.1.0",
     "postcss": "^8.4.51",
     "prettier": "^3.6.2",
     "tailwindcss": "^3.4.16",
