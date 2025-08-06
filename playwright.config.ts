@@ -102,10 +102,8 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
     command: `PORT=${port} npm run dev`,
-    url: baseURL,
+    port: parseInt(port),
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
-    // 利用可能なポートを自動的に見つける
-    port: parseInt(port),
   },
 });
