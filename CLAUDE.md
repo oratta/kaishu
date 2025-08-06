@@ -190,7 +190,8 @@ e2e/                    # E2Eテスト
 
 ```bash
 # 開発サーバー起動
-npm run dev
+npm run dev                # デフォルトポート(3000)
+PORT=3001 npm run dev      # カスタムポート
 
 # テスト実行
 npm test                # ユニットテスト
@@ -198,6 +199,7 @@ npm run test:watch      # ウォッチモード
 npm run test:e2e        # E2Eテスト
 npm run test:e2e:headed # E2Eテスト（ブラウザ表示）
 npm run test:e2e:ui     # E2EテストUI
+npm run test:e2e:alt    # 自動ポート検出でE2Eテスト
 
 # コード品質チェック
 npm run lint            # ESLintチェック
@@ -261,11 +263,28 @@ npm start
   - CODEOWNERSファイル設定
   - READMEへのCIステータスバッジ追加
 
+### Phase 1 - UIモック作成
+
+- ✅ [#54] デザインシステム定義（カラー、タイポグラフィ、スペーシング）
+  - カラーシステム（プライマリ、セカンダリ、アクセント、セマンティック）
+  - タイポグラフィ（Noto Sans JP + Inter、サイズスケール）
+  - スペーシングシステム（8の倍数基準）
+  - Tailwind CSSとの統合
+  - デモページとドキュメント作成
+  - E2Eテスト作成
+  - ポート設定の柔軟化対応
+
 ## 問題発生時の対応
 
 1. エラーメッセージを完全に表示
 2. 関連するコードを確認
 3. 5回試行しても解決しない場合は、具体的な対策案と共にユーザーに相談
+
+### ポート競合時の対応
+
+- 開発環境でポート3000が使用中の場合、環境変数PORTで別のポートを指定
+- CI/CDローカルチェックはE2Eテスト用に自動的に利用可能なポートを探す
+- 詳細は`docs/PORT_CONFIGURATION.md`を参照
 
 ## 禁止事項
 
