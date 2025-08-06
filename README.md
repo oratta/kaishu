@@ -85,11 +85,15 @@ This project is automatically deployed to Vercel:
 
 ### Required Environment Variables
 
-For Vercel deployment, set these secrets in GitHub:
+⚠️ **Important**: Vercel deployment workflows will fail until these secrets are configured in GitHub.
 
-- `VERCEL_TOKEN`
-- `VERCEL_ORG_ID`
-- `VERCEL_PROJECT_ID`
+For Vercel deployment, set these secrets in GitHub (Settings → Secrets and variables → Actions):
+
+- `VERCEL_TOKEN` - Get from Vercel Dashboard > Account Settings > Tokens
+- `VERCEL_ORG_ID` - Get from `vercel whoami` or Team Settings
+- `VERCEL_PROJECT_ID` - Get from Project Settings after creating the project
+
+See [docs/VERCEL_DEPLOYMENT.md](docs/VERCEL_DEPLOYMENT.md) for detailed setup instructions.
 
 ## 🤝 Contributing
 
