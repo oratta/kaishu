@@ -22,14 +22,14 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
-    "next": "15.4.4",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
+    "next": "15.4.5",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@jest/globals": "^30.0.5",
-    "@playwright/test": "^1.54.1",
+    "@playwright/test": "^1.54.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.5.2",
@@ -43,7 +43,7 @@
     "autoprefixer": "^10.4.20",
     "chalk": "^4.1.2",
     "eslint": "^8",
-    "eslint-config-next": "15.4.4",
+    "eslint-config-next": "15.4.5",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
