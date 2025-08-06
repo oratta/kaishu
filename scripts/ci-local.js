@@ -33,6 +33,17 @@ const isPortInUse = (port) => {
   });
 };
 
+// 利用可能なポートを探す関数
+const findAvailablePort = async (startPort = 3000, maxPort = 4000) => {
+  for (let port = startPort; port <= maxPort; port++) {
+    const inUse = await isPortInUse(port);
+    if (!inUse) {
+      return port;
+    }
+  }
+  throw new Error(`No available port found between ${startPort} and ${maxPort}`);
+};
+
 // プロセスがKAISHUプロジェクトのものかチェック
 const isKaishuProcess = async (port) => {
   try {
@@ -48,7 +59,7 @@ const tasks = [
   { name: 'ESLintチェック', command: 'npm run lint', emoji: '🔍' },
   { name: 'TypeScript型チェック', command: 'npm run typecheck', emoji: '📘' },
   { name: 'ユニットテスト', command: 'npm run test', emoji: '🧪', env: { CI: 'true' } },
-  { name: 'E2Eテスト', command: 'npm run test:e2e', emoji: '🌐', requiresPort: 3000 },
+  { name: 'E2Eテスト', command: 'npm run test:e2e', emoji: '🌐', requiresPort: true },
 ];
 
 const results = [];
@@ -67,19 +78,31 @@ const runChecks = async () => {
   for (const task of tasks) {
     // ポートが必要なタスクの場合、事前チェック
     if (task.requiresPort) {
-      const portInUse = await isPortInUse(task.requiresPort);
+      // デフォルトポートが使用中かチェック
+      const defaultPort = 3000;
+      const portInUse = await isPortInUse(defaultPort);
+
       if (portInUse) {
-        const isOurProcess = await isKaishuProcess(task.requiresPort);
+        const isOurProcess = await isKaishuProcess(defaultPort);
         if (!isOurProcess) {
-          console.log(`${task.emoji} ${task.name}... ${colors.yellow('⚠ スキップ')}`);
-          console.log(
-            colors.yellow(`   ポート${task.requiresPort}が他のプロセスで使用されています`),
-          );
-          console.log(colors.cyan(`   E2Eテストを実行するには:`));
-          console.log(colors.cyan(`   1. ポート${task.requiresPort}を使用しているプロセスを停止`));
-          console.log(colors.cyan(`   2. または別のターミナルで: npm run test:e2e:ui`));
-          results.push({ ...task, success: true, duration: 0, skipped: true });
-          continue;
+          // 利用可能なポートを探す
+          try {
+            const availablePort = await findAvailablePort(3001, 4000);
+            console.log(
+              `${task.emoji} ${task.name}... ${colors.yellow('⚠ ポート' + defaultPort + 'が使用中のため、ポート' + availablePort + 'で実行')}`,
+            );
+            // E2Eテストコマンドを動的ポートで更新
+            task.command = `PORT=${availablePort} ${task.command}`;
+            task.env = { ...task.env, PORT: String(availablePort) };
+          } catch (error) {
+            console.log(`${task.emoji} ${task.name}... ${colors.yellow('⚠ スキップ')}`);
+            console.log(colors.yellow(`   利用可能なポートが見つかりませんでした`));
+            console.log(colors.cyan(`   E2Eテストを実行するには:`));
+            console.log(colors.cyan(`   1. ポート${defaultPort}を使用しているプロセスを停止`));
+            console.log(colors.cyan(`   2. または別のターミナルで: npm run test:e2e:ui`));
+            results.push({ ...task, success: true, duration: 0, skipped: true });
+            continue;
+          }
         }
       }
     }
