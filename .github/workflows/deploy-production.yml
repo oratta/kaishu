@@ -40,7 +40,7 @@ jobs:
           echo "Production URL: $DEPLOYMENT_URL"
 
       - name: Create deployment
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const deployment = await github.rest.repos.createDeployment({
@@ -65,7 +65,7 @@ jobs:
             });
 
       - name: Create Release Notification
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const releaseNotes = `Production deployment completed successfully!
